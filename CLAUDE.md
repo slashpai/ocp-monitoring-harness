@@ -132,4 +132,6 @@ projects/kube-rbac-proxy                # kube-rbac-proxy
 projects/kubernetes-metrics-server      # metrics-server
 projects/monitoring-plugin              # Console monitoring plugin
 projects/prom-label-proxy               # prom-label-proxy
+projects/telemeter                      # telemeter-client
+projects/openshift-state-metrics        # openshift-state-metrics
 ```

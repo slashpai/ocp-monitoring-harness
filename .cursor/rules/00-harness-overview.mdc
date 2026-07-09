@@ -33,6 +33,8 @@ All deployed in `openshift-monitoring` (platform) and `openshift-user-workload-m
 8. **metrics-server** — Resource metrics for HPA/VPA
 9. **monitoring-plugin** — OpenShift console monitoring UI plugin
 10. **prom-label-proxy** — Label-based access control for multi-tenant queries
+11. **telemeter-client** — Telemetry forwarding to Red Hat (deployed when telemetry is enabled)
+12. **openshift-state-metrics** — OpenShift resource state as metrics
 
 For current component versions, check `projects/cluster-monitoring-operator/jsonnet/versions.yaml`.
 

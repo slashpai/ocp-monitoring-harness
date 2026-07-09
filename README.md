@@ -15,6 +15,7 @@ This repository gives an AI coding agent deep domain knowledge about the OpenShi
 | Alertmanager | Alert routing, grouping, and notification | [openshift/prometheus-alertmanager](https://github.com/openshift/prometheus-alertmanager) |
 | Prometheus Operator | CRD management for Prometheus, Alertmanager, and Thanos Ruler | [openshift/prometheus-operator](https://github.com/openshift/prometheus-operator) |
 | kube-state-metrics | Kubernetes object state as metrics | [openshift/kube-state-metrics](https://github.com/openshift/kube-state-metrics) |
+| openshift-state-metrics | OpenShift resource state as metrics | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) |
 | node-exporter | Node hardware/OS metrics | [openshift/node_exporter](https://github.com/openshift/node_exporter) |
 | Thanos (Querier, Ruler, Sidecar) | Unified query view, HA deduplication, rule evaluation | [openshift/thanos](https://github.com/openshift/thanos) |
 | kube-rbac-proxy | AuthN/AuthZ sidecar for metrics endpoints | [openshift/kube-rbac-proxy](https://github.com/openshift/kube-rbac-proxy) |
@@ -56,6 +57,8 @@ The `projects/` directory contains git submodules for CMO and every component it
 | `projects/kubernetes-metrics-server` | [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server) |
 | `projects/monitoring-plugin` | [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin) |
 | `projects/prom-label-proxy` | [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy) |
+| `projects/telemeter` | [openshift/telemeter](https://github.com/openshift/telemeter) |
+| `projects/openshift-state-metrics` | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) |
 
 ## Workflow
 
