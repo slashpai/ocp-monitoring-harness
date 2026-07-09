@@ -69,18 +69,41 @@ CMO deploys ServiceMonitors for all platform components. Users create their own 
 User / Console / API
        │
        ▼
-  Thanos Querier  ──────── kube-rbac-proxy (AuthN/AuthZ)
-       │                         │
-       │                    prom-label-proxy (namespace filtering for tenants)
-       │
-       ├── Platform Prometheus (openshift-monitoring)
-       │
-       └── UWM Prometheus (openshift-user-workload-monitoring)
+  Thanos Querier pod
+  ┌─────────────────────────────────────────────┐
+  │ kube-rbac-proxy (sidecar) ── AuthN/AuthZ    │
+  │ prom-label-proxy (sidecar) ── namespace     │
+  │                                filtering    │
+  │ thanos-query (main container)               │
+  └──────────────────┬──────────────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+       ▼                           ▼
+  Platform Prometheus       UWM Prometheus
+  (openshift-monitoring)    (openshift-user-workload-monitoring)
 ```
 
 - All queries go through **Thanos Querier**, which federates across Prometheus instances
+- **kube-rbac-proxy** and **prom-label-proxy** run as sidecar containers in the Thanos Querier pod (not separate services)
 - **kube-rbac-proxy** enforces Kubernetes RBAC on the query endpoint
 - **prom-label-proxy** ensures non-admin users can only query metrics from namespaces they have access to
+
+## Telemetry Pipeline
+
+```text
+Prometheus (prometheus-k8s)
+       │
+       │ federation/scrape
+       ▼
+telemeter-client ──────▶ Red Hat Telemetry (infogw)
+(curated subset of
+ cluster metrics)
+```
+
+- **telemeter-client** reads a curated set of metrics from Prometheus and forwards them to Red Hat
+- Only deployed when telemetry is enabled (default on most clusters)
+- Metrics are used for fleet health monitoring, SLA, and proactive support
 
 ## Alerting Pipeline
 

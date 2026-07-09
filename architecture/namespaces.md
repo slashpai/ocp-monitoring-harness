@@ -10,6 +10,7 @@ The primary namespace for all platform monitoring components. Created by CMO.
 |---|---|---|
 | `cluster-monitoring-operator` | Deployment | CMO itself |
 | `prometheus-operator` | Deployment | Prometheus Operator |
+| `prometheus-operator-admission-webhook` | Deployment | Validates PrometheusRule and AlertmanagerConfig CRDs |
 | `prometheus-k8s` | StatefulSet (2 replicas) | Platform Prometheus |
 | `alertmanager-main` | StatefulSet (2 replicas) | Alertmanager cluster |
 | `thanos-querier` | Deployment (2 replicas) | Thanos Querier |

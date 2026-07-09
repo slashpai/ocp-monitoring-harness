@@ -82,6 +82,7 @@ Each component has its own configuration section in the ConfigMap:
 | `prometheusK8s` | Platform Prometheus | retention, resources, storage, remoteWrite, additionalAlertmanagerConfigs |
 | `alertmanagerMain` | Alertmanager | resources, storage, secrets (for receiver config) |
 | `prometheusOperator` | Prometheus Operator | resources |
+| `prometheusOperatorAdmissionWebhook` | Prometheus Operator Admission Webhook | resources |
 | `kubeStateMetrics` | kube-state-metrics | resources |
 | `nodeExporter` | node-exporter | resources, collectors |
 | `thanosQuerier` | Thanos Querier | resources |
@@ -89,6 +90,17 @@ Each component has its own configuration section in the ConfigMap:
 | `openshiftStateMetrics` | openshift-state-metrics | resources |
 | `monitoringPlugin` | monitoring-plugin | resources |
 | `telemeterClient` | telemeter-client | resources |
+
+## UWM Configurable Components
+
+The `user-workload-monitoring-config` ConfigMap uses a separate struct (`UserWorkloadConfiguration`):
+
+| Config Key | Component | Common Settings |
+|---|---|---|
+| `alertmanager` | UWM Alertmanager | enabled, resources, storage, secrets |
+| `prometheus` | UWM Prometheus | retention, resources, remoteWrite, enforcedSampleLimit |
+| `prometheusOperator` | UWM Prometheus Operator | resources |
+| `thanosRuler` | Thanos Ruler | resources, additionalAlertmanagerConfigs |
 
 ## Configuration Validation
 

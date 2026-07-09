@@ -17,6 +17,8 @@ Each component in the CMO stack has a **community upstream** project and an **Op
 | metrics-server | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) | [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server) | `projects/kubernetes-metrics-server` |
 | monitoring-plugin | *(OpenShift-only, no upstream)* | [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin) | `projects/monitoring-plugin` |
 | prom-label-proxy | [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy) | [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy) | `projects/prom-label-proxy` |
+| telemeter-client | *(OpenShift-only, no upstream)* | [openshift/telemeter](https://github.com/openshift/telemeter) | `projects/telemeter` |
+| openshift-state-metrics | *(OpenShift-only, no upstream)* | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) | `projects/openshift-state-metrics` |
 
 ## When to Use Which Repo
 
@@ -65,7 +67,9 @@ syncbot also [updates CMO's `jsonnet/versions.yaml`](https://github.com/rhobs/sy
 
 ## OpenShift-Only Components
 
-Two components have no community upstream:
+Four components have no community upstream:
 
 - **Cluster Monitoring Operator** — The operator itself is an OpenShift-specific project
 - **monitoring-plugin** — The OpenShift console monitoring UI plugin
+- **telemeter-client** — Telemetry forwarding to Red Hat
+- **openshift-state-metrics** — OpenShift resource state as Prometheus metrics
