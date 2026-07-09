@@ -1,0 +1,44 @@
+[submodule "projects/cluster-monitoring-operator"]
+	path = projects/cluster-monitoring-operator
+	url = https://github.com/openshift/cluster-monitoring-operator.git
+	branch = main
+[submodule "projects/prometheus"]
+	path = projects/prometheus
+	url = https://github.com/openshift/prometheus.git
+	branch = main
+[submodule "projects/prometheus-alertmanager"]
+	path = projects/prometheus-alertmanager
+	url = https://github.com/openshift/prometheus-alertmanager.git
+	branch = main
+[submodule "projects/prometheus-operator"]
+	path = projects/prometheus-operator
+	url = https://github.com/openshift/prometheus-operator.git
+	branch = main
+[submodule "projects/kube-state-metrics"]
+	path = projects/kube-state-metrics
+	url = https://github.com/openshift/kube-state-metrics.git
+	branch = main
+[submodule "projects/node-exporter"]
+	path = projects/node-exporter
+	url = https://github.com/openshift/node_exporter.git
+	branch = main
+[submodule "projects/thanos"]
+	path = projects/thanos
+	url = https://github.com/openshift/thanos.git
+	branch = main
+[submodule "projects/kube-rbac-proxy"]
+	path = projects/kube-rbac-proxy
+	url = https://github.com/openshift/kube-rbac-proxy.git
+	branch = master
+[submodule "projects/kubernetes-metrics-server"]
+	path = projects/kubernetes-metrics-server
+	url = https://github.com/openshift/kubernetes-metrics-server.git
+	branch = main
+[submodule "projects/monitoring-plugin"]
+	path = projects/monitoring-plugin
+	url = https://github.com/openshift/monitoring-plugin.git
+	branch = main
+[submodule "projects/prom-label-proxy"]
+	path = projects/prom-label-proxy
+	url = https://github.com/openshift/prom-label-proxy.git
+	branch = main
