@@ -83,3 +83,5 @@ In CMO's reconciliation order, Prometheus Operator runs in **group 1** (before a
 ## Jsonnet Source
 
 `jsonnet/components/prometheus-operator.libsonnet` — Defines the Prometheus Operator Deployment, RBAC, and CRD resources.
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

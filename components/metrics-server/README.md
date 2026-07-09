@@ -39,3 +39,5 @@ Kubelet → cAdvisor → Prometheus scrape → Prometheus TSDB → PromQL querie
 ## Jsonnet Source
 
 `jsonnet/components/metrics-server.libsonnet`
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

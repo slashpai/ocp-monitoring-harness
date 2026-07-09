@@ -54,3 +54,5 @@ Runs as a container within each Prometheus pod. Exposes the Thanos StoreAPI so T
 
 - `jsonnet/components/thanos-querier.libsonnet`
 - `jsonnet/components/thanos-ruler.libsonnet`
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

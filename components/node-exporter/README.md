@@ -48,3 +48,5 @@ Key metric families include:
 ## Jsonnet Source
 
 `jsonnet/components/node-exporter.libsonnet`
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

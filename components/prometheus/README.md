@@ -81,3 +81,5 @@ Prometheus exposes metrics about its own operation:
 ## Jsonnet Source
 
 `jsonnet/components/prometheus.libsonnet` — Defines the Prometheus StatefulSet, ServiceMonitors, PrometheusRules, RBAC, and related resources.
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

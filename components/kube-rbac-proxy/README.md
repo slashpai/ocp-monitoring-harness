@@ -43,3 +43,5 @@ Client → kube-rbac-proxy (AuthN/AuthZ via K8s RBAC) → Backend (/metrics endp
 ## Jsonnet Source
 
 kube-rbac-proxy containers are defined within each component's Jsonnet. There is no standalone `kube-rbac-proxy.libsonnet` — look for `kube-rbac-proxy` container definitions in each component's libsonnet file.
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

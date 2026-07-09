@@ -31,3 +31,5 @@ The monitoring plugin provides the **monitoring UI** in the OpenShift web consol
 ## Jsonnet Source
 
 `jsonnet/components/monitoring-plugin.libsonnet`
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

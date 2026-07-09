@@ -90,3 +90,5 @@ receivers:
 ## Jsonnet Source
 
 `jsonnet/components/alertmanager.libsonnet` — Defines the Alertmanager StatefulSet, Service, RBAC, and related resources.
+
+See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.
