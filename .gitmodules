@@ -42,3 +42,11 @@
 	path = projects/prom-label-proxy
 	url = https://github.com/openshift/prom-label-proxy.git
 	branch = main
+[submodule "projects/telemeter"]
+	path = projects/telemeter
+	url = https://github.com/openshift/telemeter.git
+	branch = main
+[submodule "projects/openshift-state-metrics"]
+	path = projects/openshift-state-metrics
+	url = https://github.com/openshift/openshift-state-metrics.git
+	branch = main
