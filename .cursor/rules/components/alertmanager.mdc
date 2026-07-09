@@ -1,0 +1,33 @@
+---
+description: Alertmanager component reference — alert routing, grouping, and notification
+globs: components/alertmanager/**
+alwaysApply: false
+---
+
+# Alertmanager
+
+Alert routing, grouping, silencing, and notification delivery.
+
+- **Namespace**: `openshift-monitoring`
+- **Pods**: `alertmanager-main-0`, `alertmanager-main-1` (StatefulSet, 2 replicas)
+- **Upstream**: [prometheus/alertmanager](https://github.com/prometheus/alertmanager)
+- **Downstream**: [openshift/prometheus-alertmanager](https://github.com/openshift/prometheus-alertmanager)
+- **Jsonnet**: `jsonnet/components/alertmanager.libsonnet`
+- **Config key**: `alertmanagerMain` in `cluster-monitoring-config`
+- **Routing config**: `alertmanager-main` Secret in `openshift-monitoring`
+
+## Key Investigation Metrics
+
+- `up{job="alertmanager-main"}` — Target health
+- `alertmanager_cluster_members` — Cluster size (should match replica count)
+- `alertmanager_notifications_failed_total` — Failed notifications by integration
+- `alertmanager_alerts` — Active alert count
+- `ALERTS{alertstate="firing"}` — Currently firing alerts (via Prometheus)
+
+## Common Issues
+
+1. **Notifications not delivered**: Check `alertmanager_notifications_failed_total` by integration label, verify receiver config in `alertmanager-main` secret
+2. **Cluster split-brain**: Check `alertmanager_cluster_members` — all replicas should agree
+3. **Config inconsistency**: Check `alertmanager_config_hash` across replicas
+
+For detailed queries see `components/alertmanager/queries.md`.

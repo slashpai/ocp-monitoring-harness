@@ -1,0 +1,50 @@
+---
+description: CMO architecture - reconciliation, jsonnet pipeline, configuration API
+globs: architecture/**
+alwaysApply: false
+---
+
+# Cluster Monitoring Operator Architecture
+
+## Jsonnet Manifest Generation
+
+Kubernetes resources managed by CMO are generated using Jsonnet:
+
+- **Sources**: `jsonnet/main.jsonnet` (entrypoint), `jsonnet/components/<component>.libsonnet` (per-component)
+- **Outputs**: `assets/` directory (runtime manifests), `manifests/` directory (CVO-deployed resources)
+- **Critical**: Changes must be made to jsonnet sources, then regenerated with `make jsonnet-fmt generate`. Direct edits to `assets/*/*.yaml` will be overwritten.
+
+## Configuration API
+
+Two ConfigMaps control monitoring configuration:
+
+- `cluster-monitoring-config` in `openshift-monitoring` — Platform monitoring
+- `user-workload-monitoring-config` in `openshift-user-workload-monitoring` — User workload monitoring
+
+These are merged into the Config struct in `pkg/manifests/config.go`. Fields and CEL validations are defined in `pkg/manifests/types.go`.
+
+## Reconciliation Task Ordering
+
+The operator's `sync()` in `pkg/operator/operator.go` runs tasks in three ordered groups:
+
+1. **PrometheusOperator + MetricsScrapingClientCA** — Must run first (PO manages CRDs that all others depend on)
+2. **All other components** — Prometheus, Alertmanager, node-exporter, UWM, etc. (run in parallel)
+3. **ConfigurationSharing + DefaultDenyNetworkPolicy** — Must run last (depend on resources from group 2)
+
+## Feature Gates
+
+CMO uses OpenShift FeatureGates. Features go through TechPreview (gated) before becoming GA (gate removed, enabled by default).
+
+## Key Namespaces
+
+- `openshift-monitoring` — Platform monitoring stack (Prometheus, Alertmanager, Thanos Querier, kube-state-metrics, node-exporter, etc.)
+- `openshift-user-workload-monitoring` — User workload Prometheus, Thanos Ruler (only when UWM is enabled)
+
+## Multi-Module Repository
+
+CMO has three Go modules with separate `go.mod` and `vendor/`:
+- `./` (main module)
+- `test/monitoring/`
+- `hack/tools/`
+
+Dependency changes must be applied to all affected modules.

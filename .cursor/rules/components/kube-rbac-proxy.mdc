@@ -1,0 +1,21 @@
+---
+description: kube-rbac-proxy component reference — AuthN/AuthZ sidecar
+globs: components/kube-rbac-proxy/**
+alwaysApply: false
+---
+
+# kube-rbac-proxy
+
+HTTP proxy sidecar providing Kubernetes RBAC-based authentication and authorization for metrics endpoints.
+
+- **Upstream**: [brancz/kube-rbac-proxy](https://github.com/brancz/kube-rbac-proxy)
+- **Downstream**: [openshift/kube-rbac-proxy](https://github.com/openshift/kube-rbac-proxy)
+- **Not a standalone Deployment** — runs as a sidecar in Prometheus, Alertmanager, Prometheus Operator, kube-state-metrics, openshift-state-metrics, node-exporter, Thanos Querier, Thanos Ruler, telemeter-client
+
+## How It Works
+
+Client → kube-rbac-proxy (TokenReview + SubjectAccessReview) → Backend /metrics
+
+## Investigation
+
+If metrics endpoints return 401/403 errors, check kube-rbac-proxy logs on the affected component's pod. Common issues: expired tokens, missing RBAC bindings, API server connectivity.

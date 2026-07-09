@@ -1,0 +1,37 @@
+---
+description: node-exporter component reference — node hardware/OS metrics
+globs: components/node-exporter/**
+alwaysApply: false
+---
+
+# node-exporter
+
+Node-level hardware and OS metrics via a DaemonSet running on every node.
+
+- **Namespace**: `openshift-monitoring`
+- **Kind**: DaemonSet (1 pod per node)
+- **Upstream**: [prometheus/node_exporter](https://github.com/prometheus/node_exporter)
+- **Downstream**: [openshift/node_exporter](https://github.com/openshift/node_exporter)
+- **Jsonnet**: `jsonnet/components/node-exporter.libsonnet`
+
+## Key Metric Families
+
+- `node_cpu_seconds_total` — CPU time by mode (user, system, idle, iowait)
+- `node_memory_MemTotal_bytes` / `node_memory_MemAvailable_bytes` — Memory
+- `node_filesystem_avail_bytes` / `node_filesystem_size_bytes` — Disk space
+- `node_disk_io_time_seconds_total` — Disk I/O
+- `node_network_receive_bytes_total` / `node_network_transmit_bytes_total` — Network
+- `node_load1` / `node_load5` / `node_load15` — Load averages
+
+## Common Queries
+
+```promql
+# CPU usage per node
+1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))
+
+# Memory usage percentage
+1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
+
+# Disk usage percentage
+1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})
+```

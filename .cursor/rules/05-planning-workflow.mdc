@@ -1,0 +1,98 @@
+---
+description: Three-document task workflow — spec, plan (with impact map), execution
+globs: tasks/**
+alwaysApply: true
+---
+
+# Task Workflow: Spec → Plan → Execution
+
+Follow this workflow when making non-trivial changes to the cluster-monitoring-operator or its components. This ensures plans are grounded in real code, not assumptions.
+
+Reference: [Harness Engineering](https://developers.redhat.com/articles/2026/04/07/harness-engineering-structured-workflows-ai-assisted-development)
+
+## Source Code Access
+
+All component repos are available as git submodules under `projects/`:
+
+```
+projects/cluster-monitoring-operator    # The main operator
+projects/prometheus                     # Prometheus
+projects/prometheus-alertmanager        # Alertmanager
+projects/prometheus-operator            # Prometheus Operator
+projects/kube-state-metrics             # kube-state-metrics
+projects/node-exporter                  # node-exporter
+projects/thanos                         # Thanos
+projects/kube-rbac-proxy                # kube-rbac-proxy
+projects/kubernetes-metrics-server      # metrics-server
+projects/monitoring-plugin              # Console monitoring plugin
+projects/prom-label-proxy               # prom-label-proxy
+```
+
+**Always search these repos for real file paths and symbols** before creating impact maps or plans. Never guess.
+
+## Phase 1: Spec (`tasks/<name>/spec.md`)
+
+Define the problem before solving it:
+
+- **Problem statement** — What needs to change and why
+- **Related projects** — Which repos in `projects/` are affected
+- **Acceptance criteria** — How you know it's done
+- **References** — Links to Jira, PRs, upstream issues
+
+## Phase 2: Plan (`tasks/<name>/plan.md`)
+
+### Repository Impact Map
+
+Scan the actual code in `projects/` and produce an impact map. Use file search, grep, and read to find real paths and symbols.
+
+```
+## Impact Map: <feature/fix title>
+
+### projects/<repo-name>
+  Changes:
+    - <file-path> — <what changes and why>
+    - <file-path> — <what changes and why>
+
+### Dependencies
+  - <upstream repo or component affected>
+
+### Risks
+  - <anything that could break>
+```
+
+### Rules
+
+- Every file path MUST exist in `projects/` (verify with glob/grep before listing)
+- Every symbol reference MUST come from actual code (verify with grep/read)
+- If you can't find the right file or symbol, say so — do NOT invent paths
+- List files in dependency order (what must change first)
+
+### Checkpoint
+
+**Stop and present the plan for human review before proceeding.** If the plan is wrong, the code will be wrong too. Catching a wrong assumption in a three-line impact map costs far less than catching it in a pull request.
+
+### Structured Tasks
+
+Once the impact map is approved, break work into tasks using `templates/plan.md`.
+
+## Phase 3: Execution (`tasks/<name>/execution.md`)
+
+Track progress during implementation:
+
+- Checkboxes for each step from the plan
+- Notes on decisions, blockers, deviations
+- Links to commits and PRs
+
+## When to Use This Workflow
+
+- Adding a new feature to CMO
+- Modifying component configuration options
+- Version bumps that affect multiple files
+- Cross-component changes (e.g., adding a new ServiceMonitor + PrometheusRule + docs)
+- Bug fixes where the root cause spans multiple files
+
+## When to Skip
+
+- Single-file typo fixes
+- Documentation-only changes within this harness
+- Queries or investigations (read-only work)

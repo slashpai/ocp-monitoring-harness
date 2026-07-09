@@ -1,0 +1,29 @@
+---
+description: monitoring-plugin component reference — OpenShift console monitoring UI
+globs: components/monitoring-plugin/**
+alwaysApply: false
+---
+
+# monitoring-plugin
+
+OpenShift console dynamic plugin providing the monitoring UI (metrics explorer, alerts, silences, dashboards).
+
+- **Namespace**: `openshift-monitoring`
+- **Kind**: Deployment (2 replicas)
+- **Downstream**: [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin) *(no upstream)*
+- **Jsonnet**: `jsonnet/components/monitoring-plugin.libsonnet`
+
+## How It Works
+
+- Registered as a `ConsolePlugin` CRD
+- Queries metrics via **Thanos Querier** (not Prometheus directly)
+- Queries alerts via the **Alertmanager** API
+- Access controlled by Kubernetes RBAC via kube-rbac-proxy and prom-label-proxy
+
+## Investigation
+
+If the monitoring console UI is broken, check:
+
+1. monitoring-plugin pod health
+2. ConsolePlugin CRD registration
+3. Thanos Querier health (data source for the UI)

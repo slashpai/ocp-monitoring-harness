@@ -1,0 +1,28 @@
+---
+description: kube-state-metrics component reference — Kubernetes object state metrics
+globs: components/kube-state-metrics/**
+alwaysApply: false
+---
+
+# kube-state-metrics
+
+Generates Prometheus metrics from Kubernetes object state.
+
+- **Namespace**: `openshift-monitoring`
+- **Kind**: Deployment (1 replica)
+- **Upstream**: [kubernetes/kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
+- **Downstream**: [openshift/kube-state-metrics](https://github.com/openshift/kube-state-metrics)
+- **Jsonnet**: `jsonnet/components/kube-state-metrics.libsonnet`
+
+## Key Metric Families
+
+- `kube_pod_*` — Pod status, phase, conditions, restarts, resource requests/limits
+- `kube_deployment_*` — Deployment replicas, conditions
+- `kube_statefulset_*` — StatefulSet replicas
+- `kube_daemonset_*` — DaemonSet counts
+- `kube_node_*` — Node conditions, capacity
+- `kube_persistentvolumeclaim_*` — PVC status
+
+## Companion
+
+`openshift-state-metrics` — Generates metrics for OpenShift-specific resources (ClusterOperator, Route, Build, etc.). Separate Deployment in `openshift-monitoring`.

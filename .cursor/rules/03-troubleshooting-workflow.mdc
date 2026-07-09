@@ -1,0 +1,74 @@
+---
+description: Investigation methodology for troubleshooting the OpenShift monitoring stack
+globs: components/**
+alwaysApply: false
+---
+
+# Troubleshooting Workflow
+
+## Investigation Methodology
+
+When troubleshooting the OpenShift monitoring stack, follow this structured approach:
+
+### Step 1: Check Firing Alerts
+
+Start by checking what alerts are currently firing. Alert labels provide exact identifiers (namespaces, pods, services) useful for targeted metric queries.
+
+### Step 2: Identify the Component
+
+Map the symptom to one or more components:
+
+| Symptom | Likely Component(s) |
+|---|---|
+| Missing metrics | Prometheus, kube-state-metrics, node-exporter, scrape targets |
+| Alerts not firing | Prometheus (rules), Alertmanager (routing/silences) |
+| Alerts not delivered | Alertmanager (receivers, routes) |
+| Console monitoring page broken | monitoring-plugin, Thanos Querier |
+| High memory / OOM | Prometheus (cardinality, retention), Thanos |
+| Pod CrashLoopBackOff | Check the specific component's logs and resource limits |
+| RBAC / auth errors | kube-rbac-proxy, prom-label-proxy |
+| HPA not scaling | metrics-server |
+
+### Step 3: Query Relevant Metrics
+
+For each component, consult `components/<component>/queries.md` for useful PromQL queries. Key patterns:
+
+- **Pod health**: `up{namespace="openshift-monitoring", job="<component>"}`
+- **Resource usage**: `container_memory_working_set_bytes`, `container_cpu_usage_seconds_total`
+- **Component-specific**: See per-component query files
+
+### Step 4: Check Logs
+
+Key pod logs to examine:
+- `oc logs -n openshift-monitoring deployment/cluster-monitoring-operator`
+- `oc logs -n openshift-monitoring prometheus-k8s-0 -c prometheus`
+- `oc logs -n openshift-monitoring alertmanager-main-0 -c alertmanager`
+
+### Step 5: Check Configuration
+
+- `oc get configmap cluster-monitoring-config -n openshift-monitoring -o yaml`
+- `oc get configmap user-workload-monitoring-config -n openshift-user-workload-monitoring -o yaml`
+
+## Key Namespaces
+
+| Namespace | Contains |
+|---|---|
+| `openshift-monitoring` | All platform monitoring components |
+| `openshift-user-workload-monitoring` | User workload Prometheus, Thanos Ruler |
+
+## Common Quick Checks
+
+```promql
+# All scrape targets down
+up == 0
+
+# Prometheus WAL corruption or compaction issues
+prometheus_tsdb_wal_corruptions_total
+prometheus_tsdb_compactions_failed_total
+
+# Alertmanager cluster health
+alertmanager_cluster_members
+
+# kube-state-metrics responsiveness
+kube_state_metrics_total_state_metrics
+```

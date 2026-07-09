@@ -1,0 +1,28 @@
+---
+description: metrics-server component reference — resource metrics API for HPA/VPA
+globs: components/metrics-server/**
+alwaysApply: false
+---
+
+# Kubernetes Metrics Server
+
+Resource metrics API providing CPU/memory usage for HPA, VPA, and `kubectl top`. Replaced `prometheus-adapter` since OpenShift 4.16.
+
+- **Namespace**: `openshift-monitoring`
+- **Kind**: Deployment (2 replicas)
+- **Upstream**: [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server)
+- **Downstream**: [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server)
+- **Jsonnet**: `jsonnet/components/metrics-server.libsonnet`
+
+## Important
+
+Metrics Server is **separate from the Prometheus pipeline**. It collects resource metrics directly from kubelets and serves them via the `metrics.k8s.io` aggregated API.
+
+```text
+Kubelet → Metrics Server → metrics.k8s.io API → HPA/VPA/kubectl top
+Kubelet → cAdvisor → Prometheus scrape → TSDB → PromQL
+```
+
+## Investigation
+
+If `kubectl top` or HPA isn't working, check metrics-server pod health and logs in `openshift-monitoring`.

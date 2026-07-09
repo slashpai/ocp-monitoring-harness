@@ -1,0 +1,28 @@
+---
+description: prom-label-proxy component reference — multi-tenant label-based access control
+globs: components/prom-label-proxy/**
+alwaysApply: false
+---
+
+# prom-label-proxy
+
+Enforces namespace-level label filtering for multi-tenant query isolation.
+
+- **Upstream**: [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy)
+- **Downstream**: [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy)
+- **Deployed as**: Sidecar/proxy in Thanos Querier and Alertmanager
+
+## How It Works
+
+1. Non-admin user submits a PromQL query
+2. prom-label-proxy checks user's namespace access (via SubjectAccessReview)
+3. Injects `namespace=` label matcher into the query
+4. Forwards the filtered query to Thanos Querier / Alertmanager
+
+Prevents users from querying metrics from namespaces they don't have RBAC access to.
+
+## Investigation
+
+If users report "no data" for namespaces they should have access to, check:
+1. User's RBAC bindings in the target namespace
+2. prom-label-proxy logs in the Thanos Querier pod

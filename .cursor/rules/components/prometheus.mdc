@@ -1,0 +1,32 @@
+---
+description: Prometheus component reference — metrics collection and alerting engine
+globs: components/prometheus/**
+alwaysApply: false
+---
+
+# Prometheus
+
+Core metrics collection and alerting engine in the OpenShift monitoring stack.
+
+- **Namespace**: `openshift-monitoring` (platform), `openshift-user-workload-monitoring` (UWM)
+- **Pods**: `prometheus-k8s-0`, `prometheus-k8s-1` (StatefulSet, 2 replicas)
+- **Upstream**: [prometheus/prometheus](https://github.com/prometheus/prometheus)
+- **Downstream**: [openshift/prometheus](https://github.com/openshift/prometheus)
+- **Jsonnet**: `jsonnet/components/prometheus.libsonnet`
+- **Config key**: `prometheusK8s` in `cluster-monitoring-config`
+
+## Key Investigation Metrics
+
+- `up{job="prometheus-k8s"}` — Target health
+- `prometheus_tsdb_head_series` — Active time series (high = high memory)
+- `prometheus_tsdb_wal_corruptions_total` — WAL corruption (should be 0)
+- `prometheus_notifications_errors_total` — Failed alert delivery to Alertmanager
+- `scrape_duration_seconds` — Slow scrape targets
+
+## Common Issues
+
+1. **OOM kills**: High cardinality (too many series) → check `prometheus_tsdb_head_series` and `topk(10, count by (__name__) ({}))`
+2. **Alerts not firing**: Check rule evaluation errors `prometheus_rule_evaluation_failures_total`
+3. **Targets down**: Check `up == 0` and `scrape_duration_seconds` for timeouts
+
+For detailed queries see `components/prometheus/queries.md`.

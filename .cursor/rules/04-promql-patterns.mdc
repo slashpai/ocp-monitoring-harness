@@ -1,0 +1,93 @@
+---
+description: Common PromQL patterns for the OpenShift monitoring stack
+globs: components/**/queries.md
+alwaysApply: false
+---
+
+# PromQL Patterns for the Monitoring Stack
+
+## Rate and Increase
+
+```promql
+# Per-second rate over 5 minutes (most common for counters)
+rate(metric_name_total[5m])
+
+# Total increase over a time window
+increase(metric_name_total[1h])
+```
+
+## Resource Usage
+
+```promql
+# CPU usage by pod in openshift-monitoring
+sum by (pod) (rate(container_cpu_usage_seconds_total{namespace="openshift-monitoring"}[5m]))
+
+# Memory working set by pod
+sum by (pod) (container_memory_working_set_bytes{namespace="openshift-monitoring", container!=""})
+
+# Memory as percentage of limit
+container_memory_working_set_bytes{namespace="openshift-monitoring", container!=""}
+  / on(pod, container) kube_pod_container_resource_limits{resource="memory", namespace="openshift-monitoring"}
+```
+
+## Availability and Health
+
+```promql
+# All targets and their up/down status
+up{namespace="openshift-monitoring"}
+
+# Scrape duration (slow scrapes may indicate issues)
+scrape_duration_seconds{namespace="openshift-monitoring"}
+
+# Targets with failed scrapes
+up{namespace="openshift-monitoring"} == 0
+```
+
+## Cardinality Investigation
+
+```promql
+# Top metrics by cardinality (number of series)
+topk(10, count by (__name__) ({namespace="openshift-monitoring"}))
+
+# Series count for a specific metric
+count(some_metric_name)
+
+# Label values contributing to cardinality
+count by (label_name) (some_metric_name)
+```
+
+## Alerting Pipeline
+
+```promql
+# Alerts currently firing in Prometheus
+ALERTS{alertstate="firing"}
+
+# Alert evaluation duration
+prometheus_rule_group_last_duration_seconds
+
+# Alertmanager notification failures
+alertmanager_notifications_failed_total
+```
+
+## Histogram Quantiles
+
+```promql
+# p99 latency from a histogram
+histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))
+
+# p50 (median)
+histogram_quantile(0.50, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))
+```
+
+## Aggregation Patterns
+
+```promql
+# Sum across all instances, preserve job label
+sum by (job) (rate(metric_total[5m]))
+
+# Average across replicas
+avg by (job) (metric_gauge)
+
+# Max across all pods (find the worst offender)
+max by (pod) (container_memory_working_set_bytes{namespace="openshift-monitoring"})
+```

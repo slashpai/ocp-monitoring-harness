@@ -1,0 +1,33 @@
+---
+description: Prometheus Operator component reference — CRD management
+globs: components/prometheus-operator/**
+alwaysApply: false
+---
+
+# Prometheus Operator
+
+Manages Prometheus, Alertmanager, and related CRDs. **Must run first** in CMO's reconciliation order.
+
+- **Namespace**: `openshift-monitoring` (platform), `openshift-user-workload-monitoring` (UWM)
+- **Kind**: Deployment (1 replica per namespace)
+- **Upstream**: [prometheus-operator/prometheus-operator](https://github.com/prometheus-operator/prometheus-operator)
+- **Downstream**: [openshift/prometheus-operator](https://github.com/openshift/prometheus-operator)
+- **Jsonnet**: `jsonnet/components/prometheus-operator.libsonnet`
+- **Config key**: `prometheusOperator` in `cluster-monitoring-config`
+
+## CRDs Managed
+
+Prometheus, Alertmanager, ServiceMonitor, PodMonitor, PrometheusRule, ThanosRuler, AlertmanagerConfig, ScrapeConfig, PrometheusAgent
+
+## Key Investigation Metrics
+
+- `up{job="prometheus-operator"}` — Target health
+- `prometheus_operator_reconcile_errors_total` — Reconciliation failures
+- `prometheus_operator_spec_replicas` vs `prometheus_operator_status_replicas` — Replica mismatch
+
+## Common Issues
+
+1. **CRDs not being processed**: Check reconciliation errors and operator logs
+2. **Replica mismatch**: spec != status means pods are stuck (check node resources, PVCs)
+
+For detailed queries see `components/prometheus-operator/queries.md`.

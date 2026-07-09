@@ -1,0 +1,41 @@
+---
+description: Overview of the ocp-monitoring-harness repository and how to use it
+globs:
+alwaysApply: true
+---
+
+# OCP Monitoring Harness
+
+This repository is a **knowledge harness** for the OpenShift Cluster Monitoring Operator (CMO) and all components it deploys. It provides structured knowledge to help you assist with:
+
+- **Development**: Contributing code to CMO and its upstream components
+- **Architecture**: Understanding how the monitoring stack works end-to-end
+- **Troubleshooting**: Diagnosing issues in a live OpenShift monitoring stack
+
+## Repository Layout
+
+- `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
+- `components/<name>/` — Per-component references with README, queries, alerts, and development guides
+- `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
+- `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
+
+## Components Managed by CMO
+
+All deployed in `openshift-monitoring` (platform) and `openshift-user-workload-monitoring` (UWM) namespaces:
+
+1. **Prometheus** — Metrics collection and alerting engine
+2. **Alertmanager** — Alert routing, grouping, silencing, notification
+3. **Prometheus Operator** — Manages Prometheus/Alertmanager via CRDs
+4. **kube-state-metrics** — Kubernetes object state as metrics
+5. **node-exporter** — Node hardware/OS metrics
+6. **Thanos** — Long-term storage, global query view via Thanos Querier
+7. **kube-rbac-proxy** — AuthN/AuthZ sidecar for metrics endpoints
+8. **metrics-server** — Resource metrics for HPA/VPA
+9. **monitoring-plugin** — OpenShift console monitoring UI plugin
+10. **prom-label-proxy** — Label-based access control for multi-tenant queries
+
+For current component versions, check `projects/cluster-monitoring-operator/jsonnet/versions.yaml`.
+
+## Live Observability Tools
+
+If a Prometheus/Alertmanager MCP server (e.g., [obs-mcp](https://github.com/rhobs/obs-mcp)) or other live observability tool is available, use the component references in `components/` to know what metrics, labels, and alerts to expect before querying.

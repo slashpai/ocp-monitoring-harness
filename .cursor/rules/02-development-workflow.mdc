@@ -1,0 +1,58 @@
+---
+description: Development workflow for contributing to CMO and its components
+globs: development/**
+alwaysApply: false
+---
+
+# CMO Development Workflow
+
+## Prerequisites
+
+- An OpenShift cluster with `KUBECONFIG` set (required for E2E tests and `make run-local`)
+- Go, jsonnet-bundler (`jb`), jsonnet, gojsontoyaml
+
+## Making Changes
+
+### Modifying Kubernetes Resources
+
+1. Edit the jsonnet source in `jsonnet/components/<component>.libsonnet`
+2. Run `make jsonnet-fmt generate` to regenerate assets
+3. **Never** edit `assets/*/*.yaml` directly — they will be overwritten
+
+### Modifying Configuration Options
+
+1. Add/modify fields in `pkg/manifests/types.go`
+2. Update `pkg/manifests/config.go` to handle the new fields
+3. Run `make generate` to update generated code
+
+### Adding Dependencies
+
+1. Modify `go.mod` in the affected module(s)
+2. Run `go mod tidy && go mod vendor` in each affected module (`./`, `test/monitoring/`, `hack/tools/`)
+
+## OpenShift Conventions
+
+### Pull Request Titles
+
+- Bugs: `OCPBUGS-12345: descriptive title`
+- Features: `MON-1234: descriptive title`
+- OCPBUGS issues are managed by jira-lifecycle-plugin; MON issues must be transitioned manually
+
+### Commit Messages
+
+Format: `<subsystem>: <what changed>` (e.g., `jsonnet: update prometheus version`)
+
+## Testing
+
+- `make test-unit` — Unit tests
+- `make test-e2e` — E2E tests (requires cluster + KUBECONFIG)
+- `make run-local` — Run CMO locally against a cluster
+- Use `SWITCH_TO_CMO=false` with `make run-local` to run as current user instead of CMO service account
+- `make tests-ext-update` — Update openshift-tests-extension metadata after modifying Ginkgo tests
+
+## Common Pitfalls
+
+1. Forgetting `make generate` after jsonnet changes → CI failure
+2. Missing KUBECONFIG → E2E tests fail silently
+3. Stale assets → Run `make clean` before `make generate`
+4. Multi-module deps → Don't forget `go mod tidy && go mod vendor` in all three modules

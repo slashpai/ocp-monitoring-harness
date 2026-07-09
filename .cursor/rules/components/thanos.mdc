@@ -1,0 +1,33 @@
+---
+description: Thanos component reference — unified query view and long-term storage
+globs: components/thanos/**
+alwaysApply: false
+---
+
+# Thanos
+
+Unified query view across Prometheus instances.
+
+- **Upstream**: [thanos-io/thanos](https://github.com/thanos-io/thanos)
+- **Downstream**: [openshift/thanos](https://github.com/openshift/thanos)
+
+## Thanos Querier
+
+- **Namespace**: `openshift-monitoring`
+- **Kind**: Deployment (2 replicas)
+- **Jsonnet**: `jsonnet/components/thanos-querier.libsonnet`
+- Central query endpoint federating platform Prometheus + UWM Prometheus
+- Deduplicates HA replica results
+- Powers the monitoring console UI
+
+## Thanos Ruler (UWM only)
+
+- **Namespace**: `openshift-user-workload-monitoring`
+- **Kind**: StatefulSet
+- **Jsonnet**: `jsonnet/components/thanos-ruler.libsonnet`
+- Evaluates user-defined alerting/recording rules
+
+## Thanos Sidecar
+
+- Runs within each Prometheus pod as a container
+- Exposes StoreAPI for Thanos Querier to query Prometheus data
