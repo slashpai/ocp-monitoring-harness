@@ -10,6 +10,7 @@ This repository is a **knowledge harness** for the OpenShift Cluster Monitoring 
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
 - `tasks/` — Active tasks (spec → plan → execution) — local, gitignored; see [tasks/README.md](tasks/README.md)
 - `completed/` — Archived completed tasks — local, gitignored
+- `USAGE.md` — Workflow, example prompts, and where to implement changes; see [USAGE.md](USAGE.md)
 - `templates/` — Templates for spec, plan, and execution documents
 
 ## Components Managed by CMO

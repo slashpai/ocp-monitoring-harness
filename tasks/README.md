@@ -1,6 +1,6 @@
 # Tasks
 
-Active tasks follow a three-document workflow. Task directories are **local working documents** and are **not committed** to this repository (see `.gitignore`). Use Jira and GitHub PRs as the system of record; keep `tasks/` for agent context and your own audit trail.
+Active tasks follow a three-document workflow. Task directories are **local working documents** and are **not committed** to this repository (see `.gitignore`). Use Jira and GitHub PRs as the system of record; keep `tasks/` for agent context and your own audit trail. For the full workflow and example prompts, see [USAGE.md](../USAGE.md).
 
 ```text
 tasks/
