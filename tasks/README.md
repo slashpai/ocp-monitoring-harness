@@ -60,23 +60,51 @@ Track progress during implementation using [templates/execution.md](../templates
 
 ## Where Implementation Happens
 
-Code changes **always** go in a fork clone with push access — never in `projects/` submodules.
+Two supported modes — see [USAGE.md](../USAGE.md#choosing-a-mode) for when to use each. **Mode A** suits one task at a time per repo; **Mode B** suits parallel work on the same component.
+
+### Mode A — Submodule (recommended)
+
+| Step | Location |
+|---|---|
+| Plan (read) | `projects/<component>/` |
+| Implement (edit, commit, test) | Same `projects/<component>/` submodule |
+| Push | Your fork remote (e.g. `git push fork <branch>`) |
+| Open PR | Upstream repo (e.g. `openshift/cluster-monitoring-operator`) |
+| Cleanup | `make reset-projects` from harness root (after push) |
+
+One-time setup per submodule:
+
+```bash
+cd projects/cluster-monitoring-operator
+git remote add fork https://github.com/<you>/cluster-monitoring-operator.git
+```
+
+Example Phase 3 prompt:
+
+```text
+Implement in projects/cluster-monitoring-operator/
+Branch: bugfix-1234
+Push remote: fork
+PR target: openshift/cluster-monitoring-operator
+```
+
+### Mode B — External fork clone
+
+Use when the fork is outside this workspace or you want submodules untouched.
 
 | Purpose | Location |
 |---|---|
-| Read source for planning | `projects/<component>/` submodules in this harness (read-only) |
-| Edit, commit, test, and push | Your fork clone — **always specify local path and branch in your prompt** |
-| Open PR | Upstream repo (e.g. `openshift/cluster-monitoring-operator`) |
-
-Submodules track upstream SHAs for agent context but have no push access. Clone your fork separately and give the agent the **local path** to that checkout (e.g. `~/github.com/<you>/cluster-monitoring-operator` or `/Users/you/src/cluster-monitoring-operator`).
-
-Example Phase 3 prompt fields:
+| Read source for planning | `projects/<component>/` submodules (`make submodule-update` before planning) |
+| Edit, commit, test, and push | Your fork clone — sync with `upstream/main` before each task |
+| Open PR | Upstream repo |
 
 ```text
 Implementation repo: ~/github.com/<you>/cluster-monitoring-operator
-Branch: OCPBUGS-85522
+Branch: bugfix-1234
 PR target: openshift/cluster-monitoring-operator
 ```
+
+See [USAGE.md](../USAGE.md#where-code-changes-go) for sync commands and full details.
 
 ## Completed Tasks
 

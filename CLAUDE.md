@@ -115,7 +115,9 @@ For non-trivial changes, follow the spec → plan → execution workflow. Task d
 2. **Plan** (`tasks/<name>/plan.md`) — Repository impact map from `projects/`, plus structured tasks per `templates/plan.md`
 3. **Execution** (`tasks/<name>/execution.md`) — Progress tracking
 
-Each phase requires an explicit prompt and a human review gate before the next phase. **Never implement in `projects/` submodules** — they are read-only and have no push access. Always give the **local filesystem path** and branch of your fork clone in the implementation prompt (e.g. `~/github.com/you/cluster-monitoring-operator`); use submodules only for reading source during planning.
+Each phase requires an explicit prompt and a human review gate before the next phase.
+
+**Implementation** — prefer **Mode A** (edit in `projects/<repo>/`, push to a `fork` remote, then `make reset-projects`). **Mode B** (external fork clone at a local path the user specifies) is fine when the fork is outside this workspace.
 
 **Always search `projects/` submodules for real file paths and symbols** before creating impact maps or plans. Never guess.
 

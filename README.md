@@ -39,7 +39,8 @@ For current component versions, see [`projects/cluster-monitoring-operator/jsonn
 architecture/           Cross-cutting CMO architecture documentation
 components/             Per-component references and development guides
 development/            Guides for contributing to CMO and its components
-projects/               Git submodules for CMO and all component repos (read-only, for planning)
+projects/               Git submodules for CMO and all component repos (plan + implement)
+scripts/                reset-projects.sh and other harness scripts
 tasks/                  Active tasks (spec → plan → execution) — local, gitignored
 completed/              Archived completed tasks — local, gitignored
 templates/              Structured task templates (spec, plan, execution)
@@ -49,7 +50,7 @@ CONVENTIONS.md          Coding and contribution conventions for CMO
 
 ## Projects (Git Submodules)
 
-The `projects/` directory contains git submodules for CMO and every component it deploys. Use them to **read** source when building impact maps — implement changes in your fork clone instead. See [USAGE.md](USAGE.md#where-code-changes-go).
+The `projects/` directory contains git submodules for CMO and every component it deploys. Use them for planning and (by default) implementation — see [USAGE.md](USAGE.md#choosing-a-mode) for Mode A vs Mode B (single-task vs parallel work on the same repo).
 
 | Submodule | Repository |
 |---|---|

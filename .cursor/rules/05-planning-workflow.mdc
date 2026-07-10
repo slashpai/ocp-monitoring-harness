@@ -85,7 +85,20 @@ Track progress during implementation:
 - Notes on decisions, blockers, deviations
 - Links to commits and PRs
 
-**Implementation location:** edit code in the user's fork clone (local path and branch they specify), not in `projects/` submodules. Submodules are read-only references for planning; they have no push access.
+**Implementation location (choose one):**
+
+- **Mode A (default):** edit in `projects/<repo>/` submodules; push to a `fork` remote; run `make reset-projects` after the PR is pushed
+- **Mode B:** edit in the user's external fork clone (local path and branch they specify); use `projects/` only for reading during planning
+
+## Resetting Submodules
+
+After Mode A work, submodules may have feature branches or uncommitted changes. From the harness root:
+
+```bash
+make reset-projects
+```
+
+This resets every `projects/` submodule to the branch in `.gitmodules` at remote HEAD. **Push branches to your fork before resetting** — unpushed work is discarded.
 
 ## When to Use This Workflow
 
