@@ -60,7 +60,23 @@ Track progress during implementation using [templates/execution.md](../templates
 
 ## Where Implementation Happens
 
-Code changes go in the target component repository — typically `projects/cluster-monitoring-operator/` or your own fork — not in this harness. Open PRs against `openshift/cluster-monitoring-operator` (or the relevant component repo).
+Code changes **always** go in a fork clone with push access — never in `projects/` submodules.
+
+| Purpose | Location |
+|---|---|
+| Read source for planning | `projects/<component>/` submodules in this harness (read-only) |
+| Edit, commit, test, and push | Your fork clone — **always specify local path and branch in your prompt** |
+| Open PR | Upstream repo (e.g. `openshift/cluster-monitoring-operator`) |
+
+Submodules track upstream SHAs for agent context but have no push access. Clone your fork separately and give the agent the **local path** to that checkout (e.g. `~/github.com/<you>/cluster-monitoring-operator` or `/Users/you/src/cluster-monitoring-operator`).
+
+Example Phase 3 prompt fields:
+
+```text
+Implementation repo: ~/github.com/<you>/cluster-monitoring-operator
+Branch: OCPBUGS-85522
+PR target: openshift/cluster-monitoring-operator
+```
 
 ## Completed Tasks
 

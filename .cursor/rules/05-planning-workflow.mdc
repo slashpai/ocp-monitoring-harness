@@ -85,6 +85,8 @@ Track progress during implementation:
 - Notes on decisions, blockers, deviations
 - Links to commits and PRs
 
+**Implementation location:** edit code in the user's fork clone (local path and branch they specify), not in `projects/` submodules. Submodules are read-only references for planning; they have no push access.
+
 ## When to Use This Workflow
 
 - Adding a new feature to CMO

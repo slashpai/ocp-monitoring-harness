@@ -3,6 +3,13 @@
 !/tasks/README.md
 /completed/
 
+# Secrets and local cluster access — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*kubeconfig*
+
 # OS files
 .DS_Store
 Thumbs.db

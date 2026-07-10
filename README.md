@@ -42,7 +42,7 @@ CONVENTIONS.md          Coding and contribution conventions for CMO
 
 ## Projects (Git Submodules)
 
-The `projects/` directory contains git submodules for CMO and every component it deploys, giving the agent direct access to real source code for grounded planning and implementation.
+The `projects/` directory contains git submodules for CMO and every component it deploys, giving the agent direct access to real source code for grounded **planning** (read-only).
 
 | Submodule | Repository |
 |---|---|
@@ -79,14 +79,14 @@ This harness is a **domain knowledge and workflow layer** for AI-assisted CMO wo
 - [Cursor](https://cursor.com) or [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
 - `git` with submodule support
 - `podman` or `docker` (for markdown linting only)
-- A clone of the target repo (e.g. `cluster-monitoring-operator`) for code changes and PRs
+- A local clone of your fork with push access (e.g. `~/github.com/<you>/cluster-monitoring-operator`) — required for implementation and PRs
 
 ### Getting Started
 
-1. Clone the repo with submodules:
+1. Fork the repository on GitHub, then clone **your fork** with submodules:
 
    ```bash
-   git clone --recurse-submodules https://github.com/slashpai/ocp-monitoring-harness.git
+   git clone --recurse-submodules https://github.com/<you>/ocp-monitoring-harness.git
    cd ocp-monitoring-harness
    make submodule-init   # if submodules were not cloned recursively
    ```
@@ -108,7 +108,7 @@ Agent creates tasks/<name>/spec.md     ← you review
         ↓
 Agent creates tasks/<name>/plan.md      ← you review (required gate)
         ↓
-Agent implements in target repo         ← e.g. cluster-monitoring-operator
+Agent implements in your fork clone       ← local filesystem path + branch
         ↓
 Agent updates tasks/<name>/execution.md ← audit trail (local)
         ↓
@@ -131,7 +131,7 @@ Use the spec → plan → execution workflow:
 2. Review `tasks/<name>/spec.md`
 3. Ask the agent to produce `plan.md` — it must scan `projects/` for real file paths
 4. **Review the plan before any implementation**
-5. Agent implements in the target repo (`projects/cluster-monitoring-operator/` submodule, or your own fork clone)
+5. Agent implements in your **implementation repo** — the local filesystem path to your fork clone (not a GitHub URL; never `projects/` submodules)
 6. Track progress in `execution.md`; open PR in the component repo, not in this harness
 
 Copy and adapt these — one prompt per phase, with an explicit stop after each:
@@ -171,9 +171,16 @@ Stop before any implementation or execution.md updates so I can review the plan.
 ```text
 Plan approved for disable-kubelet-endpoints.
 
-Implement in projects/cluster-monitoring-operator/ (or my fork).
+Implementation repo (local path): ~/github.com/you/cluster-monitoring-operator
+Branch: OCPBUGS-85522
+PR target: openshift/cluster-monitoring-operator
+
+Use projects/cluster-monitoring-operator/ in this harness only for reading
+source during planning — never edit submodules; they have no push access.
+Make all edits in the implementation repo path above.
+
 Track progress in tasks/disable-kubelet-endpoints/execution.md.
-Open the PR against openshift/cluster-monitoring-operator when ready.
+Open the PR when ready.
 ```
 
 #### Troubleshoot a live cluster
@@ -207,11 +214,23 @@ Ask in chat. The agent reads `architecture/`, `components/`, and `projects/` as 
 
 ### Where Code Changes Go
 
-| Change | Where to implement | Where to open PR |
+| Change | Where to implement (local path) | Where to open PR |
 |---|---|---|
-| CMO manifest, config API, operator logic | `projects/cluster-monitoring-operator/` or your fork | `openshift/cluster-monitoring-operator` |
-| Upstream component fix | `projects/<component>/` or upstream fork | Community repo or OpenShift fork |
+| CMO manifest, config API, operator logic | `~/github.com/<you>/cluster-monitoring-operator` | `openshift/cluster-monitoring-operator` |
+| Upstream component fix | `~/github.com/<you>/<component>` | Community repo or OpenShift fork |
 | Harness docs only | This repo (`architecture/`, `components/`, etc.) | This repo |
+
+**Planning vs implementation:**
+
+- **Read** source from `projects/` submodules when building impact maps
+- **Edit and commit** only in your fork clone — submodules are read-only and have no push access
+- In Phase 3, give three fields: **local filesystem path** (`~` or absolute — not a GitHub URL), **branch**, and **PR target**
+
+```text
+Implementation repo (local path): ~/github.com/<you>/cluster-monitoring-operator
+Branch: OCPBUGS-85522
+PR target: openshift/cluster-monitoring-operator
+```
 
 For Jsonnet changes in CMO: edit `jsonnet/components/*.libsonnet`, run `make jsonnet-fmt generate`, commit sources and regenerated `assets/` together. Never edit `assets/` by hand.
 
@@ -224,7 +243,7 @@ In a typical agentic SDLC, this harness covers the **context and planning substr
 | Intake / triage | `architecture/`, `components/` — map symptoms to components |
 | Spec | `tasks/<name>/spec.md` from [templates/spec.md](templates/spec.md) |
 | Plan | Impact map from `projects/` submodules — **human review gate** |
-| Implement | `development/` guides + real code in submodules |
+| Implement | Code in your fork clone at the local path you specify |
 | Test | `development/testing.md` — `make test-unit`, e2e, etc. |
 | Review | `plan.md` and `execution.md` document intent vs outcome |
 | Operate | `components/*/queries.md` + optional live MCP tools |
@@ -237,7 +256,7 @@ The principle: **structure in, structure out**. Constrain the solution space bef
 make submodule-update
 ```
 
-Submodules give the agent direct access to component source. Keep them current before planning or implementation.
+Submodules give the agent read-only access to component source. Keep them current before planning.
 
 ## Acknowledgments
 
