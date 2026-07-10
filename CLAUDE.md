@@ -8,7 +8,8 @@ This repository is a **knowledge harness** for the OpenShift Cluster Monitoring 
 - `components/<name>/` — Per-component references with README, queries, and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
-- `tasks/` — Active tasks (spec → plan → execution)
+- `tasks/` — Active tasks (spec → plan → execution) — local, gitignored; see [tasks/README.md](tasks/README.md)
+- `completed/` — Archived completed tasks — local, gitignored
 - `templates/` — Templates for spec, plan, and execution documents
 
 ## Components Managed by CMO
@@ -26,6 +27,7 @@ All deployed in `openshift-monitoring` (platform) and `openshift-user-workload-m
 9. **telemeter-client** — Telemetry forwarding to Red Hat (deployed when telemetry is enabled)
 10. **monitoring-plugin** — OpenShift console monitoring UI plugin
 11. **prom-label-proxy** — Label-based access control for multi-tenant queries
+12. **openshift-state-metrics** — OpenShift resource state as metrics
 
 For current component versions, check `projects/cluster-monitoring-operator/jsonnet/versions.yaml`.
 
@@ -106,11 +108,13 @@ When troubleshooting, follow this order:
 
 ## Task Workflow
 
-For non-trivial changes, follow the spec → plan → execution workflow:
+For non-trivial changes, follow the spec → plan → execution workflow. Task directories under `tasks/` are **local working documents** (gitignored); Jira and GitHub are the system of record.
 
 1. **Spec** (`tasks/<name>/spec.md`) — Problem statement, acceptance criteria
-2. **Plan** (`tasks/<name>/plan.md`) — Repository impact map grounded in real code from `projects/`
+2. **Plan** (`tasks/<name>/plan.md`) — Repository impact map from `projects/`, plus structured tasks per `templates/plan.md`
 3. **Execution** (`tasks/<name>/execution.md`) — Progress tracking
+
+Each phase requires an explicit prompt and a human review gate before the next phase. Code changes go in the target component repo (e.g. `projects/cluster-monitoring-operator/`), not in this harness.
 
 **Always search `projects/` submodules for real file paths and symbols** before creating impact maps or plans. Never guess.
 

@@ -18,6 +18,8 @@ This repository is a **knowledge harness** for the OpenShift Cluster Monitoring 
 - `components/<name>/` — Per-component references with README, queries, alerts, and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
+- `tasks/` — Active tasks (spec → plan → execution) — local, gitignored
+- `completed/` — Archived completed tasks — local, gitignored
 
 ## Components Managed by CMO
 
@@ -28,7 +30,7 @@ All deployed in `openshift-monitoring` (platform) and `openshift-user-workload-m
 3. **Prometheus Operator** — Manages Prometheus/Alertmanager via CRDs
 4. **kube-state-metrics** — Kubernetes object state as metrics
 5. **node-exporter** — Node hardware/OS metrics
-6. **Thanos** — Long-term storage, global query view via Thanos Querier
+6. **Thanos** (Querier, Ruler, Sidecar) — Unified query view, HA deduplication, rule evaluation
 7. **kube-rbac-proxy** — AuthN/AuthZ sidecar for metrics endpoints
 8. **metrics-server** — Resource metrics for HPA/VPA
 9. **monitoring-plugin** — OpenShift console monitoring UI plugin
