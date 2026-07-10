@@ -1,7 +1,8 @@
 # Local task work — working documents, not committed (Jira/PR are the system of record)
 /tasks/*
 !/tasks/README.md
-/completed/
+/completed/*
+!/completed/.gitkeep
 
 # Secrets and local cluster access — never commit
 .env
