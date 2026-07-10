@@ -1,3 +1,8 @@
+# Local task work — working documents, not committed (Jira/PR are the system of record)
+/tasks/*
+!/tasks/README.md
+/completed/
+
 # OS files
 .DS_Store
 Thumbs.db
