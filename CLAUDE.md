@@ -5,7 +5,7 @@ This repository is a **knowledge harness** for the OpenShift Cluster Monitoring 
 ## Repository Layout
 
 - `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
-- `components/<name>/` — Per-component references with README, queries, and development guides
+- `components/<name>/` — Per-component references with README and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
 - `tasks/` — Active tasks (spec → plan → execution) — local, gitignored; see [tasks/README.md](tasks/README.md)
@@ -117,7 +117,9 @@ For non-trivial changes, follow the spec → plan → execution workflow. Task d
 
 Each phase requires an explicit prompt and a human review gate before the next phase.
 
-**Implementation** — prefer **Mode A** (edit in `projects/<repo>/`, push to a `fork` remote, then `make reset-projects`). **Mode B** (external fork clone at a local path the user specifies) is fine when the fork is outside this workspace.
+**Implementation** — prefer **Mode A** (edit in `projects/<repo>/`, push only to `fork`, then `make reset-projects`). **Mode B** (external fork clone at a local path the user specifies) is fine when the fork is outside this workspace.
+
+**Mode A push safety:** submodules fetch from openshift/\* (`origin`). **Never push to OpenShift directly** — not `origin`, not `upstream`, not any remote with a `github.com/openshift/*` URL, and not a bare push to an openshift URL. Use `Push remote: fork (<url>)` from the Phase 3 prompt; add or verify `fork` before pushing. If the URL is missing or `fork` does not match the prompt, stop and ask. Push with `git push fork <branch>` only; open PRs to the repo in `PR target:`.
 
 **Always search `projects/` submodules for real file paths and symbols** before creating impact maps or plans. Never guess.
 

@@ -76,7 +76,7 @@ The `projects/` directory contains git submodules for CMO and every component it
 | [tasks/README.md](tasks/README.md) | Local task workflow (spec → plan → execution) |
 | [development/](development/) | Contributing to CMO — jsonnet, tests, alerts, metrics |
 | [architecture/](architecture/) | Cross-cutting CMO architecture |
-| [components/](components/) | Per-component references; operational PromQL in CMO `assets/*/prometheus-rule.yaml` |
+| [components/](components/) | Per-component references and development guides |
 
 ## Acknowledgments
 

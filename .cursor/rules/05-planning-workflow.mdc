@@ -87,8 +87,20 @@ Track progress during implementation:
 
 **Implementation location (choose one):**
 
-- **Mode A (default):** edit in `projects/<repo>/` submodules; push to a `fork` remote; run `make reset-projects` after the PR is pushed
+- **Mode A (default):** edit in `projects/<repo>/` submodules; push only to a `fork` remote; run `make reset-projects` after the PR is pushed
 - **Mode B:** edit in the user's external fork clone (local path and branch they specify); use `projects/` only for reading during planning
+
+### Mode A push safety (required)
+
+`projects/` submodules clone from **openshift/\*** (`origin` is upstream). **Never push to OpenShift directly** — no `git push origin`, no push to any remote whose URL is `github.com/openshift/*` (including remotes named `upstream` or `openshift`), and no `git push` to an openshift URL. Contributors do not have push access; changes go through the user's fork and a PR.
+
+Before the first push in a submodule:
+
+1. Read the user's Phase 3 prompt for `Push remote: fork (<url>)`. If the fork URL is missing, **stop and ask** — do not push.
+2. Run `git remote -v` in the submodule. If `fork` is missing, add it: `git remote add fork <url-from-prompt>`.
+3. If `fork` exists but its URL does not match the prompt, **stop and ask** — do not change remotes without confirmation.
+4. Confirm the push target is **not** an openshift URL. Push only with `git push fork <branch>` (or the non-openshift remote name the user specified).
+5. Open the PR from the user's fork to the upstream repo named in `PR target:` — not from this harness repo.
 
 ## Resetting Submodules
 

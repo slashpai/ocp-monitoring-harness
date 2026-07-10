@@ -72,19 +72,14 @@ Two supported modes — see [USAGE.md](../USAGE.md#choosing-a-mode) for when to 
 | Open PR | Upstream repo (e.g. `openshift/cluster-monitoring-operator`) |
 | Cleanup | `make reset-projects` from harness root (after push) |
 
-One-time setup per submodule:
-
-```bash
-cd projects/cluster-monitoring-operator
-git remote add fork https://github.com/<you>/cluster-monitoring-operator.git
-```
+Include your fork URL in the Phase 3 prompt (`Push remote: fork (<url>)`); the agent configures `fork` on push — no separate setup step. See [USAGE.md](../USAGE.md) for the full walkthrough.
 
 Example Phase 3 prompt:
 
 ```text
 Implement in projects/cluster-monitoring-operator/
 Branch: bugfix-1234
-Push remote: fork
+Push remote: fork (https://github.com/<you>/cluster-monitoring-operator)
 PR target: openshift/cluster-monitoring-operator
 ```
 

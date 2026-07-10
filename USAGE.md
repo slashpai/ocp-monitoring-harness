@@ -192,22 +192,7 @@ Ask in chat. The agent reads `architecture/`, `components/`, and `projects/` as 
 
 Implement directly in `projects/<repo>/`. Same paths as the plan impact map; one workspace for the agent.
 
-**One-time setup** — add your fork as a push remote (submodules track `openshift/*` for read):
-
-```bash
-cd projects/cluster-monitoring-operator
-git remote add fork https://github.com/<you>/cluster-monitoring-operator.git
-```
-
-**Per task:**
-
-```bash
-cd projects/cluster-monitoring-operator
-git checkout -b bugfix-1234
-# edit, test, commit
-git push fork bugfix-1234
-# open PR: <you>/cluster-monitoring-operator → openshift/cluster-monitoring-operator
-```
+Submodules clone from `openshift/*` (`origin`) for read. Give your fork URL in the Phase 3 prompt (`Push remote: fork (<url>)` — see example above); the agent branches, commits, pushes to `fork` only, and configures that remote on push. **Never push to openshift remotes directly** (`origin`, `upstream`, or any `github.com/openshift/*` URL) — use fork + PR. No separate remote setup step. `make reset-projects` keeps the `fork` remote; it only resets branches and discards unpushed work.
 
 To resume a branch already on your fork: `git fetch fork`, then `git checkout -b bugfix-1234 fork/bugfix-1234`.
 
