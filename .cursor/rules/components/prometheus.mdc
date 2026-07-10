@@ -29,4 +29,4 @@ Core metrics collection and alerting engine in the OpenShift monitoring stack.
 2. **Alerts not firing**: Check rule evaluation errors `prometheus_rule_evaluation_failures_total`
 3. **Targets down**: Check `up == 0` and `scrape_duration_seconds` for timeouts
 
-For detailed queries see `components/prometheus/queries.md`.
+For operational PromQL, see `projects/cluster-monitoring-operator/assets/prometheus-k8s/prometheus-rule.yaml` and `.cursor/rules/04-promql-patterns.mdc`.

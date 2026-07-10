@@ -117,7 +117,7 @@ For each module: `go mod tidy && go mod vendor`
 When updating this harness repository:
 
 - Keep component READMEs factual — reference upstream documentation rather than duplicating it
-- PromQL queries in `queries.md` files should be tested against a real cluster when possible
+- For operational PromQL, use CMO alert rules in `projects/cluster-monitoring-operator/assets/*/prometheus-rule.yaml` (generated from jsonnet) rather than duplicating queries in the harness
 - For alert definitions, refer to the Jsonnet source in `projects/cluster-monitoring-operator/jsonnet/components/`
 - Cursor rules (`.mdc` files) should be concise — detailed content goes in the referenced docs
 - Do not hardcode component versions anywhere in the harness — the source of truth is `projects/cluster-monitoring-operator/jsonnet/versions.yaml`

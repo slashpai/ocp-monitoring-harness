@@ -30,4 +30,4 @@ Alert routing, grouping, silencing, and notification delivery.
 2. **Cluster split-brain**: Check `alertmanager_cluster_members` — all replicas should agree
 3. **Config inconsistency**: Check `alertmanager_config_hash` across replicas
 
-For detailed queries see `components/alertmanager/queries.md`.
+For operational PromQL, see `projects/cluster-monitoring-operator/assets/alertmanager/prometheus-rule.yaml` and `.cursor/rules/04-promql-patterns.mdc`.

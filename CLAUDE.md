@@ -103,7 +103,7 @@ When troubleshooting, follow this order:
 
 1. **Check firing alerts** — Alert labels provide exact identifiers for targeted queries
 2. **Identify the component** — Map symptoms to components (see `components/` for per-component details)
-3. **Query relevant metrics** — See `components/<component>/queries.md` for useful PromQL
+3. **Query relevant metrics** — Use CMO alert rules in `projects/cluster-monitoring-operator/assets/<component>/prometheus-rule.yaml`, generic patterns in `.cursor/rules/04-promql-patterns.mdc`, and live MCP metric discovery when available
 4. **Check logs** — `oc logs -n openshift-monitoring <pod>`
 5. **Check configuration** — `oc get configmap cluster-monitoring-config -n openshift-monitoring -o yaml`
 

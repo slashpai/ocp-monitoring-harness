@@ -1,6 +1,6 @@
 ---
 description: Common PromQL patterns for the OpenShift monitoring stack
-globs: components/**/queries.md
+globs: components/**
 alwaysApply: false
 ---
 

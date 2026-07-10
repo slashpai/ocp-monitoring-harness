@@ -184,7 +184,7 @@ In a typical agentic SDLC, this harness covers the **context and planning substr
 | Implement | Code in your fork clone at the local path you specify |
 | Test | [development/testing.md](development/testing.md) — `make test-unit`, e2e, etc. |
 | Review | `plan.md` and `execution.md` document intent vs outcome |
-| Operate | `components/*/queries.md` + optional live MCP tools |
+| Operate | CMO `assets/*/prometheus-rule.yaml`, `.cursor/rules/04-promql-patterns.mdc`, optional live MCP tools |
 
 ## Keeping Submodules Updated
 

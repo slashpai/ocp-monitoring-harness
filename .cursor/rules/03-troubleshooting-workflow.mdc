@@ -31,11 +31,13 @@ Map the symptom to one or more components:
 
 ### Step 3: Query Relevant Metrics
 
-For each component, consult `components/<component>/queries.md` for useful PromQL queries. Key patterns:
+For operational PromQL, use CMO alert rules in `projects/cluster-monitoring-operator/assets/<component>/prometheus-rule.yaml` — these expressions are maintained with each release. For generic patterns (`up`, `rate()`, resource usage, `ALERTS`), see `.cursor/rules/04-promql-patterns.mdc`. When a live observability MCP is available, call `list_metrics` before querying.
+
+Key patterns:
 
 - **Pod health**: `up{namespace="openshift-monitoring", job="<component>"}`
 - **Resource usage**: `container_memory_working_set_bytes`, `container_cpu_usage_seconds_total`
-- **Component-specific**: See per-component query files
+- **Component-specific**: See the matching `prometheus-rule.yaml` under `projects/cluster-monitoring-operator/assets/`
 
 ### Step 4: Check Logs
 

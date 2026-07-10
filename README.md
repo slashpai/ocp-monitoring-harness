@@ -37,7 +37,7 @@ For current component versions, see [`projects/cluster-monitoring-operator/jsonn
 ```text
 .cursor/rules/          Cursor rules — auto-loaded context for the AI agent
 architecture/           Cross-cutting CMO architecture documentation
-components/             Per-component references, queries, alerts, dev guides
+components/             Per-component references and development guides
 development/            Guides for contributing to CMO and its components
 projects/               Git submodules for CMO and all component repos (read-only, for planning)
 tasks/                  Active tasks (spec → plan → execution) — local, gitignored
@@ -75,7 +75,7 @@ The `projects/` directory contains git submodules for CMO and every component it
 | [tasks/README.md](tasks/README.md) | Local task workflow (spec → plan → execution) |
 | [development/](development/) | Contributing to CMO — jsonnet, tests, alerts, metrics |
 | [architecture/](architecture/) | Cross-cutting CMO architecture |
-| [components/](components/) | Per-component references and PromQL queries |
+| [components/](components/) | Per-component references; operational PromQL in CMO `assets/*/prometheus-rule.yaml` |
 
 ## Acknowledgments
 

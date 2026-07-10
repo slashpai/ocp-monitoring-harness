@@ -15,7 +15,7 @@ This repository is a **knowledge harness** for the OpenShift Cluster Monitoring 
 ## Repository Layout
 
 - `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
-- `components/<name>/` — Per-component references with README, queries, alerts, and development guides
+- `components/<name>/` — Per-component references with README and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
 - `tasks/` — Active tasks (spec → plan → execution) — local, gitignored

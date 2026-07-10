@@ -23,11 +23,12 @@ Prometheus, Alertmanager, ServiceMonitor, PodMonitor, PrometheusRule, ThanosRule
 
 - `up{job="prometheus-operator"}` — Target health
 - `prometheus_operator_reconcile_errors_total` — Reconciliation failures
-- `prometheus_operator_spec_replicas` vs `prometheus_operator_status_replicas` — Replica mismatch
+- `prometheus_operator_ready` — Operator readiness (should be 1)
+- `prometheus_operator_spec_replicas` — Expected replicas per managed resource
 
 ## Common Issues
 
 1. **CRDs not being processed**: Check reconciliation errors and operator logs
-2. **Replica mismatch**: spec != status means pods are stuck (check node resources, PVCs)
+2. **Operator not ready**: Check `prometheus_operator_ready == 0` and `prometheus_operator_syncs{status="failed"}`
 
-For detailed queries see `components/prometheus-operator/queries.md`.
+For operational PromQL, see `projects/cluster-monitoring-operator/assets/prometheus-operator/prometheus-rule.yaml` and `.cursor/rules/04-promql-patterns.mdc`.
