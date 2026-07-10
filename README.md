@@ -34,8 +34,8 @@ architecture/           Cross-cutting CMO architecture documentation
 components/             Per-component references, queries, alerts, dev guides
 development/            Guides for contributing to CMO and its components
 projects/               Git submodules for CMO and all component repos
-tasks/                  Active tasks (spec → plan → execution)
-completed/              Archived completed tasks
+tasks/                  Active tasks (spec → plan → execution) — local, gitignored
+completed/              Archived completed tasks — local, gitignored
 templates/              Structured task template for implementation planning
 CONVENTIONS.md          Coding and contribution conventions for CMO
 ```
@@ -64,19 +64,22 @@ The `projects/` directory contains git submodules for CMO and every component it
 
 Each task follows a three-document workflow (inspired by [observability-ui/harness](https://github.com/observability-ui/harness) and [harness engineering](https://developers.redhat.com/articles/2026/04/07/harness-engineering-structured-workflows-ai-assisted-development)):
 
-1. **Spec** ([`spec.md`](templates/spec.md)) — Problem statement, related projects, acceptance criteria
-2. **Plan** ([`plan.md`](templates/plan.md)) — Repository impact map grounded in real code from `projects/`, broken into structured tasks. **Human reviews the plan before execution.**
-3. **Execution** ([`execution.md`](templates/execution.md)) — Progress tracking with checkboxes and notes
+1. **Spec** ([`templates/spec.md`](templates/spec.md)) — Problem statement, related projects, acceptance criteria
+2. **Plan** (`tasks/<name>/plan.md`) — Repository impact map from `projects/`, plus structured tasks per [templates/plan.md](templates/plan.md). **Human reviews before execution.**
+3. **Execution** ([`templates/execution.md`](templates/execution.md)) — Progress tracking with checkboxes and notes
 
 The principle: **structure in, structure out**. The more you constrain the solution space, the more predictable the output.
 
 ## How to Use
+
+This harness is a **domain knowledge and workflow layer** for AI-assisted CMO work. It is not the SDLC itself — Jira, GitHub, and CI still own tracking and delivery. The harness gives the agent structured context so its output is grounded in real code and reviewable by humans.
 
 ### Prerequisites
 
 - [Cursor](https://cursor.com) or [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
 - `git` with submodule support
 - `podman` or `docker` (for markdown linting only)
+- A clone of the target repo (e.g. `cluster-monitoring-operator`) for code changes and PRs
 
 ### Getting Started
 
@@ -84,55 +87,157 @@ The principle: **structure in, structure out**. The more you constrain the solut
 
    ```bash
    git clone --recurse-submodules https://github.com/slashpai/ocp-monitoring-harness.git
+   cd ocp-monitoring-harness
+   make submodule-init   # if submodules were not cloned recursively
    ```
 
 2. Open the repo in your AI coding tool:
-   - **Cursor** — `.cursor/rules/` files automatically feed the agent relevant context based on what you're working on
+   - **Cursor** — `.cursor/rules/` automatically feeds the agent context based on what you're working on
    - **Claude Code** — `CLAUDE.md` is automatically read for project context
 
-3. Start asking questions or requesting tasks. The agent uses the harness content to ground its responses in accurate, CMO-specific knowledge.
+3. Start with a prompt. The agent uses harness content plus `projects/` submodules to ground responses.
 
-### What You Can Do
+### Where User Input Goes
 
-**Ask about architecture and design:**
+Unstructured input (chat, Jira, alerts) becomes structured task documents before code changes:
+
+```text
+Your prompt / Jira ticket
+        ↓
+Agent creates tasks/<name>/spec.md     ← you review
+        ↓
+Agent creates tasks/<name>/plan.md      ← you review (required gate)
+        ↓
+Agent implements in target repo         ← e.g. cluster-monitoring-operator
+        ↓
+Agent updates tasks/<name>/execution.md ← audit trail (local)
+        ↓
+PR opened in target repo                ← Jira/GitHub are system of record
+```
+
+**Default:** you prompt → agent drafts `spec.md` → you review → you prompt again → agent drafts `plan.md` → you review → you prompt again → agent implements.
+
+**Optional:** write `spec.md` yourself when the Jira ticket is already clear, then ask the agent to produce the plan.
+
+Task directories under `tasks/` are **local working documents** and are gitignored. See [tasks/README.md](tasks/README.md).
+
+### Workflows by Task Type
+
+#### Develop or fix CMO (non-trivial)
+
+Use the spec → plan → execution workflow:
+
+1. Prompt the agent to create a task from [templates/spec.md](templates/spec.md)
+2. Review `tasks/<name>/spec.md`
+3. Ask the agent to produce `plan.md` — it must scan `projects/` for real file paths
+4. **Review the plan before any implementation**
+5. Agent implements in the target repo (`projects/cluster-monitoring-operator/` submodule, or your own fork clone)
+6. Track progress in `execution.md`; open PR in the component repo, not in this harness
+
+Copy and adapt these — one prompt per phase, with an explicit stop after each:
+
+**Phase 1 — spec only**
+
+```text
+New task: disable-kubelet-endpoints
+
+Ticket: OCPBUGS-85522 — platform prometheus-operator logs v1 Endpoints
+deprecation warnings for kube-system/kubelet. Kubelet scraping already uses
+EndpointSlice (CMO PR #2696).
+
+Create tasks/disable-kubelet-endpoints/spec.md from templates/spec.md:
+- Related projects: cluster-monitoring-operator, prometheus-operator
+- Acceptance criteria: PO stops managing kubelet Endpoints; kubelet targets stay up
+- References: https://issues.redhat.com/browse/OCPBUGS-85522
+
+Stop after spec.md. Do not write plan.md or change code until I review.
+```
+
+**Phase 2 — plan only (after you approve the spec)**
+
+```text
+For tasks/disable-kubelet-endpoints, write plan.md:
+
+1. Repository impact map — scan projects/ for real file paths and symbols;
+   do not guess. Include dependencies and risks.
+2. Structured tasks — break the work into steps using templates/plan.md
+   (one section per task: files, implementation notes, tests).
+
+Stop before any implementation or execution.md updates so I can review the plan.
+```
+
+**Phase 3 — implement (after you approve the plan)**
+
+```text
+Plan approved for disable-kubelet-endpoints.
+
+Implement in projects/cluster-monitoring-operator/ (or my fork).
+Track progress in tasks/disable-kubelet-endpoints/execution.md.
+Open the PR against openshift/cluster-monitoring-operator when ready.
+```
+
+#### Troubleshoot a live cluster
+
+No task folder required. Provide symptoms, alert names, or pod/namespace details in chat.
+
+If a Prometheus/Alertmanager MCP server (e.g. [obs-mcp](https://github.com/rhobs/obs-mcp)) is configured, the agent combines harness knowledge (expected metrics, alerts, architecture) with live cluster data.
+
+#### Learn architecture or design
+
+Ask in chat. The agent reads `architecture/`, `components/`, and `projects/` as needed. No task folder unless the question becomes a code change.
+
+### What You Can Ask
+
+**Architecture and design:**
 
 - "How does Thanos Querier aggregate metrics from multiple Prometheus instances?"
 - "What happens when User Workload Monitoring is enabled?"
-- "How does config flow from the cluster-monitoring-config ConfigMap to component manifests?"
+- "How does config flow from cluster-monitoring-config to component manifests?"
 
-**Troubleshoot issues:**
+**Troubleshooting:**
 
-- "Prometheus pods are in CrashLoopBackOff, what should I check?"
-- "Alertmanager is not sending notifications, help me debug"
-- "kube-state-metrics is showing high memory usage"
+- "Prometheus pods are in CrashLoopBackOff — what should I check?"
+- "Alertmanager is not sending notifications — help me debug"
 
-**Develop and contribute:**
+**Development:**
 
-- "I need to add a new config option to CMO for Prometheus retention size"
+- "Add a new config option to CMO for Prometheus retention size"
 - "How do I bump the Thanos version in CMO?"
-- "Write an e2e test for the new alerting rule"
+- "Where do I change kubelet ServiceMonitor discovery?"
 
-**Query live clusters (with MCP):**
+### Where Code Changes Go
 
-If a Prometheus/Alertmanager MCP server (e.g., [obs-mcp](https://github.com/rhobs/obs-mcp)) is configured, the agent can combine harness knowledge with live metrics and alerts to investigate real cluster issues.
+| Change | Where to implement | Where to open PR |
+|---|---|---|
+| CMO manifest, config API, operator logic | `projects/cluster-monitoring-operator/` or your fork | `openshift/cluster-monitoring-operator` |
+| Upstream component fix | `projects/<component>/` or upstream fork | Community repo or OpenShift fork |
+| Harness docs only | This repo (`architecture/`, `components/`, etc.) | This repo |
 
-### Implementation Workflow
+For Jsonnet changes in CMO: edit `jsonnet/components/*.libsonnet`, run `make jsonnet-fmt generate`, commit sources and regenerated `assets/` together. Never edit `assets/` by hand.
 
-For non-trivial changes, follow the spec → plan → execution workflow:
+### Agentic SDLC Fit
 
-1. Create a task directory: `mkdir tasks/<task-name>`
-2. Write a `spec.md` using the [template](templates/spec.md) — define the problem and acceptance criteria
-3. Have the agent produce a `plan.md` using the [template](templates/plan.md) — it will scan `projects/` submodules to build a grounded impact map
-4. **Review the plan before execution** — catching a wrong assumption in a three-line impact map costs far less than catching it in a PR
-5. Execute and track progress in `execution.md` using the [template](templates/execution.md)
+In a typical agentic SDLC, this harness covers the **context and planning substrate**:
+
+| SDLC phase | Harness role |
+|---|---|
+| Intake / triage | `architecture/`, `components/` — map symptoms to components |
+| Spec | `tasks/<name>/spec.md` from [templates/spec.md](templates/spec.md) |
+| Plan | Impact map from `projects/` submodules — **human review gate** |
+| Implement | `development/` guides + real code in submodules |
+| Test | `development/testing.md` — `make test-unit`, e2e, etc. |
+| Review | `plan.md` and `execution.md` document intent vs outcome |
+| Operate | `components/*/queries.md` + optional live MCP tools |
+
+The principle: **structure in, structure out**. Constrain the solution space before the agent writes code.
 
 ### Keeping Submodules Updated
-
-The `projects/` submodules give the agent direct access to component source code. Keep them current:
 
 ```bash
 make submodule-update
 ```
+
+Submodules give the agent direct access to component source. Keep them current before planning or implementation.
 
 ## Acknowledgments
 
