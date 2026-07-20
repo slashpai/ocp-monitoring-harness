@@ -15,6 +15,11 @@
 .DS_Store
 Thumbs.db
 
+# Cursor — only .cursor/rules/ is committed
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+
 # Editor files
 *.swp
 *.swo

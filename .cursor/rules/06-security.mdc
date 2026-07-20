@@ -1,0 +1,47 @@
+---
+description: Prevent secret exposure and protect the .cursor directory
+alwaysApply: true
+---
+
+# Security: Secrets and .cursor Protection
+
+## Never Commit Secrets
+
+Do not write, stage, or commit any of the following into tracked files:
+
+- API keys, tokens, passwords, or credentials (even placeholders that look real)
+- Private keys, certificates (`.pem`, `.key`, `.crt`), or kubeconfig files
+- `.env` files (except `.env.example` with placeholder values only)
+- MCP server configs containing auth tokens (`.cursor/mcp.json`)
+- Session or cache data
+
+If you encounter a secret in the codebase, **stop and tell the user** — do not commit, push, or log it.
+
+## .cursor Directory
+
+Only `.cursor/rules/` is committed. Everything else in `.cursor/` is local-only and gitignored:
+
+| Path | Purpose | Committed? |
+|------|---------|------------|
+| `.cursor/rules/` | Agent context rules (`.mdc` files) | **Yes** |
+| `.cursor/mcp.json` | MCP server config — **often contains API keys/tokens** | No |
+| `.cursor/agents/` | Custom subagent definitions | No |
+| `.cursor/skills/` | Agent skill packages (`SKILL.md` files) | No |
+| `.cursor/hooks.json` | Hook definitions for agent lifecycle events | No |
+| `.cursor/hooks/` | Hook scripts referenced by `hooks.json` | No |
+| `.cursor/cli.json` | CLI project-level permissions | No |
+| `.cursor/plugins/` | Plugin cache (auto-managed by Cursor) | No |
+
+**Never read, log, or output** the contents of `.cursor/mcp.json` — it commonly contains API keys, OAuth credentials, and bearer tokens.
+
+## Pre-Push Checks
+
+Before any `git push`, verify:
+
+1. `git diff --cached` does not contain secrets, tokens, or credentials
+2. No `.env`, `.pem`, `kubeconfig`, or `mcp.json` files are staged
+3. Push target is the user's fork, not an openshift remote (see `05-planning-workflow.mdc`)
+
+## Placeholder Convention
+
+Use `<you>`, `<your-username>`, or `<token>` as placeholders in docs and prompts — never real values.
