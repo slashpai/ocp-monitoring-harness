@@ -13,6 +13,9 @@ This repository gives an AI coding agent deep domain knowledge about the OpenShi
 2. Open in [Cursor](https://cursor.com) or [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
 3. Follow the workflow in [USAGE.md](USAGE.md) — spec → plan → execution with human review gates
 
+> [!IMPORTANT]
+> This harness is optimized for **Cursor**. Cursor rules (`.cursor/rules/`), skills, and subagents (e.g., `/review-security`) provide the full experience — on-demand context loading, security checks, and structured workflows. **Claude Code** users get project context from `CLAUDE.md` but do not have access to cursor rules, skills, or subagents.
+
 ## Components Covered
 
 | Component | Role | Upstream |
