@@ -1,7 +1,7 @@
 ---
 description: Overview of the ocp-monitoring-harness repository and how to use it
-globs:
-alwaysApply: true
+globs: README.md, USAGE.md
+alwaysApply: false
 ---
 
 # OCP Monitoring Harness

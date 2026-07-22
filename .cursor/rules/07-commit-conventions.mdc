@@ -7,32 +7,17 @@ alwaysApply: true
 
 ## Human Review Before Committing
 
-**Never run `git commit` autonomously.** Always stop and present the following to the user for review before committing:
-
-1. The files being staged (`git diff --cached --stat`)
-2. The proposed commit message
-3. Wait for explicit user approval before executing the commit
+**Never run `git commit` autonomously.** Always present staged files (`git diff --cached --stat`) and the proposed message for user approval first.
 
 ## Required Flags
 
-Every `git commit` in this repository MUST use both flags:
-
-- `-s` — DCO sign-off (`Signed-off-by:` trailer)
-- `-S` — GPG signature
+Every `git commit` MUST use `-s` (DCO sign-off) and `-S` (GPG signature):
 
 ```bash
-git commit -s -S -m "type: description"
+git commit -s -S -m "type(scope): description"
 ```
 
 ## Conventional Commits
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/) for all commit messages:
-
-```
-<type>: <short description>
-```
-
-### Types
 
 | Type | When to use |
 |------|-------------|
@@ -44,20 +29,4 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/) for all comm
 | `test` | Adding or updating tests |
 | `ci` | CI/CD configuration changes |
 
-### Examples
-
-```bash
-git commit -s -S -m "feat: add Thanos component reference"
-git commit -s -S -m "docs: update architecture deep-dive with UWM flow"
-git commit -s -S -m "fix: correct PromQL pattern for node memory"
-git commit -s -S -m "chore: bump submodules to latest upstream"
-```
-
-### Scope (optional)
-
-Use a scope in parentheses when the change targets a specific area:
-
-```bash
-git commit -s -S -m "feat(rules): add security rule for .cursor/ protection"
-git commit -s -S -m "docs(components): add metrics-server development guide"
-```
+Scope is optional: `feat(rules): add security rule`.

@@ -12,25 +12,7 @@ Reference: [Harness Engineering](https://developers.redhat.com/articles/2026/04/
 
 ## Source Code Access
 
-All component repos are available as git submodules under `projects/`:
-
-```
-projects/cluster-monitoring-operator    # The main operator
-projects/prometheus                     # Prometheus
-projects/prometheus-alertmanager        # Alertmanager
-projects/prometheus-operator            # Prometheus Operator
-projects/kube-state-metrics             # kube-state-metrics
-projects/node-exporter                  # node-exporter
-projects/thanos                         # Thanos
-projects/kube-rbac-proxy                # kube-rbac-proxy
-projects/kubernetes-metrics-server      # metrics-server
-projects/monitoring-plugin              # Console monitoring plugin
-projects/prom-label-proxy               # prom-label-proxy
-projects/telemeter                      # telemeter-client
-projects/openshift-state-metrics        # openshift-state-metrics
-```
-
-**Always search these repos for real file paths and symbols** before creating impact maps or plans. Never guess.
+All component repos are git submodules under `projects/<repo-name>/`. **Always search these repos for real file paths and symbols** before creating impact maps or plans. Never guess.
 
 ## Phase 1: Spec (`tasks/<name>/spec.md`)
 
@@ -45,28 +27,11 @@ Define the problem before solving it:
 
 ### Repository Impact Map
 
-Scan the actual code in `projects/` and produce an impact map. Use file search, grep, and read to find real paths and symbols.
+Scan the actual code in `projects/` and produce an impact map listing: affected repo, file paths (verified via grep/glob), what changes, dependencies, and risks.
 
-```
-## Impact Map: <feature/fix title>
-
-### projects/<repo-name>
-  Changes:
-    - <file-path> — <what changes and why>
-    - <file-path> — <what changes and why>
-
-### Dependencies
-  - <upstream repo or component affected>
-
-### Risks
-  - <anything that could break>
-```
-
-### Rules
-
-- Every file path MUST exist in `projects/` (verify with glob/grep before listing)
-- Every symbol reference MUST come from actual code (verify with grep/read)
-- If you can't find the right file or symbol, say so — do NOT invent paths
+- Every file path MUST exist in `projects/` (verify before listing)
+- Every symbol reference MUST come from actual code
+- If you can't find a file or symbol, say so — do NOT invent paths
 - List files in dependency order (what must change first)
 
 ### Checkpoint
