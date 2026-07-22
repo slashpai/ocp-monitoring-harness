@@ -20,6 +20,8 @@ Thumbs.db
 !.cursor/rules/
 !.cursor/rules/**
 
+/tmp/
+
 # Editor files
 *.swp
 *.swo
