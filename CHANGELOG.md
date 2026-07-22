@@ -9,10 +9,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Security rule (`.cursor/rules/06-security.mdc`) — prevents secret exposure and documents `.cursor/` directory layout
+- Claude Code limitation note in `README.md`
 
 ### Changed
 
 - `.gitignore` — ignore all `.cursor/` paths except `.cursor/rules/`
+- Merged secret review checklist into `06-security.mdc` — single security rule with prevention + review
+- Demoted `00-harness-overview.mdc` from always-on to on-demand (triggers on `README.md`, `USAGE.md`) — content covered by `CLAUDE.md`
+- Slimmed `05-planning-workflow.mdc` — removed duplicated submodule list and compacted impact map template
+- Slimmed `07-commit-conventions.mdc` — removed examples, kept type table and essential rules
 
 ## [v0.1.0] - 2026-07-10
 
