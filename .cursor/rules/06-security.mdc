@@ -13,35 +13,30 @@ Do not write, stage, or commit any of the following into tracked files:
 - Private keys, certificates (`.pem`, `.key`, `.crt`), or kubeconfig files
 - `.env` files (except `.env.example` with placeholder values only)
 - MCP server configs containing auth tokens (`.cursor/mcp.json`)
-- Session or cache data
 
 If you encounter a secret in the codebase, **stop and tell the user** — do not commit, push, or log it.
 
+## Pre-Commit / Pre-Push Review
+
+Before `git commit` or `git push`, scan `git diff --cached` for:
+
+- Hardcoded API keys, tokens, passwords, bearer/auth headers, connection strings
+- Private keys / cert material (`BEGIN PRIVATE KEY`, `.pem`, `.key`, `.crt`)
+- Cloud or SaaS credentials (AWS/GCP/Azure keys, Slack/GitHub/OpenAI tokens)
+- Kubeconfig contents, cluster tokens, pull-secret / dockerconfig JSON with auth
+- Staged `.env`, `.pem`, `kubeconfig`, or `mcp.json` files
+- Push target must be the user's fork, not an openshift remote
+
+Report findings as **Severity** | `path:line` | type only — never print the secret value.
+
+### False positives (do not block)
+
+Placeholders (`<token>`, `CHANGEME`, `REDACTED`), test doubles (`fake-token`), env-var *names* without values, vendor trees (unless diff adds new secrets), submodule SHAs.
+
 ## .cursor Directory
 
-Only `.cursor/rules/` is committed. Everything else in `.cursor/` is local-only and gitignored:
-
-| Path | Purpose | Committed? |
-|------|---------|------------|
-| `.cursor/rules/` | Agent context rules (`.mdc` files) | **Yes** |
-| `.cursor/mcp.json` | MCP server config — **often contains API keys/tokens** | No |
-| `.cursor/agents/` | Custom subagent definitions | No |
-| `.cursor/skills/` | Agent skill packages (`SKILL.md` files) | No |
-| `.cursor/hooks.json` | Hook definitions for agent lifecycle events | No |
-| `.cursor/hooks/` | Hook scripts referenced by `hooks.json` | No |
-| `.cursor/cli.json` | CLI project-level permissions | No |
-| `.cursor/plugins/` | Plugin cache (auto-managed by Cursor) | No |
-
-**Never read, log, or output** the contents of `.cursor/mcp.json` — it commonly contains API keys, OAuth credentials, and bearer tokens.
-
-## Pre-Push Checks
-
-Before any `git push`, verify:
-
-1. `git diff --cached` does not contain secrets, tokens, or credentials
-2. No `.env`, `.pem`, `kubeconfig`, or `mcp.json` files are staged
-3. Push target is the user's fork, not an openshift remote (see `05-planning-workflow.mdc`)
+Only `.cursor/rules/` is committed. Everything else (`.cursor/mcp.json`, `agents/`, `skills/`, `hooks*`, `cli.json`, `plugins/`) is local-only and gitignored. **Never read, log, or output** `.cursor/mcp.json`.
 
 ## Placeholder Convention
 
-Use `<you>`, `<your-username>`, or `<token>` as placeholders in docs and prompts — never real values.
+Use `<you>`, `<your-username>`, or `<token>` as placeholders — never real values.
