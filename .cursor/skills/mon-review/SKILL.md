@@ -30,12 +30,16 @@ A PR number or GitHub PR URL.
 
 ### 1. Gather PR context
 
+**Prerequisite:** Run `gh auth status > /dev/null 2>&1` and check the exit code. If non-zero, stop and instruct the user to run `gh auth login` first.
+
 Use `gh` CLI to collect:
 
 ```bash
 gh pr view <number> --json title,body,baseRefName,headRefName,files,additions,deletions
 gh pr diff <number>
 ```
+
+**Fallback:** If `gh` is unavailable or auth fails and the branch exists locally in `projects/<repo>/`, offer to review the local branch diff instead using `git diff <base>...<branch>`.
 
 `CLAUDE.md` is already in context (loaded as a workspace rule) — do not re-read it.
 
