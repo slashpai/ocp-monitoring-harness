@@ -39,6 +39,7 @@ For current component versions, see [`projects/cluster-monitoring-operator/jsonn
 
 ```text
 .cursor/rules/          Cursor rules — auto-loaded context for the AI agent
+.cursor/skills/         Cursor skills — workflow commands (/mon:spec, /mon:plan, etc.)
 architecture/           Cross-cutting CMO architecture documentation
 components/             Per-component references and development guides
 development/            Guides for contributing to CMO and its components
@@ -47,8 +48,10 @@ scripts/                reset-projects.sh and other harness scripts
 tasks/                  Active tasks (spec → plan → execution) — local, gitignored
 completed/              Archived completed tasks — local, gitignored
 templates/              Structured task templates (spec, plan, execution)
-USAGE.md                How to use this harness with an AI agent
+CHANGELOG.md            Notable changes per release
+CLAUDE.md               Project context for Claude Code users
 CONVENTIONS.md          Coding and contribution conventions for CMO
+USAGE.md                How to use this harness with an AI agent
 ```
 
 ## Projects (Git Submodules)

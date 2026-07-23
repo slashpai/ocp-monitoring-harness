@@ -4,14 +4,17 @@ This repository is a **knowledge harness** for the OpenShift Cluster Monitoring 
 
 ## Repository Layout
 
+- `.cursor/rules/` — Cursor rules — auto-loaded context for the AI agent
+- `.cursor/skills/` — Cursor skills — workflow commands (`/mon:spec`, `/mon:plan`, etc.)
 - `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
 - `components/<name>/` — Per-component references with README and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
+- `scripts/` — `reset-projects.sh` and other harness scripts
 - `tasks/` — Active tasks (spec → plan → execution) — local, gitignored; see [tasks/README.md](tasks/README.md)
 - `completed/` — Archived completed tasks — local, gitignored
-- `USAGE.md` — Workflow, example prompts, and where to implement changes; see [USAGE.md](USAGE.md)
 - `templates/` — Templates for spec, plan, and execution documents
+- `USAGE.md` — Workflow, example prompts, and where to implement changes; see [USAGE.md](USAGE.md)
 
 ## Components Managed by CMO
 
@@ -67,6 +70,7 @@ The operator's `sync()` in `pkg/operator/operator.go` runs tasks in three ordere
 ### Multi-Module Repository
 
 CMO has three Go modules with separate `go.mod` and `vendor/`:
+
 - `./` (main module)
 - `test/monitoring/`
 - `hack/tools/`
@@ -76,11 +80,13 @@ CMO has three Go modules with separate `go.mod` and `vendor/`:
 ### Making Changes
 
 **Modifying Kubernetes Resources:**
+
 1. Edit the jsonnet source in `jsonnet/components/<component>.libsonnet`
 2. Run `make jsonnet-fmt generate` to regenerate assets
 3. Never edit `assets/*/*.yaml` directly
 
 **Modifying Configuration Options:**
+
 1. Add/modify fields in `pkg/manifests/types.go`
 2. Update `pkg/manifests/config.go` to handle the new fields
 3. Run `make generate` to update generated code
