@@ -125,6 +125,20 @@ Each phase requires an explicit prompt and a human review gate before the next p
 
 **Stop and present the plan for human review before proceeding.** If the plan is wrong, the code will be wrong too.
 
+## Skills (Cursor only)
+
+Custom Cursor skills automate the spec-plan-execution pipeline:
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
+| `mon-spec` | `/mon:spec <task> "<description>"` | Create structured spec from Jira/description with verified current behavior |
+| `mon-plan` | `/mon:plan <task>` | Spec → phased plan with impact map, jsonnet awareness, push safety |
+| `mon-implement` | `/mon:implement <task>` | Plan → execution with parallel agents, TDD, fork verification |
+| `mon-review` | `/mon:review <PR>` | Multi-domain PR review (Go, jsonnet, config API, tests) |
+| `mon-diagnostic` | `/mon:diagnostic <task or symptom>` | Bug diagnosis with obs-mcp integration |
+
+Skill definitions live in `.cursor/skills/`. Claude Code users: follow the same workflow manually using `CLAUDE.md` context and the templates in `templates/`.
+
 ## Source Code Access
 
 All component repos are available as git submodules under `projects/`:

@@ -7,7 +7,7 @@ This harness is a **domain knowledge and workflow layer** for AI-assisted CMO wo
 Each task follows a three-document workflow (inspired by [observability-ui/harness](https://github.com/observability-ui/harness) and [harness engineering](https://developers.redhat.com/articles/2026/04/07/harness-engineering-structured-workflows-ai-assisted-development)):
 
 1. **Spec** ([`templates/spec.md`](templates/spec.md)) — Problem statement, related projects, acceptance criteria
-2. **Plan** (`tasks/<name>/plan.md`) — Repository impact map from `projects/`, plus structured tasks per [templates/plan.md](templates/plan.md). **Human reviews before execution.**
+2. **Plan** (`tasks/<name>/plan.md`) — Phased plan with impact map, verification steps, and PR strategy per [templates/plan.md](templates/plan.md). **Human reviews before execution.**
 3. **Execution** ([`templates/execution.md`](templates/execution.md)) — Progress tracking with checkboxes and notes
 
 The principle: **structure in, structure out**. The more you constrain the solution space, the more predictable the output.
@@ -33,8 +33,10 @@ Task directories under `tasks/` are **local working documents** and are gitignor
    ```
 
 2. Open the repo in your AI coding tool:
-   - **Cursor** — `.cursor/rules/` automatically feeds the agent context based on what you're working on
+   - **Cursor** — `.cursor/rules/` feeds the agent context automatically; `.cursor/skills/` provides workflow commands (`/mon:plan`, `/mon:implement`, etc.) — see [Skills](#skills)
    - **Claude Code** — `CLAUDE.md` is automatically read for project context
+
+   > **Rules vs Skills:** Rules are always-on guardrails (push safety, commit conventions, security) — loaded automatically every interaction. Skills are structured workflows (`/mon:spec`, `/mon:plan`) — invoked explicitly when needed. Both are committed to the repo so every team member gets the same experience.
 
 3. Start with a prompt. The agent uses harness content plus `projects/` submodules to ground responses.
 
@@ -64,23 +66,73 @@ make reset-projects (Mode A only)       ← reset submodules after PR is pushed
 
 ## Workflows by Task Type
 
-### Develop or fix CMO (non-trivial)
+### Develop or fix a monitoring component (non-trivial)
 
-Use the spec → plan → execution workflow. A full three-phase prompt example for **disable-kubelet-endpoints** / **OCPBUGS-85522** is below.
+Use the spec → plan → implement workflow. Each phase produces a document that feeds the next, with a **human review gate** between phases. Works for CMO, downstream component forks, and upstream contributions.
 
-1. Prompt the agent to create a task from [templates/spec.md](templates/spec.md)
-2. Review `tasks/<name>/spec.md`
-3. Ask the agent to produce `plan.md` — it must scan `projects/` for real file paths
-4. **Review the plan before any implementation**
-5. Agent implements using **Mode A** (submodule, default) or **Mode B** (external fork clone) — see [Where Code Changes Go](#where-code-changes-go)
-6. Track progress in `execution.md`; open PR in the component repo, not in this harness
-7. After the PR is pushed, run `make reset-projects` (Mode A — required; skip for Mode B)
+#### With skills (Cursor — recommended)
 
-#### Example walkthrough: `disable-kubelet-endpoints` (OCPBUGS-85522)
+Skills automate each phase. You review between phases and approve before the next one starts.
 
-Copy only the fenced `text` blocks below into your agent — phase headings and this intro are for you, not part of the prompt. Each phase gives the agent **intent**; it fills `spec.md` / `plan.md` from `templates/` and `projects/`. Example: [OCPBUGS-85522](https://issues.redhat.com/browse/OCPBUGS-85522).
+**Example: OCPBUGS-85522 — disable kubelet Endpoints reconciliation**
 
-##### Phase 1 — spec only (OCPBUGS-85522)
+**Step 1 — Create the spec.** Give the skill a task name and description (Jira ID, bug report, or feature request):
+
+```text
+/mon:spec disable-kubelet-endpoints "OCPBUGS-85522: prometheus-operator logs v1 Endpoints deprecation warnings for kube-system/kubelet, causing log noise. Kubelet scraping already uses EndpointSlice (CMO PR #2696)."
+```
+
+The agent will:
+- Create `tasks/disable-kubelet-endpoints/`
+- Explore `projects/` to find relevant files and verify current behavior
+- Look up `architecture/repo-mapping.md` to determine contribution target
+- Generate `tasks/disable-kubelet-endpoints/spec.md` with problem statement, current behavior table, acceptance criteria, and open questions
+- **Stop and wait for your review**
+
+**Step 2 — Review `spec.md`, then generate the plan:**
+
+```text
+/mon:plan disable-kubelet-endpoints
+```
+
+The agent will:
+- Read the spec and system context (`CLAUDE.md`, component docs)
+- Ask 5-10 clarifying questions (scope, testing, target branch)
+- After your answers, explore the codebase for real file paths
+- Generate `tasks/disable-kubelet-endpoints/plan.md` with phased changes, verification steps, PR strategy, and risks
+- **Stop and wait for your review**
+
+**Step 3 — Review `plan.md`, then implement:**
+
+```text
+/mon:implement disable-kubelet-endpoints
+```
+
+The agent will:
+- Parse the plan into `execution.md` with checkboxes
+- Present an execution summary (phases, repos, git strategy) and **wait for your confirmation**
+- Execute phases in dependency order — handles jsonnet regeneration, TDD for Go, push safety
+- Track progress with inline annotations (`-- **passes**`, `-- **FAILED: reason**`)
+- Push only to your fork (never to `openshift/*` or upstream orgs)
+
+**Step 4 (optional) — Review the resulting PR:**
+
+```text
+/mon:review 2750
+```
+
+**Troubleshooting — no task folder needed:**
+
+```text
+/mon:diagnostic "Prometheus OOMKilled after 4.17 upgrade"
+```
+
+#### With manual prompts (Cursor or Claude Code)
+
+If you prefer manual prompts or are using Claude Code (which doesn't have skills), copy the fenced `text` blocks below. Each phase gives the agent **intent**; it fills `spec.md` / `plan.md` from `templates/` and `projects/`.
+
+<details>
+<summary>Phase 1 — spec only (OCPBUGS-85522)</summary>
 
 ```text
 New task: disable-kubelet-endpoints
@@ -95,19 +147,25 @@ We want to stop managing kubelet Endpoints without breaking kubelet scrapes.
 Stop after spec.md. Do not write plan.md or change code until I review.
 ```
 
-##### Phase 2 — plan only (OCPBUGS-85522, after you approve the spec)
+</details>
+
+<details>
+<summary>Phase 2 — plan only (after you approve the spec)</summary>
 
 ```text
 For tasks/disable-kubelet-endpoints (OCPBUGS-85522), write plan.md:
 
 1. Repository impact map — scan projects/ for real file paths and symbols;
    do not guess. Include dependencies and risks.
-2. Structured tasks per templates/plan.md.
+2. Phased plan per templates/plan.md.
 
 Stop before any implementation or execution.md updates so I can review the plan.
 ```
 
-##### Phase 3 — implement (OCPBUGS-85522, after you approve the plan), Mode A — submodule (default)
+</details>
+
+<details>
+<summary>Phase 3 — implement (after you approve the plan), Mode A — submodule</summary>
 
 ```text
 Plan approved for disable-kubelet-endpoints (OCPBUGS-85522).
@@ -122,7 +180,10 @@ Track progress in tasks/disable-kubelet-endpoints/execution.md.
 Open the PR when ready. I will run make reset-projects after the PR is pushed.
 ```
 
-##### Phase 3 — implement (OCPBUGS-85522), Mode B — external fork clone
+</details>
+
+<details>
+<summary>Phase 3 — implement (Mode B — external fork clone)</summary>
 
 ```text
 Plan approved for disable-kubelet-endpoints (OCPBUGS-85522).
@@ -139,9 +200,11 @@ Track progress in tasks/disable-kubelet-endpoints/execution.md.
 Open the PR when ready.
 ```
 
+</details>
+
 ### Troubleshoot a live cluster
 
-No task folder required. Provide symptoms, alert names, or pod/namespace details in chat.
+No task folder required. In Cursor, use `/mon:diagnostic` for structured diagnosis. Otherwise, provide symptoms, alert names, or pod/namespace details in chat.
 
 If a Prometheus/Alertmanager MCP server (e.g. [obs-mcp](https://github.com/rhobs/obs-mcp)) is configured, the agent combines harness knowledge (expected metrics, alerts, architecture) with live cluster data.
 
@@ -239,6 +302,20 @@ PR target: openshift/cluster-monitoring-operator
 ```
 
 For Jsonnet changes in CMO: edit `jsonnet/components/*.libsonnet`, run `make jsonnet-fmt generate`, commit sources and regenerated `assets/` together. Never edit `assets/` by hand.
+
+## Skills
+
+Custom Cursor skills automate the spec-plan-execution pipeline. They encode monitoring stack domain knowledge (jsonnet phases, push safety, impact maps, obs-mcp, upstream/downstream repo mapping) so the agent follows the right steps without you repeating instructions. See [Workflows by Task Type](#workflows-by-task-type) for a detailed walkthrough.
+
+| Skill | Command | Input | Output |
+|-------|---------|-------|--------|
+| Spec | `/mon:spec <task> "<description>"` | Task name + Jira/description | `tasks/<task>/spec.md` with verified current behavior |
+| Plan | `/mon:plan <task>` | `tasks/<task>/spec.md` | `tasks/<task>/plan.md` with impact map, phases, PR strategy |
+| Implement | `/mon:implement <task>` | `tasks/<task>/plan.md` | `tasks/<task>/execution.md` + implemented changes |
+| Review | `/mon:review <PR>` | PR number or URL | Structured review with severity levels |
+| Diagnostic | `/mon:diagnostic <task or symptom>` | Bug spec or inline symptom | Root cause diagnosis with evidence |
+
+Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in `.cursor/skills/` and are committed to the repo so every team member gets the same commands. Claude Code users: follow the manual prompt workflow (see collapsible sections under [Workflows](#develop-or-fix-a-monitoring-component-non-trivial)).
 
 ## Agentic SDLC Fit
 

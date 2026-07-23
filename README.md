@@ -71,6 +71,20 @@ The `projects/` directory contains git submodules for CMO and every component it
 | `projects/telemeter` | [openshift/telemeter](https://github.com/openshift/telemeter) |
 | `projects/openshift-state-metrics` | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) |
 
+## Skills (Cursor)
+
+Custom skills automate the spec-plan-execution pipeline. Invoke them by name in Cursor chat:
+
+| Skill | Command | What it does |
+|-------|---------|--------------|
+| `mon-spec` | `/mon:spec <task> "<description>"` | Creates `spec.md` from a Jira ticket or description, explores `projects/` to verify current behavior |
+| `mon-plan` | `/mon:plan <task>` | Reads `spec.md`, explores `projects/`, asks clarifying questions, generates a phased `plan.md` |
+| `mon-implement` | `/mon:implement <task>` | Parses `plan.md` into `execution.md`, implements phases with TDD and push safety |
+| `mon-review` | `/mon:review <PR>` | Multi-domain PR review: Go, jsonnet, config API, tests, asset consistency |
+| `mon-diagnostic` | `/mon:diagnostic <symptom>` | Bug diagnosis using obs-mcp (live) or oc/PromQL (offline) |
+
+Skills work for CMO, downstream component forks (`openshift/*`), and upstream contributions. They live in `.cursor/skills/` and are committed to the repo. See [USAGE.md](USAGE.md#skills) for details.
+
 ## Documentation
 
 | Document | Purpose |
