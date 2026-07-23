@@ -127,7 +127,7 @@ The agent will:
 **Troubleshooting — no task folder needed:**
 
 ```text
-/mon:diagnostic "kube-state-metrics pod crashing after 4.21 upgrade"
+/mon:diagnostic "kube-state-metrics pod in openshift-monitoring panics and enters CrashLoopBackOff when it encounters a CronJob that uses the .spec.timeZone field (or the legacy CRON_TZ= prefix in .spec.schedule)"
 ```
 
 #### With manual prompts (Cursor or Claude Code)
