@@ -1,83 +1,96 @@
-# Structured Task Template
+# Plan: [Task Name]
 
-Use this template when breaking work into implementation tasks. Every field is intentional — it constrains the AI's solution space so output is predictable and grounded in real code.
 
-Reference: [Harness Engineering](https://developers.redhat.com/articles/2026/04/07/harness-engineering-structured-workflows-ai-assisted-development)
+## Problem
+
+_Why this change is needed. Link upstream issues if relevant. Explain the business or technical motivation._
+
+## Current State
+
+| Component | File / Location | Current Behavior |
+|-----------|-----------------|------------------|
+| [name] | `projects/<repo>/path/to/file.ext` | [What it does now] |
+
+## Changes
+
+### Phase 1: [Name]
+
+**Dependency:** None
+**Parallel with:** None | Phase N (when touching different repos/files)
+**Type:** implementation | configuration | jsonnet | investigation
+
+#### Files Modified
+
+| File | Change |
+|------|--------|
+| `projects/<repo>/path/to/file.ext` | [Brief description of what changes] |
+
+#### Details
+
+_Detailed description of the changes. Include code snippets for type changes and non-obvious logic. Include line references when the exact point matters._
+
+#### Phase 1 Verification
+
+- [ ] [Specific command and expected output]
+
+### Phase 2: [Name]
+
+**Dependency:** Phase 1
+**Parallel with:** Phase 3 (different repo)
+**Type:** implementation | configuration | jsonnet | investigation
+
+#### Files Modified
+
+| File | Change |
+|------|--------|
+| `projects/<repo>/path/to/file.ext` | [Brief description] |
+
+#### Details
+
+_Details of the changes._
+
+#### Phase 2 Verification
+
+- [ ] [Specific command and expected output]
+
+## PR Strategy
+
+| PR | Repository | Branch | Fork URL | PR Target | Description | Dependencies |
+|----|------------|--------|----------|-----------|-------------|--------------|
+| 1 | [repo] | [branch] | `https://github.com/<you>/repo` | `openshift/repo` | [what this PR contains] | None |
+| 2 | [repo] | [branch] | `https://github.com/<you>/repo` | `openshift/repo` | [what this PR contains] | PR 1 merged |
+
+**Push safety:** Always push to your personal fork. Never push directly to `openshift/*` repos or community upstream repos.
+
+## Verification
+
+_End-to-end verification mapped to the spec's acceptance criteria._
+
+- [ ] [Acceptance criterion] — [how to verify]
+
+## Risks
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| [What could go wrong] | [What breaks] | [How to prevent or recover] |
 
 ---
-
-## Repository
-
-_Single repository this task targets. Scoping to one repo avoids cross-repo confusion._
-
-```text
-openshift/cluster-monitoring-operator
-```
-
-## Description
-
-_One-sentence summary of what this task does._
-
-```text
-Add CSV export endpoint for SBOM query results.
-```
-
-## Files to Modify
-
-_Real paths found during the impact map phase — not guesses. Each entry explains what changes._
-
-```text
-- modules/sbom/src/service.rs — add CSV serialization method
-- modules/sbom/src/endpoints.rs — add GET handler
-```
-
-## Implementation Notes
-
-_Reference actual symbol names and existing patterns. When the AI reads "follow the existing pattern in FunctionX()", it can look up that function and mimic its structure._
-
-```text
-Follow the existing JSON export pattern in SbomService::export_json().
-Reuse the QueryResult type from modules/sbom/src/model.rs.
-```
-
-## Acceptance Criteria
-
-_Concrete checklist the AI can verify against._
-
-```text
-- [ ] GET /api/v2/sbom/export?format=csv returns valid CSV
-- [ ] Existing JSON export still works
-- [ ] No new linter warnings
-```
-
-## Test Requirements
-
-_Specific test coverage required._
-
-```text
-- [ ] Integration test in modules/sbom/tests/ following existing test patterns
-- [ ] Unit test for CSV serialization logic
-```
-
----
-
-## Why Each Field Matters
-
-| Field | Purpose |
-|---|---|
-| **Repository** | Scopes the AI to a single repo, avoids cross-repo confusion |
-| **Description** | Anchors the task with a clear goal |
-| **Files to Modify** | Real paths from the impact map — the AI modifies only these files |
-| **Implementation Notes** | References real symbols and patterns, eliminating guesswork |
-| **Acceptance Criteria** | Concrete checklist for verification |
-| **Test Requirements** | Ensures test coverage is part of the task, not an afterthought |
 
 ## CMO-Specific Notes
 
-For cluster-monitoring-operator tasks, common file patterns:
+### Phase types
+
+| Type | When to use | Post-edit steps |
+|------|-------------|-----------------|
+| `implementation` | New functions, API changes, refactoring | TDD (Red-Green-Refactor). Run `make test-unit` |
+| `configuration` | Version bumps, import updates, config values | No TDD. Verify with build/lint |
+| `jsonnet` | Editing `.libsonnet` files or jsonnet config | Run `make jsonnet-fmt generate`. Commit sources + regenerated `assets/` together. Never edit `assets/` directly |
+| `investigation` | Research, compatibility checks, decisions | No code changes. Annotate findings inline |
+
+### Common CMO file patterns
 
 | Change Type | Files Typically Involved |
-|---|---|
+|-------------|--------------------------|
 | New/modified K8s resources | `jsonnet/components/<component>.libsonnet` → `make jsonnet-fmt generate` → `assets/<component>/` |
 | New config option | `pkg/manifests/types.go` → `pkg/manifests/config.go` → `pkg/manifests/<component>.go` |
 | New alerting rule | `jsonnet/components/<component>.libsonnet` (PrometheusRule section) |
