@@ -15,10 +15,12 @@
 .DS_Store
 Thumbs.db
 
-# Cursor — only .cursor/rules/ is committed
+# Cursor — only .cursor/rules/ and .cursor/skills/ are committed
 .cursor/*
 !.cursor/rules/
 !.cursor/rules/**
+!.cursor/skills/
+!.cursor/skills/**
 
 /tmp/
 

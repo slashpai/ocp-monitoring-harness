@@ -35,7 +35,7 @@ Placeholders (`<token>`, `CHANGEME`, `REDACTED`), test doubles (`fake-token`), e
 
 ## .cursor Directory
 
-Only `.cursor/rules/` is committed. Everything else (`.cursor/mcp.json`, `agents/`, `skills/`, `hooks*`, `cli.json`, `plugins/`) is local-only and gitignored. **Never read, log, or output** `.cursor/mcp.json`.
+Only `.cursor/rules/` and `.cursor/skills/` are committed. Everything else (`.cursor/mcp.json`, `agents/`, `hooks*`, `cli.json`, `plugins/`) is local-only and gitignored. **Never read, log, or output** `.cursor/mcp.json`. Do not store secrets, cluster credentials, or local-only operational data in `.cursor/skills/`.
 
 ## Placeholder Convention
 
