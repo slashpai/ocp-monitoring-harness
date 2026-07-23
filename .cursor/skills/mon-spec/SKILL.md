@@ -50,9 +50,11 @@ projects/thanos
 
 For each related project, do a quick exploration to understand how the change area works today:
 
-- Grep for mentioned symbols, flags, or config options
+- Grep for mentioned symbols, flags, or config options — **search within `projects/<specific-repo>/`, not all of `projects/`**
 - Read the relevant files to document current behavior
 - Note the file paths that will likely change
+
+**Exploration budget:** Aim to read no more than 15 files total from `projects/`. If you need more, present what you've found so far and ask if deeper exploration is needed.
 
 ### 3. Document current behavior
 

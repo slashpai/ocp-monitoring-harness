@@ -42,9 +42,14 @@ For each project listed in the spec's "Related Projects" section, read if they e
 
 Read relevant harness context:
 
-- `architecture/repo-mapping.md` — upstream/downstream repo mapping, PR destinations
-- `architecture/` docs for affected components
-- `components/<name>/README.md` for component-specific guidance
+- `architecture/repo-mapping.md` — always read (upstream/downstream mapping, PR destinations)
+- Read only the architecture doc relevant to the change type:
+  - Config API changes → `architecture/configuration.md`
+  - Scraping / metrics flow → `architecture/data-flow.md`
+  - Namespace scoping → `architecture/namespaces.md`
+  - General architecture questions → `architecture/overview.md`
+  - Do not read all architecture docs — pick the 1-2 most relevant
+- `components/<name>/README.md` — ONLY for components listed in the spec's "Related Projects" section (typically 1-3). Do not read all component READMEs.
 
 After reading, identify:
 
@@ -70,15 +75,15 @@ Wait for answers before proceeding.
 
 ### 3. Explore the codebase
 
-Explore `projects/` with focused intent based on the spec and answers.
+Explore `projects/` with focused intent based on the spec and answers. **Limit exploration to repos listed in the spec's "Related Projects" section** — do not scan all 13 submodules.
 
-**Multi-repo tasks:** Launch parallel explore agents (one per repo). Each reports: project structure, files to modify, current behavior, relevant patterns.
+**Multi-repo tasks:** Launch parallel explore agents only for the repos in scope (from spec). Each reports: project structure, files to modify, current behavior, relevant patterns.
 
 **Single-repo tasks:** Explore directly.
 
-For each repo, investigate:
+For each repo in scope, investigate:
 
-- **Files that will change** — grep for symbols, types, function names
+- **Files that will change** — grep for symbols, types, function names within `projects/<specific-repo>/`
 - **Current behavior** — read files to document the "Current State" table
 - **Dependencies and blast radius** — imports, consumers, tests
 - **Similar implementations** — patterns to follow
@@ -99,6 +104,8 @@ For each repo, investigate:
   - Check for component-specific CI requirements (e.g., `make lint`, `make format`)
 
 **Critical:** Every file path MUST exist in `projects/` (verify with glob/grep). Never guess paths.
+
+**Exploration budget:** Aim to read no more than 20 files total from `projects/`. If you need more, present what you've found so far and ask if deeper exploration is needed.
 
 ### 4. Classify phases
 
