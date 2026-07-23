@@ -30,8 +30,9 @@ Read these files:
 ```
 tasks/<task>/plan.md        (required — stop if missing)
 tasks/<task>/spec.md        (optional — for acceptance criteria)
-CLAUDE.md                   (for project context)
 ```
+
+Note: `CLAUDE.md` is already in context (loaded as a workspace rule) — do not re-read it.
 
 For each project in the plan's Files Modified tables, read if they exist:
 

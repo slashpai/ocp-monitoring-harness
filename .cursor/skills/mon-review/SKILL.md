@@ -37,7 +37,7 @@ gh pr view <number> --json title,body,baseRefName,headRefName,files,additions,de
 gh pr diff <number>
 ```
 
-Read `CLAUDE.md` for project patterns and conventions.
+`CLAUDE.md` is already in context (loaded as a workspace rule) — do not re-read it.
 
 ### 2. Determine repo type and classify changed files
 

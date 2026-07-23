@@ -30,8 +30,9 @@ Read these files in order:
 
 ```
 tasks/<task>/spec.md
-CLAUDE.md
 ```
+
+Note: `CLAUDE.md` is already in context (loaded as a workspace rule) — do not re-read it.
 
 For each project listed in the spec's "Related Projects" section, read if they exist:
 
