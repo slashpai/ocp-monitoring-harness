@@ -1,9 +1,18 @@
 {
   "config": {
     "MD013": false,
+    "MD024": {
+      "siblings_only": true
+    },
+    "MD033": {
+      "allowed_elements": ["details", "summary"]
+    },
+    "MD036": false,
+    "MD040": false,
     "MD060": false
   },
   "ignores": [
-    "projects/**"
+    "projects/**",
+    "tasks/**"
   ]
 }
