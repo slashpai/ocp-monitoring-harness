@@ -121,13 +121,13 @@ The agent will:
 **Step 4 (optional) — Review the resulting PR:**
 
 ```text
-/mon:review 2750
+/mon:review https://github.com/openshift/cluster-monitoring-operator/pull/<number>
 ```
 
 **Troubleshooting — no task folder needed:**
 
 ```text
-/mon:diagnostic "Prometheus OOMKilled after 4.17 upgrade"
+/mon:diagnostic "kube-state-metrics pod crashing after 4.21 upgrade"
 ```
 
 #### With manual prompts (Cursor or Claude Code)
