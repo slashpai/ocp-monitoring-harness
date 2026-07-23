@@ -1,5 +1,9 @@
 # Plan: [Task Name]
 
+**Status:** Draft | Approved
+
+_Draft while being written/revised. Set to Approved by the next phase (`/mon:implement`) once the human has reviewed it._
+
 ## Problem
 
 _Why this change is needed. Link upstream issues if relevant. Explain the business or technical motivation._

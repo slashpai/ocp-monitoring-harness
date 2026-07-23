@@ -10,6 +10,18 @@ tasks/
     execution.md     Progress tracking with checkboxes, notes, PR links
 ```
 
+## Status Field
+
+`spec.md`, `plan.md`, and `execution.md` each start with a `**Status:**` line so you can see review-gate state at a glance without reopening the whole document:
+
+| Document | Values | Who sets it |
+|---|---|---|
+| `spec.md` | `Draft` → `Approved` | Created as `Draft` by `/mon:spec`; flipped to `Approved` by `/mon:plan` when it starts (invoking the next phase implies you reviewed the spec) |
+| `plan.md` | `Draft` → `Approved` | Created as `Draft` by `/mon:plan`; flipped to `Approved` by `/mon:implement` when it starts |
+| `execution.md` | `In Progress` → `Blocked` \| `Complete` \| `Partial` | Created as `In Progress` by `/mon:implement`; updated as execution proceeds and finalized in the Summary step |
+
+This is a visual aid, not an enforcement gate — the actual review gate is still the human "stop and wait" checkpoint built into each skill.
+
 When a task is done, move its directory to `completed/` locally (also gitignored).
 
 ## User Input

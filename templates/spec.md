@@ -1,5 +1,9 @@
 # Task Spec Template
 
+**Status:** Draft | Approved
+
+_Draft while being written/revised. Set to Approved by the next phase (`/mon:plan`) once the human has reviewed it._
+
 Define the problem before solving it.
 
 ---

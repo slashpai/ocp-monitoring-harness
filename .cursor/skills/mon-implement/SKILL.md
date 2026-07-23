@@ -32,6 +32,8 @@ tasks/<task>/plan.md        (required — stop if missing)
 tasks/<task>/spec.md        (optional — for acceptance criteria)
 ```
 
+Update the `**Status:**` line in `tasks/<task>/plan.md` from `Draft` to `Approved` — invoking `/mon:implement` implies the human has reviewed the plan.
+
 Note: `CLAUDE.md` is already in context (loaded as a workspace rule) — do not re-read it.
 
 For each project in the plan's Files Modified tables, read if they exist:
@@ -47,7 +49,7 @@ Extract and hold:
 
 ### 2. Generate execution.md
 
-Parse each phase from the plan and create `tasks/<task>/execution.md` using `templates/execution.md`.
+Parse each phase from the plan and create `tasks/<task>/execution.md` using `templates/execution.md`, including the `**Status:** In Progress` line under the title.
 
 **For each phase:**
 
@@ -175,7 +177,7 @@ Before pushing to any remote:
 | Build/compilation error | Read error, attempt fix, re-verify | 2 attempts then stop |
 | Test failure | Diagnose real bug vs test issue | 2 attempts then stop |
 | Environment issue (tools, permissions) | Stop, present to user | — |
-| Plan is wrong (assumption fails) | Mark BLOCKED, suggest amendment | — |
+| Plan is wrong (assumption fails) | Mark BLOCKED, update the top `**Status:**` line to `Blocked`, suggest amendment | — |
 
 **Emergent phases:** When execution reveals unanticipated work:
 
@@ -189,12 +191,13 @@ After all phases:
 
 1. Run end-to-end verification from the plan's Verification section
 2. Cross-reference against spec acceptance criteria
-3. Append summary to execution.md:
+3. Update the top `**Status:**` line to `Complete` (all phases done) or `Partial` (some phases outstanding)
+4. Append summary to execution.md:
 
 ```
 ## Summary
 
-**Status:** Complete | Partial (N of M phases done)
+_N of M phases done._
 
 ### Outstanding items
 - [ ] [Items requiring human action]

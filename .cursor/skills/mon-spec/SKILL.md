@@ -102,6 +102,8 @@ Create `tasks/<task>/spec.md` with these sections:
 ```markdown
 # Spec: <task-name>
 
+**Status:** Draft
+
 ## Problem Statement
 
 [Clear description of what needs to change and why. Include impact —

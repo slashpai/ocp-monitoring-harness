@@ -32,6 +32,8 @@ Read these files in order:
 tasks/<task>/spec.md
 ```
 
+Update the `**Status:**` line in `tasks/<task>/spec.md` from `Draft` to `Approved` — invoking `/mon:plan` implies the human has reviewed the spec.
+
 Note: `CLAUDE.md` is already in context (loaded as a workspace rule) — do not re-read it.
 
 For each project listed in the spec's "Related Projects" section, read if they exist:
@@ -139,7 +141,7 @@ If the user's clarifying-question answers indicate no test cluster is available,
 
 ### 6. Write plan.md
 
-Use `templates/plan.md` as the base. Every section is required:
+Use `templates/plan.md` as the base, including the `**Status:** Draft` line under the title. Every section is required:
 
 - **Problem** — motivation, not just what changes
 - **Current State** table — what exists before the change

@@ -1,5 +1,7 @@
 # Execution: [Task Name from plan title]
 
+**Status:** In Progress | Blocked | Complete | Partial
+
 > Results are annotated inline: `-- **value**` for discovered values, `-- **passes/FAILED**` for verification.
 
 ## Phase 1: [Phase Name]
@@ -44,7 +46,7 @@ Depends on: Phase 2 | Parallel with: Phase 4 (different repo) | Type: configurat
 
 ## Summary
 
-**Status:** Complete | Partial (N of M phases done)
+_N of M phases done. Update the **Status** field at the top of this document to reflect final state._
 
 ### Outstanding items
 
