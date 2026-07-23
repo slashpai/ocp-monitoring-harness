@@ -98,10 +98,11 @@ For each repo in scope, investigate:
 | E2E test | `test/e2e/<component>_test.go` |
 
   For **component targets** (not CMO), skip the CMO patterns above. Instead:
-  - Read `projects/<component>/Makefile` for build/test/lint commands
-  - Read `projects/<component>/CLAUDE.md` or `AGENTS.md` for project conventions
-  - Identify the component's own test patterns (e.g., `go test ./...`, `make test`, etc.)
-  - Check for component-specific CI requirements (e.g., `make lint`, `make format`)
+
+- Read `projects/<component>/Makefile` for build/test/lint commands
+- Read `projects/<component>/CLAUDE.md` or `AGENTS.md` for project conventions
+- Identify the component's own test patterns (e.g., `go test ./...`, `make test`, etc.)
+- Check for component-specific CI requirements (e.g., `make lint`, `make format`)
 
 **Critical:** Every file path MUST exist in `projects/` (verify with glob/grep). Never guess paths.
 

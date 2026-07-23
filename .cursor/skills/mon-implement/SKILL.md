@@ -136,6 +136,7 @@ Process phases in dependency order.
 **For component repos (not CMO):**
 
 Read `projects/<component>/Makefile`, `CLAUDE.md`, or `AGENTS.md` for:
+
 - Build command (e.g., `make build`, `go build ./...`)
 - Test command (e.g., `make test`, `go test ./...`)
 - Lint/format command (e.g., `make lint`, `make format`)
@@ -207,4 +208,4 @@ After all phases:
 |------|-----------|--------|-------------|
 ```
 
-4. Present git state per project and suggest next steps (create PR, push to fork)
+1. Present git state per project and suggest next steps (create PR, push to fork)

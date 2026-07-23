@@ -23,6 +23,7 @@ A PR number or GitHub PR URL.
 ```
 
 **Validate input:**
+
 - **PR number** — must be a positive integer
 - **URL** — must match `https://github.com/<org>/<repo>/pull/<number>`. Reject URLs that don't point to `github.com` or don't follow this pattern.
 

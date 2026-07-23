@@ -1,6 +1,5 @@
 # Plan: [Task Name]
 
-
 ## Problem
 
 _Why this change is needed. Link upstream issues if relevant. Explain the business or technical motivation._

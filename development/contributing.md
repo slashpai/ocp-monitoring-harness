@@ -27,7 +27,7 @@ git remote add upstream https://github.com/openshift/cluster-monitoring-operator
 git remote set-url --push upstream no_push
 ```
 
-3. Build:
+1. Build:
 
 ```bash
 make build

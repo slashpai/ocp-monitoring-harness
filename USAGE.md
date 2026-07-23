@@ -83,6 +83,7 @@ Skills automate each phase. You review between phases and approve before the nex
 ```
 
 The agent will:
+
 - Create `tasks/disable-kubelet-endpoints/`
 - Explore `projects/` to find relevant files and verify current behavior
 - Look up `architecture/repo-mapping.md` to determine contribution target
@@ -96,6 +97,7 @@ The agent will:
 ```
 
 The agent will:
+
 - Read the spec and system context (`CLAUDE.md`, component docs)
 - Ask 5-10 clarifying questions (scope, testing, target branch)
 - After your answers, explore the codebase for real file paths
@@ -109,6 +111,7 @@ The agent will:
 ```
 
 The agent will:
+
 - Parse the plan into `execution.md` with checkboxes
 - Present an execution summary (phases, repos, git strategy) and **wait for your confirmation**
 - Execute phases in dependency order — handles jsonnet regeneration, TDD for Go, push safety
