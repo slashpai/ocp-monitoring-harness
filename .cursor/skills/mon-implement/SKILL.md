@@ -47,9 +47,19 @@ Extract and hold:
 - Per-project build/test commands from CLAUDE.md
 - Spec acceptance criteria
 
-### 2. Generate execution.md
+### 2. Generate or resume execution.md
 
-Parse each phase from the plan and create `tasks/<task>/execution.md` using `templates/execution.md`, including the `**Status:** In Progress` line under the title.
+**If `tasks/<task>/execution.md` already exists:** This is a **resume**. Read both the existing `execution.md` and the current `plan.md`. Compare the phase structure (phase count, names, file lists) between the two:
+
+- **If phases match:** Standard resume. Scan for the first phase with unchecked items (`- [ ]`). Preserve all existing content and annotations — do not regenerate. Skip to step 3 with a resume summary.
+- **If phases diverge** (plan was revised — phases added, removed, renamed, or files changed in incomplete phases): Stop and tell the user what changed. Ask whether to:
+  - Regenerate execution.md from the revised plan (completed phases are lost)
+  - Keep the current execution.md and ignore plan changes (user takes responsibility)
+  - Merge — preserve completed phases, regenerate only the incomplete ones from the revised plan
+
+Do NOT silently resume with a stale execution.md when the plan has changed.
+
+**If `tasks/<task>/execution.md` does not exist:** Generate it from scratch. Parse each phase from the plan and create it using `templates/execution.md`, including the `**Status:** In Progress` line under the title.
 
 **For each phase:**
 
@@ -80,7 +90,9 @@ Save `tasks/<task>/execution.md`.
 
 ### 3. Present execution strategy
 
-Before executing, present a summary and wait for confirmation:
+Before executing, present a summary and wait for confirmation.
+
+**For a fresh run:**
 
 ```
 ## Execution Summary
@@ -102,7 +114,29 @@ Before executing, present a summary and wait for confirmation:
 Proceed?
 ```
 
-Wait for user approval before executing.
+**For a resume:**
+
+```
+## Resuming Execution
+
+### Completed phases
+- Phase 1: [Phase Name] — [key result or commit, from annotations]
+- Phase 2: [Phase Name] — [key result]
+- ...
+
+### Resuming from
+- Phase M: [Phase Name] — [what it will do]
+
+### Remaining
+- Phase M+1: [Phase Name]
+- ...
+
+**Projects touched (remaining):** [list]
+
+Proceed from Phase M?
+```
+
+Stop here. Do NOT execute any phase until the user explicitly approves.
 
 ### 4. Execute phases
 
@@ -144,13 +178,13 @@ Read `projects/<component>/Makefile`, `CLAUDE.md`, or `AGENTS.md` for:
 - Lint/format command (e.g., `make lint`, `make format`)
 - Any pre-commit hooks or CI checks
 
-**d. Human review before committing** — after completing a phase's changes, **stop and present the following to the user before committing:**
+**d. Human review before committing** — after completing a phase's changes, you MUST stop and present the following to the user. Do NOT run `git commit` until the user explicitly approves:
 
 1. The files changed (`git diff --stat`)
 2. A summary of what changed and why
 3. The proposed commit message
 
-Wait for explicit user approval before running `git commit`. Never commit autonomously.
+Stop here. Do not proceed until the user says to commit.
 
 **e. Annotate results inline** in execution.md:
 
@@ -174,9 +208,10 @@ Before pushing to any remote:
 3. If `fork` remote is missing, add it: `git remote add fork <url-from-plan>`
 4. If `fork` exists but URL does not match the plan, **stop and ask**
 5. Confirm the push target URL contains the **user's GitHub username** (e.g., `github.com/<user>/<repo>`). If it doesn't, **stop and ask** — it's not their fork. Cross-check against `architecture/repo-mapping.md`: if the URL matches any upstream or downstream org listed there, reject it.
-6. Push with `git push fork <branch>` only
-7. **Never** `git push origin` — `origin` in submodules points to the OpenShift fork
-8. PR target (from plan): `openshift/<repo>` for downstream, community repo for upstream (see `architecture/repo-mapping.md`)
+6. **Stop and present the push to the user.** Show the exact command (`git push fork <branch>`), the remote URL, and the branch name. Do NOT run `git push` until the user explicitly approves. Stop here and wait.
+7. After user approval, push with `git push fork <branch>` only
+8. **Never** `git push origin` — `origin` in submodules points to the OpenShift fork
+9. PR target (from plan): `openshift/<repo>` for downstream, community repo for upstream (see `architecture/repo-mapping.md`)
 
 ### 6. Handle failures
 
@@ -219,4 +254,13 @@ _N of M phases done._
 |------|-----------|--------|-------------|
 ```
 
-1. Present git state per project and suggest next steps (create PR, push to fork)
+5. Present git state per project, then ask the user how to proceed:
+
+```
+How would you like to handle the PR?
+- I'll create the PR for you (I'll show the title, body, and target branch for approval first)
+- I'll prepare the PR details but you create it manually
+- Skip — I'll handle it myself later
+```
+
+Stop here. Do NOT create a PR or run `gh pr create` unless the user picks the first option and approves the details.

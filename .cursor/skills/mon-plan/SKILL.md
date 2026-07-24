@@ -141,7 +141,9 @@ If the user's clarifying-question answers indicate no test cluster is available,
 
 ### 6. Write plan.md
 
-Use `templates/plan.md` as the base, including the `**Status:** Draft` line under the title. Every section is required:
+**If `tasks/<task>/plan.md` already exists:** This is a **revision**. Read the existing plan, show the user what already exists (phases, PR strategy, risks), and ask whether to update specific sections or regenerate from scratch. Do not overwrite without confirmation. **Never delete or modify `execution.md`** — that is `mon-implement`'s responsibility.
+
+**If `tasks/<task>/plan.md` does not exist:** Use `templates/plan.md` as the base, including the `**Status:** Draft` line under the title. Every section is required:
 
 - **Problem** — motivation, not just what changes
 - **Current State** table — what exists before the change

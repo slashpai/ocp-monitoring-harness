@@ -97,7 +97,9 @@ Flag ambiguities that should be resolved during planning, not guessed at during 
 
 ### 6. Write spec.md
 
-Create `tasks/<task>/spec.md` with these sections:
+**If `tasks/<task>/spec.md` already exists:** This is a **revision**. Read the existing spec, show the user what already exists, and ask whether to update specific sections or regenerate from scratch. Do not overwrite without confirmation.
+
+**If `tasks/<task>/spec.md` does not exist:** Create it with these sections:
 
 ```markdown
 # Spec: <task-name>
