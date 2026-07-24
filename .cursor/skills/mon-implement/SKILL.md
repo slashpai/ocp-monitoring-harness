@@ -123,7 +123,7 @@ Process phases in dependency order.
 1. Edit the `.libsonnet` file(s)
 2. Run `make jsonnet-fmt generate` in `projects/cluster-monitoring-operator/`
 3. Verify the asset diff matches the jsonnet change
-4. Stage and commit sources + regenerated assets together
+4. Present changes for user review (step 4d) — sources + regenerated assets commit together
 5. Never edit `assets/*.yaml` directly
 
 **For `implementation` phases (Go — any repo):**
@@ -144,7 +144,15 @@ Read `projects/<component>/Makefile`, `CLAUDE.md`, or `AGENTS.md` for:
 - Lint/format command (e.g., `make lint`, `make format`)
 - Any pre-commit hooks or CI checks
 
-**d. Annotate results inline** in execution.md:
+**d. Human review before committing** — after completing a phase's changes, **stop and present the following to the user before committing:**
+
+1. The files changed (`git diff --stat`)
+2. A summary of what changed and why
+3. The proposed commit message
+
+Wait for explicit user approval before running `git commit`. Never commit autonomously.
+
+**e. Annotate results inline** in execution.md:
 
 ```
 - [x] Check latest release tag -- **v0.78.1**
@@ -153,7 +161,7 @@ Read `projects/<component>/Makefile`, `CLAUDE.md`, or `AGENTS.md` for:
 - [ ] Deploy on test cluster -- [HUMAN]
 ```
 
-**e. Handle human-action phases** — present what needs to happen and wait for confirmation.
+**f. Handle human-action phases** — present what needs to happen and wait for confirmation.
 
 ### 5. Push safety (before any push)
 
