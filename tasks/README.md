@@ -56,7 +56,7 @@ Define the problem before solving it. Use [templates/spec.md](../templates/spec.
 
 The agent builds a plan grounded in real code from `projects/` submodules:
 
-- Produces a **repository impact map** (see `.cursor/rules/05-planning-workflow.mdc`)
+- Produces a **repository impact map** (via `/mon:plan` skill or `.cursor/rules/05-planning-workflow.mdc`)
 - Breaks work into **structured tasks** (see [templates/plan.md](../templates/plan.md))
 - Lists steps in dependency order
 
