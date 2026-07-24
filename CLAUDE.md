@@ -1,6 +1,6 @@
 # OCP Monitoring Harness
 
-This repository is a **knowledge harness** for the OpenShift Cluster Monitoring Operator (CMO) and all components it deploys. It provides structured knowledge to help with development, architecture understanding, and troubleshooting.
+This repository is a **structured workspace** for the OpenShift Cluster Monitoring Operator (CMO) and all components it deploys. It provides structured context, workflows, and code to help with development, architecture understanding, and troubleshooting.
 
 ## Repository Layout
 
@@ -123,9 +123,9 @@ For non-trivial changes, follow the spec → plan → execution workflow. Task d
 
 Each phase requires an explicit prompt and a human review gate before the next phase.
 
-**Implementation** — prefer **Mode A** (edit in `projects/<repo>/`, push only to `fork`, then `make reset-projects`). **Mode B** (external fork clone at a local path the user specifies) is fine when the fork is outside this workspace.
+**Implementation** — edit in `projects/<repo>/`, push only to `fork`, then `make reset-projects`.
 
-**Mode A push safety:** submodules fetch from openshift/\* (`origin`). **Never push to OpenShift directly** — not `origin`, not `upstream`, not any remote with a `github.com/openshift/*` URL, and not a bare push to an openshift URL. Use `Push remote: fork (<url>)` from the Phase 3 prompt; add or verify `fork` before pushing. If the URL is missing or `fork` does not match the prompt, stop and ask. Push with `git push fork <branch>` only; open PRs to the repo in `PR target:`.
+**Push safety:** submodules fetch from openshift/\* (`origin`). **Never push to OpenShift directly** — not `origin`, not `upstream`, not any remote with a `github.com/openshift/*` URL, and not a bare push to an openshift URL. Use `Push remote: fork (<url>)` from the Phase 3 prompt; add or verify `fork` before pushing. If the URL is missing or `fork` does not match the prompt, stop and ask. Push with `git push fork <branch>` only; open PRs to the repo in `PR target:`.
 
 **Always search `projects/` submodules for real file paths and symbols** before creating impact maps or plans. Never guess.
 
@@ -139,11 +139,11 @@ Custom Cursor skills automate the spec-plan-execution pipeline:
 |-------|---------|---------|
 | `mon-spec` | `/mon:spec <task> "<description>"` | Create structured spec from Jira/description with verified current behavior |
 | `mon-plan` | `/mon:plan <task>` | Spec → phased plan with impact map, jsonnet awareness, push safety |
-| `mon-implement` | `/mon:implement <task>` | Plan → execution with parallel agents, TDD, fork verification |
+| `mon-implement` | `/mon:implement <task>` | Executes plan with 4 human gates (start, commit, push, PR); resume-aware |
 | `mon-review` | `/mon:review <PR>` | Multi-domain PR review (Go, jsonnet, config API, tests) |
-| `mon-diagnostic` | `/mon:diagnostic <task or symptom>` | Bug diagnosis with obs-mcp integration |
+| `mon-diagnostic` | `/mon:diagnostic "symptom"` | Bug diagnosis with per-command consent before any cluster query |
 
-Skill definitions live in `.cursor/skills/`. Claude Code users: follow the same workflow manually using `CLAUDE.md` context and the templates in `templates/`.
+Skill definitions live in `.cursor/skills/`.
 
 ## Source Code Access
 

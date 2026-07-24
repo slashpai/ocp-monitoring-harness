@@ -50,12 +50,9 @@ Track progress during implementation:
 - Notes on decisions, blockers, deviations
 - Links to commits and PRs
 
-**Implementation location (choose one):**
+**Implementation:** edit in `projects/<repo>/` submodules; push only to a `fork` remote; run `make reset-projects` after the PR is pushed.
 
-- **Mode A (default):** edit in `projects/<repo>/` submodules; push only to a `fork` remote; run `make reset-projects` after the PR is pushed
-- **Mode B:** edit in the user's external fork clone (local path and branch they specify); use `projects/` only for reading during planning
-
-### Mode A push safety (required)
+### Push safety (required)
 
 `projects/` submodules clone from **openshift/\*** (`origin` is upstream). **Never push to OpenShift directly** — no `git push origin`, no push to any remote whose URL is `github.com/openshift/*` (including remotes named `upstream` or `openshift`), and no `git push` to an openshift URL. Contributors do not have push access; changes go through the user's fork and a PR.
 
@@ -69,7 +66,7 @@ Before the first push in a submodule:
 
 ## Resetting Submodules
 
-After Mode A work, submodules may have feature branches or uncommitted changes. From the harness root:
+After implementation, submodules may have feature branches or uncommitted changes. From the harness root:
 
 ```bash
 make reset-projects

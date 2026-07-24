@@ -3,18 +3,21 @@
 > [!NOTE]
 > This project is under active development. Content may be incomplete or change without notice.
 
-A knowledge harness for the OpenShift [Cluster Monitoring Operator (CMO)](https://github.com/openshift/cluster-monitoring-operator) and all components it deploys.
+A structured workspace for the OpenShift [Cluster Monitoring Operator (CMO)](https://github.com/openshift/cluster-monitoring-operator) and all components it deploys.
 
 This repository gives an AI coding agent deep domain knowledge about the OpenShift monitoring stack — architecture, development workflows, operational troubleshooting, PromQL query patterns, and per-component references — so it can effectively assist with development, debugging, and incident investigation.
 
 ## Quick Start
 
 1. Fork and clone with submodules — see [USAGE.md](USAGE.md#getting-started)
-2. Open in [Cursor](https://cursor.com) or [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
+2. Open in [Cursor](https://cursor.com)
 3. Follow the workflow in [USAGE.md](USAGE.md) — spec → plan → execution with human review gates
 
 > [!IMPORTANT]
-> This harness is optimized for **Cursor**. Cursor rules (`.cursor/rules/`), skills, and subagents (e.g., `/review-security`) provide the full experience — on-demand context loading, security checks, and structured workflows. **Claude Code** users get project context from `CLAUDE.md` but do not have access to cursor rules, skills, or subagents.
+> This harness is built for **[Cursor](https://cursor.com)**. Cursor rules (`.cursor/rules/`), skills, and subagents (e.g., `/review-security`) provide the full experience — on-demand context loading, security checks, and structured workflows.
+
+> [!NOTE]
+> **[Claude Code](https://docs.anthropic.com/en/docs/claude-code)** support is planned but not yet tested. `CLAUDE.md` provides project context, but skills and rules are Cursor-specific. Claude Code compatibility is a future goal.
 
 ## Components Covered
 
@@ -49,14 +52,14 @@ tasks/                  Active tasks (spec → plan → execution) — local, gi
 completed/              Archived completed tasks — local, gitignored
 templates/              Structured task templates (spec, plan, execution)
 CHANGELOG.md            Notable changes per release
-CLAUDE.md               Project context for Claude Code users
+CLAUDE.md               Project context summary (CMO architecture, workflow, troubleshooting)
 CONVENTIONS.md          Coding and contribution conventions for CMO
 USAGE.md                How to use this harness with an AI agent
 ```
 
 ## Projects (Git Submodules)
 
-The `projects/` directory contains git submodules for CMO and every component it deploys. Use them for planning and (by default) implementation — see [USAGE.md](USAGE.md#choosing-a-mode) for Mode A vs Mode B (single-task vs parallel work on the same repo).
+The `projects/` directory contains git submodules for CMO and every component it deploys. Use them for planning and implementation — see [USAGE.md](USAGE.md) for the full workflow.
 
 | Submodule | Repository |
 |---|---|
@@ -82,9 +85,9 @@ Custom skills automate the spec-plan-execution pipeline. Invoke them by name in 
 |-------|---------|--------------|
 | `mon-spec` | `/mon:spec <task> "<description>"` | Creates `spec.md` from a Jira ticket or description, explores `projects/` to verify current behavior |
 | `mon-plan` | `/mon:plan <task>` | Reads `spec.md`, explores `projects/`, asks clarifying questions, generates a phased `plan.md` |
-| `mon-implement` | `/mon:implement <task>` | Parses `plan.md` into `execution.md`, implements phases with TDD and push safety |
+| `mon-implement` | `/mon:implement <task>` | Executes plan with 4 human gates (start, commit, push, PR); resume-aware |
 | `mon-review` | `/mon:review <PR>` | Multi-domain PR review: Go, jsonnet, config API, tests, asset consistency |
-| `mon-diagnostic` | `/mon:diagnostic <symptom>` | Bug diagnosis using obs-mcp (live) or oc/PromQL (offline) |
+| `mon-diagnostic` | `/mon:diagnostic <symptom>` | Bug diagnosis with per-command consent before any cluster query |
 
 Skills work for CMO, downstream component forks (`openshift/*`), and upstream contributions. They live in `.cursor/skills/` and are committed to the repo. See [USAGE.md](USAGE.md#skills) for details.
 
@@ -92,7 +95,7 @@ Skills work for CMO, downstream component forks (`openshift/*`), and upstream co
 
 | Document | Purpose |
 |---|---|
-| [USAGE.md](USAGE.md) | Workflow, example prompts, where code changes go, agentic SDLC mapping |
+| [USAGE.md](USAGE.md) | Workflow, example prompts, where code changes go |
 | [tasks/README.md](tasks/README.md) | Local task workflow (spec → plan → execution) |
 | [development/](development/) | Contributing to CMO — jsonnet, tests, alerts, metrics |
 | [architecture/](architecture/) | Cross-cutting CMO architecture |
@@ -104,9 +107,10 @@ Initial harness documentation was drafted with AI assistance ([Claude Opus 4.6](
 
 ## References
 
+- [Harness Engineering](https://developers.redhat.com/articles/2026/04/07/harness-engineering-structured-workflows-ai-assisted-development) — the approach behind this project
+- [observability-ui/harness](https://github.com/observability-ui/harness) — the original harness that inspired this workflow
 - [CMO AGENTS.md](https://github.com/openshift/cluster-monitoring-operator/blob/main/AGENTS.md)
 - [OpenShift Monitoring Docs](https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/monitoring/)
-- [Harness Engineering](https://developers.redhat.com/articles/2026/04/07/harness-engineering-structured-workflows-ai-assisted-development)
 
 ## License
 

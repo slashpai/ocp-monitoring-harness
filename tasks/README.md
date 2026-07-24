@@ -72,9 +72,7 @@ Track progress during implementation using [templates/execution.md](../templates
 
 ## Where Implementation Happens
 
-Two supported modes — see [USAGE.md](../USAGE.md#choosing-a-mode) for when to use each. **Mode A** suits one task at a time per repo; **Mode B** suits parallel work on the same component.
-
-### Mode A — Submodule (recommended)
+Implement directly in `projects/<repo>/` submodules. See [USAGE.md](../USAGE.md#where-code-changes-go) for the full walkthrough.
 
 | Step | Location |
 |---|---|
@@ -84,7 +82,7 @@ Two supported modes — see [USAGE.md](../USAGE.md#choosing-a-mode) for when to 
 | Open PR | Upstream repo (e.g. `openshift/cluster-monitoring-operator`) |
 | Cleanup | `make reset-projects` from harness root (after push) |
 
-Include your fork URL in the Phase 3 prompt (`Push remote: fork (<url>)`); the agent configures `fork` on push — no separate setup step. See [USAGE.md](../USAGE.md) for the full walkthrough.
+Include your fork URL in the Phase 3 prompt (`Push remote: fork (<url>)`); the agent configures `fork` on push — no separate setup step.
 
 Example Phase 3 prompt:
 
@@ -94,24 +92,6 @@ Branch: bugfix-1234
 Push remote: fork (https://github.com/<you>/cluster-monitoring-operator)
 PR target: openshift/cluster-monitoring-operator
 ```
-
-### Mode B — External fork clone
-
-Use when the fork is outside this workspace or you want submodules untouched.
-
-| Purpose | Location |
-|---|---|
-| Read source for planning | `projects/<component>/` submodules (`make submodule-update` before planning) |
-| Edit, commit, test, and push | Your fork clone — sync with `upstream/main` before each task |
-| Open PR | Upstream repo |
-
-```text
-Implementation repo: ~/github.com/<you>/cluster-monitoring-operator
-Branch: bugfix-1234
-PR target: openshift/cluster-monitoring-operator
-```
-
-See [USAGE.md](../USAGE.md#where-code-changes-go) for sync commands and full details.
 
 ## Completed Tasks
 

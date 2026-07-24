@@ -16,11 +16,10 @@ Task directories under `tasks/` are **local working documents** and are gitignor
 
 ## Prerequisites
 
-- [Cursor](https://cursor.com) or [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
+- [Cursor](https://cursor.com)
 - `git` with submodule support
 - `podman` or `docker` (for markdown linting only)
 - A GitHub fork of each **component** repo you will change (e.g. `cluster-monitoring-operator`) — for opening PRs
-- Mode B only: a separate local checkout of that fork (e.g. `~/github.com/<you>/cluster-monitoring-operator`)
 
 ## Getting Started
 
@@ -32,9 +31,9 @@ Task directories under `tasks/` are **local working documents** and are gitignor
    make submodule-init   # if submodules were not cloned recursively
    ```
 
-2. Open the repo in your AI coding tool:
-   - **Cursor** — `.cursor/rules/` feeds the agent context automatically; `.cursor/skills/` provides workflow commands (`/mon:plan`, `/mon:implement`, etc.) — see [Skills](#skills)
-   - **Claude Code** — `CLAUDE.md` is automatically read for project context
+2. Open the repo in [Cursor](https://cursor.com):
+   - `.cursor/rules/` feeds the agent context automatically
+   - `.cursor/skills/` provides workflow commands (`/mon:plan`, `/mon:implement`, etc.) — see [Skills](#skills)
 
    > **Rules vs Skills:** Rules are always-on guardrails (push safety, commit conventions, security) — loaded automatically every interaction. Skills are structured workflows (`/mon:spec`, `/mon:plan`) — invoked explicitly when needed. Both are committed to the repo so every team member gets the same experience.
 
@@ -51,13 +50,13 @@ Agent creates tasks/<name>/spec.md     ← you review
         ↓
 Agent creates tasks/<name>/plan.md      ← you review (required gate)
         ↓
-Agent implements (submodule or fork)    ← see "Where Code Changes Go"
+Agent implements in projects/<repo>/     ← see "Where Code Changes Go"
         ↓
 Agent updates tasks/<name>/execution.md ← audit trail (local)
         ↓
 PR opened in target repo                ← Jira/GitHub are system of record
         ↓
-make reset-projects (Mode A only)       ← reset submodules after PR is pushed
+make reset-projects                     ← reset submodules after PR is pushed
 ```
 
 **Default:** you prompt → agent drafts `spec.md` → you review → you prompt again → agent drafts `plan.md` → you review → you prompt again → agent implements.
@@ -87,7 +86,7 @@ The agent will:
 - Create `tasks/disable-kubelet-endpoints/`
 - Explore `projects/` to find relevant files and verify current behavior
 - Look up `architecture/repo-mapping.md` to determine contribution target
-- Generate `tasks/disable-kubelet-endpoints/spec.md` with problem statement, current behavior table, acceptance criteria, and open questions
+- Generate `tasks/disable-kubelet-endpoints/spec.md` with problem statement, current behavior table, acceptance criteria, and open questions (or if `spec.md` already exists, show what's there and ask whether to update or regenerate)
 - **Stop and wait for your review**
 
 **Step 2 — Review `spec.md`, then generate the plan:**
@@ -101,7 +100,7 @@ The agent will:
 - Read the spec and system context (`CLAUDE.md`, component docs)
 - Ask 5-10 clarifying questions (scope, testing, target branch)
 - After your answers, explore the codebase for real file paths
-- Generate `tasks/disable-kubelet-endpoints/plan.md` with phased changes, verification steps, PR strategy, and risks
+- Generate `tasks/disable-kubelet-endpoints/plan.md` with phased changes, verification steps, PR strategy, and risks (or if `plan.md` already exists, show what's there and ask whether to update or regenerate)
 - **Stop and wait for your review**
 
 **Step 3 — Review `plan.md`, then implement:**
@@ -112,11 +111,22 @@ The agent will:
 
 The agent will:
 
-- Parse the plan into `execution.md` with checkboxes
-- Present an execution summary (phases, repos, git strategy) and **wait for your confirmation**
-- Execute phases in dependency order — handles jsonnet regeneration, TDD for Go, push safety
+- Parse the plan into `execution.md` with checkboxes and **wait for your confirmation** before executing
+- If `execution.md` already exists: detect whether the plan has changed — if so, ask how to handle it (regenerate, keep, or merge); if unchanged, resume from the first incomplete phase with a summary of what was already done
+- Execute phases in dependency order — handles jsonnet regeneration, TDD for Go
+- **Stop before every commit** — presents `git diff`, summary, and proposed message; waits for approval
+- **Stop before every push** — presents the exact `git push` command, remote URL, and branch; waits for approval
+- **Stop before creating a PR** — asks whether to create it for you, prepare details for manual creation, or skip
 - Track progress with inline annotations (`-- **passes**`, `-- **FAILED: reason**`)
 - Push only to your fork (never to `openshift/*` or upstream orgs)
+
+**Resuming a partially completed task:**
+
+```text
+/mon:implement disable-kubelet-endpoints
+```
+
+If `execution.md` already exists with completed phases, the agent preserves all prior work, shows what was done, and picks up from the next incomplete phase. If the plan was revised since the last run, the agent detects the divergence and asks before proceeding.
 
 **Step 4 (optional) — Review the resulting PR:**
 
@@ -130,9 +140,9 @@ The agent will:
 /mon:diagnostic "kube-state-metrics pod in openshift-monitoring panics and enters CrashLoopBackOff when it encounters a CronJob that uses the .spec.timeZone field (or the legacy CRON_TZ= prefix in .spec.schedule)"
 ```
 
-#### With manual prompts (Cursor or Claude Code)
+#### With manual prompts
 
-If you prefer manual prompts or are using Claude Code (which doesn't have skills), copy the fenced `text` blocks below. Each phase gives the agent **intent**; it fills `spec.md` / `plan.md` from `templates/` and `projects/`.
+If you prefer manual prompts instead of skills, copy the fenced `text` blocks below. Each phase gives the agent **intent**; it fills `spec.md` / `plan.md` from `templates/` and `projects/`.
 
 <details>
 <summary>Phase 1 — spec only (OCPBUGS-85522)</summary>
@@ -168,7 +178,7 @@ Stop before any implementation or execution.md updates so I can review the plan.
 </details>
 
 <details>
-<summary>Phase 3 — implement (after you approve the plan), Mode A — submodule</summary>
+<summary>Phase 3 — implement (after you approve the plan)</summary>
 
 ```text
 Plan approved for disable-kubelet-endpoints (OCPBUGS-85522).
@@ -181,26 +191,6 @@ Push remote: fork (https://github.com/<you>/cluster-monitoring-operator)
 
 Track progress in tasks/disable-kubelet-endpoints/execution.md.
 Open the PR when ready. I will run make reset-projects after the PR is pushed.
-```
-
-</details>
-
-<details>
-<summary>Phase 3 — implement (Mode B — external fork clone)</summary>
-
-```text
-Plan approved for disable-kubelet-endpoints (OCPBUGS-85522).
-
-Implement per tasks/disable-kubelet-endpoints/plan.md.
-Implementation repo (local path): ~/github.com/<you>/cluster-monitoring-operator
-Branch: OCPBUGS-85522
-PR target: openshift/cluster-monitoring-operator
-
-Sync with upstream/main before branching. Use projects/ in this harness only
-for reading during planning; edit only in the implementation repo path above.
-
-Track progress in tasks/disable-kubelet-endpoints/execution.md.
-Open the PR when ready.
 ```
 
 </details>
@@ -238,23 +228,11 @@ Ask in chat. The agent reads `architecture/`, `components/`, and `projects/` as 
 
 | Change | Where to implement | Where to open PR |
 |---|---|---|
-| CMO manifest, config API, operator logic | `projects/cluster-monitoring-operator` (Mode A) or `~/github.com/<you>/cluster-monitoring-operator` (Mode B) | `openshift/cluster-monitoring-operator` |
-| Upstream component fix | `projects/<component>` (Mode A) or `~/github.com/<you>/<component>` (Mode B) | Community repo or OpenShift fork |
+| CMO manifest, config API, operator logic | `projects/cluster-monitoring-operator` | `openshift/cluster-monitoring-operator` |
+| Upstream component fix | `projects/<component>` | Community repo or OpenShift fork |
 | Harness docs only | This repo (`architecture/`, `components/`, etc.) | This repo |
 
-### Choosing a mode
-
-| | Mode A — submodule | Mode B — external fork |
-|---|---|---|
-| **Best for** | One active task, one workspace; plan paths match edit paths | Parallel tasks on the **same** repo, or fork outside the harness workspace |
-| **Same repo, two tasks** | One branch per submodule — finish, push, and `make reset-projects` before the next task, or use `git worktree` / a second harness clone | Separate clone per task (e.g. `~/cmo-bugfix-1234`, `~/cmo-feature-5678`) |
-| **Different repos in parallel** | Fine — e.g. CMO in `projects/cluster-monitoring-operator` and Thanos in `projects/thanos` at once | Fine — independent clones |
-| **Cleanup** | `make reset-projects` resets **all** submodules (push first) | Harness submodules stay on upstream; no reset needed |
-| **Complexity** | Lower — no second path in Phase 3 prompts | Higher — sync fork with upstream; specify local path each time |
-
-**Rule of thumb:** default to Mode A for a single focused task. Switch to Mode B when you need concurrent work on the same component repo, or when the implementation checkout must live outside this workspace.
-
-### Mode A — Submodule (recommended default)
+### How Implementation Works
 
 Implement directly in `projects/<repo>/`. Same paths as the plan impact map; one workspace for the agent.
 
@@ -270,40 +248,6 @@ make reset-projects
 
 `reset-projects` discards unpushed commits and uncommitted changes in every `projects/` submodule. Push before resetting.
 
-### Mode B — External fork clone
-
-Use when the fork lives outside this workspace or you prefer submodules to stay untouched.
-
-- **Read** source from `projects/` when building impact maps (same as Mode A) — run `make submodule-update` in the harness before planning so submodules match current upstream
-- **Edit, commit, test, and push** in a separate checkout — give the agent **local path**, **branch**, and **PR target** in the Phase 3 prompt
-- **Sync that checkout with upstream before each task** — plans are built from harness submodules; a stale fork causes wrong baselines and painful merges
-
-**One-time setup** — `upstream` points at the OpenShift repo; `origin` is your fork (typical clone layout):
-
-```bash
-cd ~/github.com/<you>/cluster-monitoring-operator
-git remote add upstream https://github.com/openshift/cluster-monitoring-operator.git  # if missing
-```
-
-**Per task** — update from upstream, then branch:
-
-```bash
-cd ~/github.com/<you>/cluster-monitoring-operator
-git fetch upstream
-git checkout main
-git merge upstream/main
-git checkout -b bugfix-1234
-# edit, test, commit
-git push origin bugfix-1234
-# open PR: <you>/cluster-monitoring-operator → openshift/cluster-monitoring-operator
-```
-
-```text
-Implementation repo (local path): ~/github.com/<you>/cluster-monitoring-operator
-Branch: bugfix-1234
-PR target: openshift/cluster-monitoring-operator
-```
-
 For Jsonnet changes in CMO: edit `jsonnet/components/*.libsonnet`, run `make jsonnet-fmt generate`, commit sources and regenerated `assets/` together. Never edit `assets/` by hand.
 
 ## Skills
@@ -314,11 +258,11 @@ Custom Cursor skills automate the spec-plan-execution pipeline. They encode moni
 |-------|---------|-------|--------|
 | Spec | `/mon:spec <task> "<description>"` | Task name + Jira/description | `tasks/<task>/spec.md` with verified current behavior |
 | Plan | `/mon:plan <task>` | `tasks/<task>/spec.md` | `tasks/<task>/plan.md` with impact map, phases, PR strategy |
-| Implement | `/mon:implement <task>` | `tasks/<task>/plan.md` | `tasks/<task>/execution.md` + implemented changes |
+| Implement | `/mon:implement <task>` | `tasks/<task>/plan.md` | `tasks/<task>/execution.md` + implemented changes; 4 human gates |
 | Review | `/mon:review <PR>` | PR number or URL | Structured review with severity levels |
-| Diagnostic | `/mon:diagnostic <task or symptom>` | Bug spec or inline symptom | Root cause diagnosis with evidence |
+| Diagnostic | `/mon:diagnostic "symptom"` | Inline symptom description | Root cause diagnosis with per-command consent |
 
-Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in `.cursor/skills/` and are committed to the repo so every team member gets the same commands. Claude Code users: follow the manual prompt workflow (see collapsible sections under [Workflows](#develop-or-fix-a-monitoring-component-non-trivial)).
+Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in `.cursor/skills/` and are committed to the repo so every team member gets the same commands.
 
 ## Agentic SDLC Fit
 
@@ -329,11 +273,11 @@ In a typical agentic SDLC, this harness covers the **context and planning substr
 | Intake / triage | `architecture/`, `components/` — map symptoms to components |
 | Spec | `tasks/<name>/spec.md` from [templates/spec.md](templates/spec.md) |
 | Plan | Impact map from `projects/` submodules — **human review gate** |
-| Implement | Mode A: `projects/<repo>/` submodule; Mode B: fork clone path you specify |
+| Implement | `projects/<repo>/` submodule — push to fork, PR to upstream |
 | Test | [development/testing.md](development/testing.md) — `make test-unit`, e2e, etc. |
 | Review | `plan.md` and `execution.md` document intent vs outcome |
 | Operate | CMO `assets/*/prometheus-rule.yaml`, `.cursor/rules/04-promql-patterns.mdc`, optional live MCP tools |
-| Cleanup | `make reset-projects` after Mode A tasks (push first) |
+| Cleanup | `make reset-projects` after tasks (push first) |
 
 ## Submodule Maintenance
 
@@ -344,4 +288,4 @@ make submodule-status    # show pinned commits
 make reset-projects      # discard local submodule changes; reset to .gitmodules branches
 ```
 
-Keep submodules current before planning. After Mode A implementation, run `make reset-projects` once the branch is pushed to your fork.
+Keep submodules current before planning. After implementation, run `make reset-projects` once the branch is pushed to your fork.
