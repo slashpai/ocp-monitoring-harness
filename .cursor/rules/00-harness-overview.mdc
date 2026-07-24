@@ -6,7 +6,7 @@ alwaysApply: false
 
 # OCP Monitoring Harness
 
-This repository is a **knowledge harness** for the OpenShift Cluster Monitoring Operator (CMO) and all components it deploys. It provides structured knowledge to help you assist with:
+This repository is a **structured workspace** for the OpenShift Cluster Monitoring Operator (CMO) and all components it deploys. It provides structured context, workflows, and code to help you assist with:
 
 - **Development**: Contributing code to CMO and its upstream components
 - **Architecture**: Understanding how the monitoring stack works end-to-end
