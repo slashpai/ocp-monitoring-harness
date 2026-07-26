@@ -6,30 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [v0.2.0] - 2026-07-26
+
 ### Added
 
-- Monitoring skill pipeline (`.cursor/skills/`) — five Cursor skills automating the full spec-plan-execution-review workflow for CMO, downstream components, and upstream contributions:
-  - `mon-spec` — create structured spec from Jira/description with verified current behavior
-  - `mon-plan` — spec to phased plan with impact map, jsonnet awareness, push safety
-  - `mon-implement` — plan to implementation with parallel agents, TDD, fork verification
-  - `mon-review` — multi-domain PR review (Go, jsonnet, config API, tests)
-  - `mon-diagnostic` — bug diagnosis with obs-mcp integration and troubleshooting methodology
+- Monitoring skill pipeline (`.cursor/skills/`) — five Cursor skills automating the full spec-plan-execution-review-diagnose workflow:
+  - `mon-spec` — create structured spec with verified current behavior; revision-aware (re-run offers update or regenerate)
+  - `mon-plan` — spec to phased plan with impact map, jsonnet awareness, push safety; revision-aware; never modifies `execution.md`
+  - `mon-implement` — plan to implementation with 4 human gates (execution start, every commit, every push, PR creation); resume-aware with plan divergence detection
+  - `mon-review` — multi-domain PR review (Go, jsonnet, config API, tests) with gh auth fallback
+  - `mon-diagnostic` — bug diagnosis with per-command consent before any cluster query; offers to generate spec from findings
 - Input validation in all skills — task name regex (`^[a-z0-9][a-z0-9-]*$`), PR URL format check
-- Security rule (`.cursor/rules/06-security.mdc`) — prevents secret exposure and documents `.cursor/` directory layout
-- Claude Code limitation note in `README.md`
-- Rules vs Skills explanation in `USAGE.md`
-- Skills documentation in `USAGE.md`, `README.md`, and `CLAUDE.md`
+- Status field tracking (`**Status:** Draft | Approved | In Progress | Complete`) across spec, plan, and execution documents
+- Security rule (`.cursor/rules/06-security.mdc`) — prevents secret exposure, documents `.cursor/` directory layout, includes secret review checklist for diffs
+- Commit conventions rule (`.cursor/rules/07-commit-conventions.mdc`) — DCO sign-off, GPG signatures, conventional commits
+- Skills documentation in `USAGE.md`, `README.md`, `CLAUDE.md`, and `tasks/README.md`
 
 ### Changed
 
-- `.gitignore` — ignore all `.cursor/` paths except `.cursor/rules/` and `.cursor/skills/`
-- `06-security.mdc` — updated to reflect `.cursor/skills/` is committed (not local-only), warn against storing secrets there
+- Renamed "knowledge harness" to "structured workspace" across all docs and rules
+- Simplified to Cursor-only — removed untested Claude Code references; added note that Claude Code support is planned
+- Simplified to submodule-only implementation — removed Mode B (external fork clone) from all docs, rules, and templates
 - `templates/plan.md` — enriched with phased structure, file tables, verification steps, PR strategy, risk matrix, CMO-specific phase types
 - `templates/execution.md` — enriched with phase structure, dependency annotations, inline result format, summary section
+- Scoped skill exploration with soft token budgets — skills limit exploration to repos listed in spec, not all 13 submodules
+- `.gitignore` — ignore all `.cursor/` paths except `.cursor/rules/` and `.cursor/skills/`; ignore `tmp/`
 - Merged secret review checklist into `06-security.mdc` — single security rule with prevention + review
-- Demoted `00-harness-overview.mdc` from always-on to on-demand (triggers on `README.md`, `USAGE.md`) — content covered by `CLAUDE.md`
-- Slimmed `05-planning-workflow.mdc` — removed duplicated submodule list and compacted impact map template
+- Demoted `00-harness-overview.mdc` from always-on to on-demand (triggers on `README.md`, `USAGE.md`)
+- Slimmed `05-planning-workflow.mdc` — removed Mode A/B labels, compacted impact map template
 - Slimmed `07-commit-conventions.mdc` — removed examples, kept type table and essential rules
+- Bumped submodules to latest upstream
 
 ## [v0.1.0] - 2026-07-10
 
@@ -45,5 +51,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `Makefile` with `reset-projects` target for submodule cleanup
 - Markdownlint configuration
 
-[Unreleased]: https://github.com/slashpai/ocp-monitoring-harness/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/slashpai/ocp-monitoring-harness/compare/v0.2.0...HEAD
+[v0.2.0]: https://github.com/slashpai/ocp-monitoring-harness/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/slashpai/ocp-monitoring-harness/releases/tag/v0.1.0
