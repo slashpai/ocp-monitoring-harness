@@ -14,8 +14,8 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 
 ## Repository Layout
 
-- `.cursor/rules/` — Cursor rules — auto-loaded context for the AI agent
-- `.cursor/skills/` — Cursor skills — workflow commands (`/mon:spec`, `/mon:plan`, etc.)
+- `.agents/skills/` — Portable Agent Skills (`/mon:spec`, `/mon:plan`, etc.); `.cursor/skills` and `.claude/skills` are compatibility symlinks
+- `.cursor/rules/` — Cursor rules — auto-loaded context (Cursor-enhanced; optional for other agents)
 - `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
 - `components/<name>/` — Per-component references with README and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)

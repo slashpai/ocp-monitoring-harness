@@ -16,8 +16,8 @@ Task directories under `tasks/` are **local working documents** and are gitignor
 
 ## Prerequisites
 
-- [Cursor](https://cursor.com)
-- `git` with submodule support
+- An [Agent Skills](https://agentskills.io)–compatible coding agent ([Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Codex, Gemini CLI, etc.)
+- `git` with submodule support (enable `core.symlinks=true` on Windows if skill symlinks fail)
 - `podman` or `docker` (for markdown linting only)
 - A GitHub fork of each **component** repo you will change (e.g. `cluster-monitoring-operator`) — for opening PRs
 
@@ -31,11 +31,11 @@ Task directories under `tasks/` are **local working documents** and are gitignor
    make submodule-init   # if submodules were not cloned recursively
    ```
 
-2. Open the repo in [Cursor](https://cursor.com):
-   - `.cursor/rules/` feeds the agent context automatically
-   - `.cursor/skills/` provides workflow commands (`/mon:plan`, `/mon:implement`, etc.) — see [Skills](#skills)
+2. Open the repo in your agent:
+   - **Skills** — `.agents/skills/` (portable); `.cursor/skills` and `.claude/skills` are compatibility symlinks — see [Skills](#skills)
+   - **Cursor rules** (`.cursor/rules/`) — Cursor-only auto-loaded guardrails; other agents use [`CLAUDE.md`](CLAUDE.md) and harness docs for domain context
 
-   > **Rules vs Skills:** Rules are always-on guardrails (push safety, commit conventions, security) — loaded automatically every interaction. Skills are structured workflows (`/mon:spec`, `/mon:plan`) — invoked explicitly when needed. Both are committed to the repo so every team member gets the same experience.
+   > **Rules vs Skills:** Rules are always-on guardrails (push safety, commit conventions, security) — loaded automatically in Cursor. Skills are structured workflows (`/mon:spec`, `/mon:plan`) — invoked explicitly when needed. Skills are committed under `.agents/skills/` so every team member and agent gets the same commands.
 
 3. Start with a prompt. The agent uses harness content plus `projects/` submodules to ground responses.
 
@@ -69,7 +69,7 @@ make reset-projects                     ← reset submodules after PR is pushed
 
 Use the spec → plan → implement workflow. Each phase produces a document that feeds the next, with a **human review gate** between phases. Works for CMO, downstream component forks, and upstream contributions.
 
-#### With skills (Cursor — recommended)
+#### With skills (recommended)
 
 Skills automate each phase. You review between phases and approve before the next one starts.
 
@@ -197,7 +197,7 @@ Open the PR when ready. I will run make reset-projects after the PR is pushed.
 
 ### Troubleshoot a live cluster
 
-No task folder required. In Cursor, use `/mon:diagnostic` for structured diagnosis. Otherwise, provide symptoms, alert names, or pod/namespace details in chat.
+No task folder required. Use `/mon:diagnostic` for structured diagnosis (or invoke the skill by name). Otherwise, provide symptoms, alert names, or pod/namespace details in chat.
 
 If a Prometheus/Alertmanager MCP server (e.g. [obs-mcp](https://github.com/rhobs/obs-mcp)) is configured, the agent combines harness knowledge (expected metrics, alerts, architecture) with live cluster data.
 
@@ -252,7 +252,9 @@ For Jsonnet changes in CMO: edit `jsonnet/components/*.libsonnet`, run `make jso
 
 ## Skills
 
-Custom Cursor skills automate the spec-plan-execution pipeline. They encode monitoring stack domain knowledge (jsonnet phases, push safety, impact maps, obs-mcp, upstream/downstream repo mapping) so the agent follows the right steps without you repeating instructions. See [Workflows by Task Type](#workflows-by-task-type) for a detailed walkthrough.
+Custom skills automate the spec-plan-execution pipeline. They encode monitoring stack domain knowledge (jsonnet phases, push safety, impact maps, obs-mcp, upstream/downstream repo mapping) so the agent follows the right steps without you repeating instructions. See [Workflows by Task Type](#workflows-by-task-type) for a detailed walkthrough.
+
+Invoke with `/mon:*` where the agent supports slash skills; otherwise use the skill name or describe the workflow in natural language.
 
 | Skill | Command | Input | Output |
 |-------|---------|-------|--------|
@@ -262,7 +264,7 @@ Custom Cursor skills automate the spec-plan-execution pipeline. They encode moni
 | Review | `/mon:review <PR>` | PR number or URL | Structured review with severity levels |
 | Diagnostic | `/mon:diagnostic "symptom"` | Inline symptom description | Root cause diagnosis with per-command consent |
 
-Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in `.cursor/skills/` and are committed to the repo so every team member gets the same commands.
+Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard). Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
 
 ## Agentic SDLC Fit
 

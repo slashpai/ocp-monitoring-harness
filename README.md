@@ -10,14 +10,13 @@ This repository gives an AI coding agent deep domain knowledge about the OpenShi
 ## Quick Start
 
 1. Fork and clone with submodules — see [USAGE.md](USAGE.md#getting-started)
-2. Open in [Cursor](https://cursor.com)
+2. Open in [Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), or any [Agent Skills](https://agentskills.io)–compatible agent
 3. Follow the workflow in [USAGE.md](USAGE.md) — spec → plan → execution with human review gates
 
 > [!IMPORTANT]
-> This harness is built for **[Cursor](https://cursor.com)**. Cursor rules (`.cursor/rules/`), skills, and subagents (e.g., `/review-security`) provide the full experience — on-demand context loading, security checks, and structured workflows.
-
-> [!NOTE]
-> **[Claude Code](https://docs.anthropic.com/en/docs/claude-code)** support is planned but not yet tested. `CLAUDE.md` provides project context, but skills and rules are Cursor-specific. Claude Code compatibility is a future goal.
+> **Skills** live under [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard) and work across compatible agents. Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
+>
+> **Cursor rules** (`.cursor/rules/`) remain Cursor-specific enrichment (on-demand context, security, commit conventions). Other agents use [`CLAUDE.md`](CLAUDE.md) and the harness docs (`architecture/`, `development/`, `USAGE.md`) for the same domain knowledge.
 
 ## Components Covered
 
@@ -41,8 +40,10 @@ For current component versions, see [`projects/cluster-monitoring-operator/jsonn
 ## Repository Structure
 
 ```text
-.cursor/rules/          Cursor rules — auto-loaded context for the AI agent
-.cursor/skills/         Cursor skills — workflow commands (/mon:spec, /mon:plan, etc.)
+.agents/skills/         Portable Agent Skills (/mon:spec, /mon:plan, etc.)
+.cursor/rules/          Cursor rules — auto-loaded context (Cursor-enhanced)
+.cursor/skills          Symlink → .agents/skills (Cursor discovery)
+.claude/skills          Symlink → .agents/skills (Claude Code discovery)
 architecture/           Cross-cutting CMO architecture documentation
 components/             Per-component references and development guides
 development/            Guides for contributing to CMO and its components
@@ -77,9 +78,9 @@ The `projects/` directory contains git submodules for CMO and every component it
 | `projects/telemeter` | [openshift/telemeter](https://github.com/openshift/telemeter) |
 | `projects/openshift-state-metrics` | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) |
 
-## Skills (Cursor)
+## Skills
 
-Custom skills automate the spec-plan-execution pipeline. Invoke them by name in Cursor chat:
+Custom skills automate the spec-plan-execution pipeline. Invoke with `/mon:*` where the agent supports slash skills, or by skill name / natural language:
 
 | Skill | Command | What it does |
 |-------|---------|--------------|
@@ -89,7 +90,10 @@ Custom skills automate the spec-plan-execution pipeline. Invoke them by name in 
 | `mon-review` | `/mon:review <PR>` | Multi-domain PR review: Go, jsonnet, config API, tests, asset consistency |
 | `mon-diagnostic` | `/mon:diagnostic <symptom>` | Bug diagnosis with per-command consent before any cluster query |
 
-Skills work for CMO, downstream component forks (`openshift/*`), and upstream contributions. They live in `.cursor/skills/` and are committed to the repo. See [USAGE.md](USAGE.md#skills) for details.
+Skills work for CMO, downstream component forks (`openshift/*`), and upstream contributions. They live in [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard) and are committed to the repo. See [USAGE.md](USAGE.md#skills) for details.
+
+> [!NOTE]
+> On Windows, enable Git symlinks (`git config core.symlinks true`) or Developer Mode so `.cursor/skills` and `.claude/skills` resolve after clone.
 
 ## Documentation
 

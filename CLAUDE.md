@@ -4,8 +4,8 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 
 ## Repository Layout
 
-- `.cursor/rules/` — Cursor rules — auto-loaded context for the AI agent
-- `.cursor/skills/` — Cursor skills — workflow commands (`/mon:spec`, `/mon:plan`, etc.)
+- `.agents/skills/` — Portable Agent Skills (`/mon:spec`, `/mon:plan`, etc.); `.cursor/skills` and `.claude/skills` are compatibility symlinks
+- `.cursor/rules/` — Cursor rules — auto-loaded context (Cursor-enhanced; optional for other agents)
 - `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
 - `components/<name>/` — Per-component references with README and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
@@ -131,9 +131,9 @@ Each phase requires an explicit prompt and a human review gate before the next p
 
 **Stop and present the plan for human review before proceeding.** If the plan is wrong, the code will be wrong too.
 
-## Skills (Cursor only)
+## Skills
 
-Custom Cursor skills automate the spec-plan-execution pipeline:
+Custom skills automate the spec-plan-execution pipeline:
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
@@ -143,7 +143,7 @@ Custom Cursor skills automate the spec-plan-execution pipeline:
 | `mon-review` | `/mon:review <PR>` | Multi-domain PR review (Go, jsonnet, config API, tests) |
 | `mon-diagnostic` | `/mon:diagnostic "symptom"` | Bug diagnosis with per-command consent before any cluster query |
 
-Skill definitions live in `.cursor/skills/`.
+Skill definitions live in `.agents/skills/` ([Agent Skills](https://agentskills.io) standard). Invoke with `/mon:*` where supported, or by skill name / natural language.
 
 ## Source Code Access
 

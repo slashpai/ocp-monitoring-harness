@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Moved monitoring skills to `.agents/skills/` ([Agent Skills](https://agentskills.io) standard) for agent portability; `.cursor/skills` and `.claude/skills` are compatibility symlinks
+- Docs and security rule updated for portable skills; Cursor rules remain Cursor-specific enrichment
+
 ## [v0.2.0] - 2026-07-26
 
 ### Added

@@ -15,12 +15,15 @@
 .DS_Store
 Thumbs.db
 
-# Cursor — only .cursor/rules/ and .cursor/skills/ are committed
+# Cursor — only .cursor/rules/ and the .cursor/skills symlink are committed
 .cursor/*
 !.cursor/rules/
 !.cursor/rules/**
-!.cursor/skills/
-!.cursor/skills/**
+!.cursor/skills
+
+# Claude Code — only the .claude/skills symlink is committed
+.claude/*
+!.claude/skills
 
 /tmp/
 

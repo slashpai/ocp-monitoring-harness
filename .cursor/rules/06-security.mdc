@@ -33,9 +33,11 @@ Report findings as **Severity** | `path:line` | type only — never print the se
 
 Placeholders (`<token>`, `CHANGEME`, `REDACTED`), test doubles (`fake-token`), env-var *names* without values, vendor trees (unless diff adds new secrets), submodule SHAs.
 
-## .cursor Directory
+## Skills and Agent Config Directories
 
-Only `.cursor/rules/` and `.cursor/skills/` are committed. Everything else (`.cursor/mcp.json`, `agents/`, `hooks*`, `cli.json`, `plugins/`) is local-only and gitignored. **Never read, log, or output** `.cursor/mcp.json`. Do not store secrets, cluster credentials, or local-only operational data in `.cursor/skills/`.
+Skill **content** lives in `.agents/skills/` (Agent Skills standard) and is committed. `.cursor/skills` and `.claude/skills` are compatibility symlinks to that tree.
+
+Only `.cursor/rules/` and the `.cursor/skills` symlink are committed under `.cursor/`. Everything else (`.cursor/mcp.json`, `agents/`, `hooks*`, `cli.json`, `plugins/`) is local-only and gitignored. **Never read, log, or output** `.cursor/mcp.json`. Do not store secrets, cluster credentials, or local-only operational data in `.agents/skills/` (or the symlink paths).
 
 ## Placeholder Convention
 
