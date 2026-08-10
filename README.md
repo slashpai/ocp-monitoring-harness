@@ -31,7 +31,7 @@ CMO and every component it deploys are available as git submodules under `projec
 .claude/skills          Symlink → .agents/skills (Claude Code discovery)
 ARCHITECTURE.md         CMO component catalog, repo mapping, and syncbot workflow
 components/             Per-component references and development guides
-development/            Guides for contributing to CMO and its components
+development/            Cross-component contributing guides (upstream vs downstream)
 projects/               Git submodules for CMO and all component repos (plan + implement)
 scripts/                reset-projects.sh and other harness scripts
 tasks/                  Active tasks (spec → plan → execution) — local, gitignored
@@ -69,6 +69,9 @@ Skills work for CMO, downstream component forks (`openshift/*`), and upstream co
 | [development/](development/) | Cross-component contributing guides (upstream vs downstream) |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Component catalog, repo mapping, syncbot workflow |
 | [components/](components/) | Per-component references and development guides |
+
+> [!NOTE]
+> `tasks/` and `completed/` are gitignored — task documents are currently local working files. For larger features with team-wide adoption, these can be source-controlled and each phase (spec, plan) created as a pull request for discussion and review before proceeding to the next phase.
 
 ## Acknowledgments
 
