@@ -1,0 +1,86 @@
+name: Bump submodules to latest upstream
+
+on:
+  schedule:
+    # Every Monday at 07:00 UTC
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    name: Update submodule pointers
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # required: push chore/bump-submodules branch
+      pull-requests: write # required: gh pr create
+
+    steps:
+      - name: Checkout harness with submodules
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update all submodules to latest upstream branch
+        id: update
+        run: |
+          make submodule-update
+          if git diff --quiet HEAD; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true"  >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Collect updated submodule list
+        if: steps.update.outputs.changed == 'true'
+        id: changed
+        run: |
+          modules=$(git diff --name-only HEAD | grep '^projects/' | sed 's|projects/||' | sort | paste -sd ',' -)
+          echo "modules=$modules" >> "$GITHUB_OUTPUT"
+
+      - name: Stage, commit and push
+        if: steps.update.outputs.changed == 'true'
+        env:
+          MODULES: ${{ steps.changed.outputs.modules }}
+        run: |
+          git add projects/
+          git commit -s -m "chore: bump submodules to latest upstream
+
+          Updated: ${MODULES}"
+          git push origin HEAD:chore/bump-submodules --force
+
+      - name: Open pull request via gh
+        if: steps.update.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODULES: ${{ steps.changed.outputs.modules }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          gh label create submodule_update --color 0075ca --description "Automated submodule pointer bump" 2>/dev/null || true
+
+          BODY="Automated weekly bump of git submodule pointers to the latest"
+          BODY="${BODY} commit on each upstream default branch (\`main\` / \`master\`)."
+          BODY="${BODY}
+
+          **Updated submodules:** ${MODULES}
+
+          Triggered by: \`${EVENT_NAME}\`
+
+          > Review each submodule diff to confirm no unexpected upstream
+          > changes were pulled in before merging."
+
+          gh pr create \
+            --base main \
+            --head chore/bump-submodules \
+            --title "chore: bump submodules to latest upstream" \
+            --label submodule_update \
+            --body "${BODY}" \
+          || echo "PR already exists, skipping creation"
