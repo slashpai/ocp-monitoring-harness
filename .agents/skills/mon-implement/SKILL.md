@@ -207,11 +207,11 @@ Before pushing to any remote:
 2. Run `git remote -v` in the submodule
 3. If `fork` remote is missing, add it: `git remote add fork <url-from-plan>`
 4. If `fork` exists but URL does not match the plan, **stop and ask**
-5. Confirm the push target URL contains the **user's GitHub username** (e.g., `github.com/<user>/<repo>`). If it doesn't, **stop and ask** — it's not their fork. Cross-check against `architecture/repo-mapping.md`: if the URL matches any upstream or downstream org listed there, reject it.
+5. Confirm the push target URL contains the **user's GitHub username** (e.g., `github.com/<user>/<repo>`). If it doesn't, **stop and ask** — it's not their fork. Cross-check against `ARCHITECTURE.md`: if the URL matches any upstream or downstream org listed there, reject it.
 6. **Stop and present the push to the user.** Show the exact command (`git push fork <branch>`), the remote URL, and the branch name. Do NOT run `git push` until the user explicitly approves. Stop here and wait.
 7. After user approval, push with `git push fork <branch>` only
 8. **Never** `git push origin` — `origin` in submodules points to the OpenShift fork
-9. PR target (from plan): `openshift/<repo>` for downstream, community repo for upstream (see `architecture/repo-mapping.md`)
+9. PR target (from plan): `openshift/<repo>` for downstream, community repo for upstream (see `ARCHITECTURE.md`)
 
 ### 6. Handle failures
 

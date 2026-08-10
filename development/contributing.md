@@ -107,7 +107,7 @@ CMO deploys components that come from community upstream projects. If your chang
 
 ### Upstream vs Downstream
 
-See [architecture/repo-mapping.md](../architecture/repo-mapping.md) for the full mapping. Key distinction:
+See [ARCHITECTURE.md](../ARCHITECTURE.md) for the full mapping. Key distinction:
 
 - **Upstream** (community) — `prometheus/prometheus`, `thanos-io/thanos`, etc. Uses GitHub Actions CI, community PR conventions, and DCO sign-off.
 - **Downstream** (OpenShift fork) — `openshift/prometheus`, `openshift/thanos`, etc. Uses Prow CI, OpenShift PR conventions (`OCPBUGS-`/`MON-`), and is managed by [syncbot](https://github.com/rhobs/syncbot).

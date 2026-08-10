@@ -6,7 +6,7 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 
 - `.agents/skills/` — Portable Agent Skills (`/mon:spec`, `/mon:plan`, etc.); `.cursor/skills` and `.claude/skills` are compatibility symlinks
 - `.cursor/rules/` — Cursor rules — auto-loaded context (Cursor-enhanced; optional for other agents)
-- `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
+- `ARCHITECTURE.md` — CMO component catalog, repo mapping, and syncbot workflow
 - `components/<name>/` — Per-component references with README and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
@@ -16,64 +16,11 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 - `templates/` — Templates for spec, plan, and execution documents
 - `USAGE.md` — Workflow, example prompts, and where to implement changes; see [USAGE.md](USAGE.md)
 
-## Components Managed by CMO
+## Components and Architecture
 
-All deployed in `openshift-monitoring` (platform) and `openshift-user-workload-monitoring` (UWM) namespaces:
+Component catalog, upstream/downstream mapping, and syncbot workflow: [ARCHITECTURE.md](ARCHITECTURE.md).
 
-1. **Prometheus** — Metrics collection and alerting engine
-2. **Alertmanager** — Alert routing, grouping, silencing, notification
-3. **Prometheus Operator** — Manages Prometheus, Alertmanager, and Thanos Ruler via CRDs
-4. **kube-state-metrics** — Kubernetes object state as metrics
-5. **node-exporter** — Node hardware/OS metrics
-6. **Thanos** (Querier, Ruler, Sidecar) — Unified query view, HA deduplication, rule evaluation
-7. **kube-rbac-proxy** — AuthN/AuthZ sidecar for metrics endpoints
-8. **metrics-server** — Resource metrics for HPA/VPA
-9. **telemeter-client** — Telemetry forwarding to Red Hat (deployed when telemetry is enabled)
-10. **monitoring-plugin** — OpenShift console monitoring UI plugin
-11. **prom-label-proxy** — Label-based access control for multi-tenant queries
-12. **openshift-state-metrics** — OpenShift resource state as metrics
-
-For current component versions, check `projects/cluster-monitoring-operator/jsonnet/versions.yaml`.
-
-## CMO Architecture
-
-### Jsonnet Manifest Generation
-
-Kubernetes resources managed by CMO are generated using Jsonnet:
-
-- **Sources**: `jsonnet/main.jsonnet` (entrypoint), `jsonnet/components/<component>.libsonnet` (per-component)
-- **Outputs**: `assets/` directory (runtime manifests), `manifests/` directory (CVO-deployed resources)
-- **Critical**: Changes must be made to jsonnet sources, then regenerated with `make jsonnet-fmt generate`. Direct edits to `assets/*/*.yaml` will be overwritten.
-
-### Configuration API
-
-Two ConfigMaps control monitoring configuration:
-
-- `cluster-monitoring-config` in `openshift-monitoring` — Platform monitoring
-- `user-workload-monitoring-config` in `openshift-user-workload-monitoring` — User workload monitoring
-
-These are merged into the Config struct in `pkg/manifests/config.go`. Fields and CEL validations are defined in `pkg/manifests/types.go`.
-
-### Reconciliation Task Ordering
-
-The operator's `sync()` in `pkg/operator/operator.go` runs tasks in three ordered groups:
-
-1. **PrometheusOperator + MetricsScrapingClientCA** — Must run first (PO manages CRDs that all others depend on)
-2. **All other components** — Prometheus, Alertmanager, node-exporter, UWM, etc. (run in parallel)
-3. **ConfigurationSharing + DefaultDenyNetworkPolicy** — Must run last (depend on resources from group 2)
-
-### Key Namespaces
-
-- `openshift-monitoring` — Platform monitoring stack
-- `openshift-user-workload-monitoring` — User workload Prometheus, Thanos Ruler (only when UWM is enabled)
-
-### Multi-Module Repository
-
-CMO has three Go modules with separate `go.mod` and `vendor/`:
-
-- `./` (main module)
-- `test/monitoring/`
-- `hack/tools/`
+CMO internals (jsonnet pipeline, config API, reconciliation, namespaces): [`projects/cluster-monitoring-operator/AGENTS.md`](projects/cluster-monitoring-operator/AGENTS.md).
 
 ## Development Workflow
 
@@ -145,22 +92,4 @@ Custom skills automate the spec-plan-execution pipeline:
 
 Skill definitions live in `.agents/skills/` ([Agent Skills](https://agentskills.io) standard). Invoke with `/mon:*` where supported, or by skill name / natural language.
 
-## Source Code Access
-
-All component repos are available as git submodules under `projects/`:
-
-```text
-projects/cluster-monitoring-operator    # The main operator
-projects/prometheus                     # Prometheus
-projects/prometheus-alertmanager        # Alertmanager
-projects/prometheus-operator            # Prometheus Operator
-projects/kube-state-metrics             # kube-state-metrics
-projects/node-exporter                  # node-exporter
-projects/thanos                         # Thanos
-projects/kube-rbac-proxy                # kube-rbac-proxy
-projects/kubernetes-metrics-server      # metrics-server
-projects/monitoring-plugin              # Console monitoring plugin
-projects/prom-label-proxy               # prom-label-proxy
-projects/telemeter                      # telemeter-client
-projects/openshift-state-metrics        # openshift-state-metrics
-```
+Source code for CMO and all components lives under `projects/` — see [ARCHITECTURE.md](ARCHITECTURE.md) for the submodule map.

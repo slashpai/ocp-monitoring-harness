@@ -68,7 +68,7 @@ For each relevant file, document:
 
 ### 4. Determine contribution target
 
-Read `architecture/repo-mapping.md` to look up the component's upstream and downstream repos.
+Read `ARCHITECTURE.md` to look up the component's upstream and downstream repos.
 
 Classify the change:
 
@@ -76,13 +76,13 @@ Classify the change:
 |--------|------|----------------|------------|
 | **CMO** | Changes to operator logic, jsonnet, config API | `openshift/cluster-monitoring-operator` | `make jsonnet-fmt generate`, `make test-unit` |
 | **Downstream component** | OpenShift-specific fix in a component fork | `openshift/<component>` (e.g., `openshift/prometheus`) | Read `projects/<component>/Makefile` for build/test commands |
-| **Upstream component** | Bug fix or feature for the community project | Community repo from repo-mapping.md (e.g., `prometheus/prometheus`) | Read `projects/<component>/Makefile`; upstream may have different CI |
+| **Upstream component** | Bug fix or feature for the community project | Community repo from `ARCHITECTURE.md` (e.g., `prometheus/prometheus`) | Read `projects/<component>/Makefile`; upstream may have different CI |
 
 **Push safety (all targets):** Always push to the user's personal fork. Never push directly to `openshift/*` repos or community upstream repos.
 
 Include the contribution target in the spec so the planner knows where the PR goes.
 
-For **upstream contributions**: note that `projects/<component>` tracks the OpenShift fork. The upstream repo may have diverged — flag this as an open question. Some components are OpenShift-only with no upstream (see repo-mapping.md).
+For **upstream contributions**: note that `projects/<component>` tracks the OpenShift fork. The upstream repo may have diverged — flag this as an open question. Some components are OpenShift-only with no upstream (see `ARCHITECTURE.md`).
 
 ### 5. Identify open questions
 

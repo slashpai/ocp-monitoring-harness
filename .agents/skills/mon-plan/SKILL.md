@@ -44,13 +44,8 @@ For each project listed in the spec's "Related Projects" section, read if they e
 
 Read relevant harness context:
 
-- `architecture/repo-mapping.md` — always read (upstream/downstream mapping, PR destinations)
-- Read only the architecture doc relevant to the change type:
-  - Config API changes → `architecture/configuration.md`
-  - Scraping / metrics flow → `architecture/data-flow.md`
-  - Namespace scoping → `architecture/namespaces.md`
-  - General architecture questions → `architecture/overview.md`
-  - Do not read all architecture docs — pick the 1-2 most relevant
+- `ARCHITECTURE.md` — always read (upstream/downstream mapping, PR destinations, component relationships)
+- For CMO internals (config API, reconciliation, data flow, namespaces), read `projects/cluster-monitoring-operator/AGENTS.md` — only when relevant to the change type
 - `components/<name>/README.md` — ONLY for components listed in the spec's "Related Projects" section (typically 1-3). Do not read all component READMEs.
 
 After reading, identify:
@@ -148,7 +143,7 @@ If the user's clarifying-question answers indicate no test cluster is available,
 - **Problem** — motivation, not just what changes
 - **Current State** table — what exists before the change
 - **Changes** — phased with dependency/parallel annotations, Files Modified tables, Details, per-phase Verification. Must include test and verification phases (from step 5).
-- **PR Strategy** — fork URL, PR target (from spec's Contribution Target and `architecture/repo-mapping.md`), merge ordering. Push safety: "Always push to your personal fork. Never push directly to `openshift/*` repos or community upstream repos (`prometheus/*`, `thanos-io/*`, etc.)."
+- **PR Strategy** — fork URL, PR target (from spec's Contribution Target and `ARCHITECTURE.md`), merge ordering. Push safety: "Always push to your personal fork. Never push directly to `openshift/*` repos or community upstream repos (`prometheus/*`, `thanos-io/*`, etc.)."
 - **Verification** — mapped to spec acceptance criteria
 - **Risks** — impact and mitigation
 

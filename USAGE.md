@@ -85,7 +85,7 @@ The agent will:
 
 - Create `tasks/disable-kubelet-endpoints/`
 - Explore `projects/` to find relevant files and verify current behavior
-- Look up `architecture/repo-mapping.md` to determine contribution target
+- Look up `ARCHITECTURE.md` to determine contribution target
 - Generate `tasks/disable-kubelet-endpoints/spec.md` with problem statement, current behavior table, acceptance criteria, and open questions (or if `spec.md` already exists, show what's there and ask whether to update or regenerate)
 - **Stop and wait for your review**
 
@@ -203,7 +203,7 @@ If a Prometheus/Alertmanager MCP server (e.g. [obs-mcp](https://github.com/rhobs
 
 ### Learn architecture or design
 
-Ask in chat. The agent reads `architecture/`, `components/`, and `projects/` as needed. No task folder unless the question becomes a code change.
+Ask in chat. The agent reads `ARCHITECTURE.md`, `components/`, and `projects/` as needed. No task folder unless the question becomes a code change.
 
 ## What You Can Ask
 
@@ -230,7 +230,7 @@ Ask in chat. The agent reads `architecture/`, `components/`, and `projects/` as 
 |---|---|---|
 | CMO manifest, config API, operator logic | `projects/cluster-monitoring-operator` | `openshift/cluster-monitoring-operator` |
 | Upstream component fix | `projects/<component>` | Community repo or OpenShift fork |
-| Harness docs only | This repo (`architecture/`, `components/`, etc.) | This repo |
+| Harness docs only | This repo (`ARCHITECTURE.md`, `components/`, etc.) | This repo |
 
 ### How Implementation Works
 
@@ -272,7 +272,7 @@ In a typical agentic SDLC, this harness covers the **context and planning substr
 
 | SDLC phase | Harness role |
 |---|---|
-| Intake / triage | `architecture/`, `components/` — map symptoms to components |
+| Intake / triage | `ARCHITECTURE.md`, `components/` — map symptoms to components |
 | Spec | `tasks/<name>/spec.md` from [templates/spec.md](templates/spec.md) |
 | Plan | Impact map from `projects/` submodules — **human review gate** |
 | Implement | `projects/<repo>/` submodule — push to fork, PR to upstream |

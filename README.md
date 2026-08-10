@@ -16,26 +16,11 @@ This repository gives an AI coding agent deep domain knowledge about the OpenShi
 > [!IMPORTANT]
 > **Skills** live under [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard) and work across compatible agents. Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
 >
-> **Cursor rules** (`.cursor/rules/`) remain Cursor-specific enrichment (on-demand context, security, commit conventions). Other agents use [`CLAUDE.md`](CLAUDE.md) and the harness docs (`architecture/`, `development/`, `USAGE.md`) for the same domain knowledge.
+> **Cursor rules** (`.cursor/rules/`) remain Cursor-specific enrichment (on-demand context, security, commit conventions). Other agents use [`CLAUDE.md`](CLAUDE.md) and the harness docs (`ARCHITECTURE.md`, `development/`, `USAGE.md`) for the same domain knowledge.
 
-## Components Covered
+## Components and Projects
 
-| Component | Role | Upstream |
-|---|---|---|
-| Prometheus | Metrics collection and alerting engine | [openshift/prometheus](https://github.com/openshift/prometheus) |
-| Alertmanager | Alert routing, grouping, and notification | [openshift/prometheus-alertmanager](https://github.com/openshift/prometheus-alertmanager) |
-| Prometheus Operator | CRD management for Prometheus, Alertmanager, and Thanos Ruler | [openshift/prometheus-operator](https://github.com/openshift/prometheus-operator) |
-| kube-state-metrics | Kubernetes object state as metrics | [openshift/kube-state-metrics](https://github.com/openshift/kube-state-metrics) |
-| openshift-state-metrics | OpenShift resource state as metrics | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) |
-| node-exporter | Node hardware/OS metrics | [openshift/node_exporter](https://github.com/openshift/node_exporter) |
-| Thanos (Querier, Ruler, Sidecar) | Unified query view, HA deduplication, rule evaluation | [openshift/thanos](https://github.com/openshift/thanos) |
-| kube-rbac-proxy | AuthN/AuthZ sidecar for metrics endpoints | [openshift/kube-rbac-proxy](https://github.com/openshift/kube-rbac-proxy) |
-| metrics-server | Resource metrics API for HPA/VPA | [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server) |
-| telemeter-client | Telemetry forwarding to Red Hat (deployed when telemetry is enabled) | [openshift/telemeter](https://github.com/openshift/telemeter) |
-| monitoring-plugin | OpenShift console monitoring UI | [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin) |
-| prom-label-proxy | Label-based multi-tenant access control | [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy) |
-
-For current component versions, see [`projects/cluster-monitoring-operator/jsonnet/versions.yaml`](https://github.com/openshift/cluster-monitoring-operator/blob/main/jsonnet/versions.yaml).
+CMO and every component it deploys are available as git submodules under `projects/`. The full catalog — roles, community upstream, OpenShift forks, and submodule paths — lives in [ARCHITECTURE.md](ARCHITECTURE.md). For current versions, see `projects/cluster-monitoring-operator/jsonnet/versions.yaml`.
 
 ## Repository Structure
 
@@ -44,7 +29,7 @@ For current component versions, see [`projects/cluster-monitoring-operator/jsonn
 .cursor/rules/          Cursor rules — auto-loaded context (Cursor-enhanced)
 .cursor/skills          Symlink → .agents/skills (Cursor discovery)
 .claude/skills          Symlink → .agents/skills (Claude Code discovery)
-architecture/           Cross-cutting CMO architecture documentation
+ARCHITECTURE.md         CMO component catalog, repo mapping, and syncbot workflow
 components/             Per-component references and development guides
 development/            Guides for contributing to CMO and its components
 projects/               Git submodules for CMO and all component repos (plan + implement)
@@ -52,31 +37,11 @@ scripts/                reset-projects.sh and other harness scripts
 tasks/                  Active tasks (spec → plan → execution) — local, gitignored
 completed/              Archived completed tasks — local, gitignored
 templates/              Structured task templates (spec, plan, execution)
-CHANGELOG.md            Notable changes per release
+CHANGELOG.md            Historical record of notable harness changes (no releases)
 CLAUDE.md               Project context summary (CMO architecture, workflow, troubleshooting)
 CONVENTIONS.md          Coding and contribution conventions for CMO
 USAGE.md                How to use this harness with an AI agent
 ```
-
-## Projects (Git Submodules)
-
-The `projects/` directory contains git submodules for CMO and every component it deploys. Use them for planning and implementation — see [USAGE.md](USAGE.md) for the full workflow.
-
-| Submodule | Repository |
-|---|---|
-| `projects/cluster-monitoring-operator` | [openshift/cluster-monitoring-operator](https://github.com/openshift/cluster-monitoring-operator) |
-| `projects/prometheus` | [openshift/prometheus](https://github.com/openshift/prometheus) |
-| `projects/prometheus-alertmanager` | [openshift/prometheus-alertmanager](https://github.com/openshift/prometheus-alertmanager) |
-| `projects/prometheus-operator` | [openshift/prometheus-operator](https://github.com/openshift/prometheus-operator) |
-| `projects/kube-state-metrics` | [openshift/kube-state-metrics](https://github.com/openshift/kube-state-metrics) |
-| `projects/node-exporter` | [openshift/node_exporter](https://github.com/openshift/node_exporter) |
-| `projects/thanos` | [openshift/thanos](https://github.com/openshift/thanos) |
-| `projects/kube-rbac-proxy` | [openshift/kube-rbac-proxy](https://github.com/openshift/kube-rbac-proxy) |
-| `projects/kubernetes-metrics-server` | [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server) |
-| `projects/monitoring-plugin` | [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin) |
-| `projects/prom-label-proxy` | [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy) |
-| `projects/telemeter` | [openshift/telemeter](https://github.com/openshift/telemeter) |
-| `projects/openshift-state-metrics` | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) |
 
 ## Skills
 
@@ -102,7 +67,7 @@ Skills work for CMO, downstream component forks (`openshift/*`), and upstream co
 | [USAGE.md](USAGE.md) | Workflow, example prompts, where code changes go |
 | [tasks/README.md](tasks/README.md) | Local task workflow (spec → plan → execution) |
 | [development/](development/) | Contributing to CMO — jsonnet, tests, alerts, metrics |
-| [architecture/](architecture/) | Cross-cutting CMO architecture |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Component catalog, repo mapping, syncbot workflow |
 | [components/](components/) | Per-component references and development guides |
 
 ## Acknowledgments

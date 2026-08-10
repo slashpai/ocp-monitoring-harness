@@ -16,7 +16,7 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 
 - `.agents/skills/` — Portable Agent Skills (`/mon:spec`, `/mon:plan`, etc.); `.cursor/skills` and `.claude/skills` are compatibility symlinks
 - `.cursor/rules/` — Cursor rules — auto-loaded context (Cursor-enhanced; optional for other agents)
-- `architecture/` — Cross-cutting CMO architecture (reconciliation, data flow, namespaces, configuration API)
+- `ARCHITECTURE.md` — CMO component catalog, repo mapping, and syncbot workflow
 - `components/<name>/` — Per-component references with README and development guides
 - `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
 - `projects/` — Git submodules for CMO and all component repos (planning and default implementation location)
@@ -26,24 +26,11 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 - `templates/` — Templates for spec, plan, and execution documents
 - `USAGE.md` — Workflow, example prompts, and where to implement changes
 
-## Components Managed by CMO
+## Components and Architecture
 
-All deployed in `openshift-monitoring` (platform) and `openshift-user-workload-monitoring` (UWM) namespaces:
+Component catalog, upstream/downstream mapping, and syncbot workflow: [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
-1. **Prometheus** — Metrics collection and alerting engine
-2. **Alertmanager** — Alert routing, grouping, silencing, notification
-3. **Prometheus Operator** — Manages Prometheus/Alertmanager via CRDs
-4. **kube-state-metrics** — Kubernetes object state as metrics
-5. **node-exporter** — Node hardware/OS metrics
-6. **Thanos** (Querier, Ruler, Sidecar) — Unified query view, HA deduplication, rule evaluation
-7. **kube-rbac-proxy** — AuthN/AuthZ sidecar for metrics endpoints
-8. **metrics-server** — Resource metrics for HPA/VPA
-9. **monitoring-plugin** — OpenShift console monitoring UI plugin
-10. **prom-label-proxy** — Label-based access control for multi-tenant queries
-11. **telemeter-client** — Telemetry forwarding to Red Hat (deployed when telemetry is enabled)
-12. **openshift-state-metrics** — OpenShift resource state as metrics
-
-For current component versions, check `projects/cluster-monitoring-operator/jsonnet/versions.yaml`.
+CMO internals: [`projects/cluster-monitoring-operator/AGENTS.md`](projects/cluster-monitoring-operator/AGENTS.md).
 
 ## Live Observability Tools
 
