@@ -66,7 +66,7 @@ Skills work for CMO, downstream component forks (`openshift/*`), and upstream co
 |---|---|
 | [USAGE.md](USAGE.md) | Workflow, example prompts, where code changes go |
 | [tasks/README.md](tasks/README.md) | Local task workflow (spec → plan → execution) |
-| [development/](development/) | Contributing to CMO — jsonnet, tests, alerts, metrics |
+| [development/](development/) | Cross-component contributing guides (upstream vs downstream) |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Component catalog, repo mapping, syncbot workflow |
 | [components/](components/) | Per-component references and development guides |
 
