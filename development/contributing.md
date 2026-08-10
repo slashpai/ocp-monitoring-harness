@@ -1,137 +1,34 @@
-# Contributing to CMO
+# Contributing to Monitoring Components
 
-## Repository
+This guide covers **cross-component** contribution workflows — when to contribute upstream vs downstream, and how changes flow from community repos into OpenShift. For CMO-specific development (build, test, PR conventions, code organization), see the [CMO Documentation](https://github.com/openshift/cluster-monitoring-operator/tree/main/Documentation).
 
-- **Repo**: [openshift/cluster-monitoring-operator](https://github.com/openshift/cluster-monitoring-operator)
-- **Language**: Go 82%, Jsonnet 16%, Shell 1%
-- **License**: Apache-2.0
+## Upstream vs Downstream
 
-## Getting Started
-
-### Prerequisites
-
-- Go (version specified in `go.mod`)
-- `jsonnet-bundler` (`jb`) for managing Jsonnet dependencies
-- `jsonnet` and `gojsontoyaml` for manifest generation
-- An OpenShift cluster + `KUBECONFIG` for E2E tests and local runs
-
-### Fork, Clone, and Set Remotes
-
-1. Fork [openshift/cluster-monitoring-operator](https://github.com/openshift/cluster-monitoring-operator) on GitHub
-2. Clone your fork and set up remotes:
-
-```bash
-git clone https://github.com/<your-username>/cluster-monitoring-operator.git
-cd cluster-monitoring-operator
-git remote add upstream https://github.com/openshift/cluster-monitoring-operator.git
-git remote set-url --push upstream no_push
-```
-
-1. Build:
-
-```bash
-make build
-```
-
-### Running Locally
-
-```bash
-# Run as CMO service account (requires cluster permissions)
-make run-local
-
-# Run as your current user (easier for development)
-SWITCH_TO_CMO=false make run-local
-```
-
-## Code Organization
-
-```text
-cmd/                    Main entrypoint
-pkg/
-  operator/             Reconciliation logic (sync loop, task ordering)
-  manifests/            Manifest generation from assets + configuration
-    config.go           Config parsing (ConfigMap → Go struct)
-    types.go            Config struct definition, CEL validations
-  tasks/                Individual reconciliation tasks per component
-jsonnet/
-  main.jsonnet          Top-level Jsonnet entrypoint
-  components/           Per-component Jsonnet (*.libsonnet)
-  jsonnetfile.json      Jsonnet dependencies
-assets/                 Generated YAML manifests (DO NOT EDIT DIRECTLY)
-manifests/              CVO-deployed manifests
-test/                   E2E tests (separate Go module)
-hack/                   Development scripts and tools (separate Go module)
-```
-
-## Pull Request Workflow
-
-### Branch Naming
-
-No enforced convention, but descriptive names are preferred.
-
-### PR Title Format
-
-- **Bug fixes**: `OCPBUGS-12345: descriptive title`
-- **Features**: `MON-1234: descriptive title`
-
-### Commit Message Format
-
-```text
-<subsystem>: <what changed>
-```
-
-Examples:
-
-- `jsonnet: update prometheus version`
-- `pkg/manifests: add CEL validation for retention`
-- `test: add e2e test for UWM prometheus`
-
-### JIRA Integration
-
-- **OCPBUGS** issues are managed automatically by [jira-lifecycle-plugin](https://github.com/openshift-eng/jira-lifecycle-plugin)
-- **MON** issues must be transitioned manually through JIRA states
-
-### CI
-
-- `ci/prow/images` — Builds images; if this fails, `make verify` likely fails locally too
-- `ci/prow/e2e` — Runs E2E tests against a real cluster
-- Results are in `artifacts/` in the Prow job page: `build-log.txt`, `artifacts/e2e-test/`, `artifacts/junit*.xml`
-
-## Conventions
-
-Follow [openshift/enhancements CONVENTIONS.md](https://github.com/openshift/enhancements/blob/master/CONVENTIONS.md).
-
-## Contributing to Upstream Components
-
-CMO deploys components that come from community upstream projects. If your change belongs in the upstream project (e.g., a bug fix in Prometheus itself), the workflow is different from contributing to CMO directly.
-
-### Upstream vs Downstream
-
-See [ARCHITECTURE.md](../ARCHITECTURE.md) for the full mapping. Key distinction:
+See [ARCHITECTURE.md](../ARCHITECTURE.md) for the full component and repo mapping. Key distinction:
 
 - **Upstream** (community) — `prometheus/prometheus`, `thanos-io/thanos`, etc. Uses GitHub Actions CI, community PR conventions, and DCO sign-off.
 - **Downstream** (OpenShift fork) — `openshift/prometheus`, `openshift/thanos`, etc. Uses Prow CI, OpenShift PR conventions (`OCPBUGS-`/`MON-`), and is managed by [syncbot](https://github.com/rhobs/syncbot).
 
-### When to Contribute Upstream
+## When to Contribute Upstream
 
 - Bug fixes in core component behavior (e.g., Prometheus query engine, Alertmanager routing logic)
 - New features that should benefit the wider community
 - Performance improvements in component internals
 
-### When to Contribute to the OpenShift Fork
+## When to Contribute to the OpenShift Fork
 
 - OpenShift-specific patches (RBAC, TLS, console integration)
 - Downstream-only build/CI changes (Dockerfile, OWNERS)
 - Cherry-picks of upstream fixes to a specific OpenShift release branch
 
-### End-to-End Workflow: Upstream Change to OpenShift
+## End-to-End Workflow: Upstream Change to OpenShift
 
 1. **Contribute upstream** — Submit a PR to the community repo, get it merged and released
 2. **syncbot rebases** — [syncbot](https://github.com/rhobs/syncbot) automatically rebases the OpenShift fork onto the new upstream release
 3. **CMO version bump** — syncbot also creates a PR to update `jsonnet/versions.yaml` in CMO
 4. **Test in CMO** — Verify the change works in the OpenShift monitoring stack
 
-### Testing an Upstream Change with CMO Locally
+## Testing an Upstream Change with CMO Locally
 
 Before your upstream change is merged and released, you can test it against CMO:
 
@@ -140,7 +37,7 @@ Before your upstream change is merged and released, you can test it against CMO:
 3. Run `make generate` to regenerate assets
 4. Deploy and test with `make run-local` or on a test cluster
 
-### Upstream Contributing Guides
+## Upstream Contributing Guides
 
 | Component | Contributing Guide |
 |---|---|
@@ -154,13 +51,6 @@ Before your upstream change is merged and released, you can test it against CMO:
 | metrics-server | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) |
 | prom-label-proxy | [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy) |
 
-### Upstream Build and Test Quick Reference
+## Upstream Build and Test
 
-| Component | Build | Test | Lint |
-|---|---|---|---|
-| Prometheus | `go build ./cmd/prometheus/` | `make test` | `make lint` |
-| Alertmanager | `make build` | `make test` | `make lint` |
-| Prometheus Operator | `make build` | `make test-unit` | `make check` |
-| kube-state-metrics | `make build` | `make test-unit` | `make lint` |
-| node-exporter | `make build` | `make test` | — |
-| Thanos | `make build` | `make test` | `make lint` |
+Each upstream repo has its own build/test/lint commands — check the repo's `Makefile` or `CONTRIBUTING.md` (linked above) for current instructions.

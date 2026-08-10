@@ -276,7 +276,7 @@ In a typical agentic SDLC, this harness covers the **context and planning substr
 | Spec | `tasks/<name>/spec.md` from [templates/spec.md](templates/spec.md) |
 | Plan | Impact map from `projects/` submodules — **human review gate** |
 | Implement | `projects/<repo>/` submodule — push to fork, PR to upstream |
-| Test | [development/testing.md](development/testing.md) — `make test-unit`, e2e, etc. |
+| Test | [CMO testing docs](https://github.com/openshift/cluster-monitoring-operator/tree/main/Documentation) — `make test-unit`, e2e, etc. |
 | Review | `plan.md` and `execution.md` document intent vs outcome |
 | Operate | CMO `assets/*/prometheus-rule.yaml`, `.cursor/rules/04-promql-patterns.mdc`, optional live MCP tools |
 | Cleanup | `make reset-projects` after tasks (push first) |
