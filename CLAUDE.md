@@ -8,7 +8,7 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 - `.cursor/rules/` — Cursor rules — auto-loaded context (Cursor-enhanced; optional for other agents)
 - `ARCHITECTURE.md` — CMO component catalog, repo mapping, and syncbot workflow
 - `components/<name>/` — Per-component references with README and development guides
-- `development/` — Guides for contributing to CMO (jsonnet workflow, adding metrics/alerts, testing)
+- `development/` — Cross-component contributing guides (upstream vs downstream)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
 - `scripts/` — `reset-projects.sh` and other harness scripts
 - `tasks/` — Active tasks (spec → plan → execution) — local, gitignored; see [tasks/README.md](tasks/README.md)
@@ -22,33 +22,11 @@ Component catalog, upstream/downstream mapping, and syncbot workflow: [ARCHITECT
 
 CMO internals (jsonnet pipeline, config API, reconciliation, namespaces): [`projects/cluster-monitoring-operator/AGENTS.md`](projects/cluster-monitoring-operator/AGENTS.md).
 
-## Development Workflow
+## Development
 
-### Making Changes
+For CMO-specific development (build, test, PR conventions, code organization), see the [CMO Documentation](https://github.com/openshift/cluster-monitoring-operator/tree/main/Documentation) and [CMO AGENTS.md](https://github.com/openshift/cluster-monitoring-operator/blob/main/AGENTS.md).
 
-**Modifying Kubernetes Resources:**
-
-1. Edit the jsonnet source in `jsonnet/components/<component>.libsonnet`
-2. Run `make jsonnet-fmt generate` to regenerate assets
-3. Never edit `assets/*/*.yaml` directly
-
-**Modifying Configuration Options:**
-
-1. Add/modify fields in `pkg/manifests/types.go`
-2. Update `pkg/manifests/config.go` to handle the new fields
-3. Run `make generate` to update generated code
-
-### Testing
-
-- `make test-unit` — Unit tests
-- `make test-e2e` — E2E tests (requires cluster + KUBECONFIG)
-- `make run-local` — Run CMO locally against a cluster
-
-### PR Conventions
-
-- Bugs: `OCPBUGS-12345: descriptive title`
-- Features: `MON-1234: descriptive title`
-- Commit format: `<subsystem>: <what changed>`
+For cross-component contributing guidance (upstream vs downstream, syncbot workflow), see [development/contributing.md](development/contributing.md).
 
 ## Troubleshooting
 

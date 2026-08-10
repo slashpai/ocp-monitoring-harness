@@ -39,7 +39,7 @@ completed/              Archived completed tasks — local, gitignored
 templates/              Structured task templates (spec, plan, execution)
 CHANGELOG.md            Historical record of notable harness changes (no releases)
 CLAUDE.md               Project context summary (CMO architecture, workflow, troubleshooting)
-CONVENTIONS.md          Coding and contribution conventions for CMO
+CONVENTIONS.md          Harness conventions and pointers to CMO coding standards
 USAGE.md                How to use this harness with an AI agent
 ```
 
