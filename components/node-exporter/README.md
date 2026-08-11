@@ -39,4 +39,3 @@ Key metric families include:
 ## Jsonnet Source
 
 `jsonnet/components/node-exporter.libsonnet`
-

@@ -30,4 +30,3 @@ Kubelet → cAdvisor → Prometheus scrape → Prometheus TSDB → PromQL querie
 ## Jsonnet Source
 
 `jsonnet/components/metrics-server.libsonnet`
-

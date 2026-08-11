@@ -23,4 +23,3 @@ It:
 ## Jsonnet Source
 
 `jsonnet/components/telemeter-client.libsonnet` — Defines the telemeter-client Deployment, RBAC, Service, and related resources.
-

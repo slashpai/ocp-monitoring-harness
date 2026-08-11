@@ -28,4 +28,3 @@ This provides observability into OpenShift platform state that complements the K
 ## Jsonnet Source
 
 `jsonnet/components/openshift-state-metrics.libsonnet` — Defines the openshift-state-metrics Deployment, RBAC, and related resources.
-

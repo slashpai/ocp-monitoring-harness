@@ -254,7 +254,7 @@ _N of M phases done._
 |------|-----------|--------|-------------|
 ```
 
-5. Present git state per project, then ask the user how to proceed:
+1. Present git state per project, then ask the user how to proceed:
 
 ```
 How would you like to handle the PR?

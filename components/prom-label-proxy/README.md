@@ -38,4 +38,3 @@ prom-label-proxy runs as a sidecar/proxy in front of:
 ## Jsonnet Source
 
 prom-label-proxy containers are defined within Thanos Querier's and Alertmanager's Jsonnet. Look in `jsonnet/components/thanos-querier.libsonnet` and `jsonnet/components/alertmanager.libsonnet`.
-

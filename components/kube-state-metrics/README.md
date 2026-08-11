@@ -37,4 +37,3 @@ CMO also deploys `openshift-state-metrics`, which generates metrics for OpenShif
 ## Jsonnet Source
 
 `jsonnet/components/kube-state-metrics.libsonnet`
-
