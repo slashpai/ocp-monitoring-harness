@@ -11,11 +11,12 @@ Create atomic, conventional commits for **harness repository changes only** (doc
 ## Input
 
 ```
-/harness:commit [--no-changelog]
+/harness:commit [--no-changelog] [--auto]
 ```
 
-- No arguments — commit pending changes and update `CHANGELOG.md`
+- No arguments — commit pending changes and update `CHANGELOG.md`, with human approval at each step
 - `--no-changelog` — skip the changelog update
+- `--auto` — skip per-commit approval prompts if the pre-commit scan passes cleanly (no secrets, no unintended files). The commit plan (step 2) still requires approval — only the individual commit executions (step 5) are auto-approved
 
 ## Steps
 
@@ -118,7 +119,9 @@ For each approved commit, in order:
 git add <files>
 ```
 
-2. Present the staged diff and proposed message:
+2. Run the pre-commit scan (step 4) on the staged files.
+
+3. Present the staged diff and proposed message:
 
 ```bash
 git diff --cached --stat
@@ -128,15 +131,16 @@ git diff --cached --stat
 Proposed commit message: docs: slim .cursor/rules/02-development-workflow.mdc
 ```
 
-3. **Wait for user approval.**
+4. **If `--auto` and the pre-commit scan passed cleanly:** proceed directly to commit.
+   **Otherwise:** wait for user approval before committing.
 
-4. Commit with DCO sign-off and GPG signature:
+5. Commit with DCO sign-off and GPG signature:
 
 ```bash
 git commit -s -S -m "<message>"
 ```
 
-**Always skip `projects/` submodule changes** unless the user explicitly asks to include them.
+If `--auto` and the pre-commit scan found issues for any commit, **stop the entire auto flow** and fall back to manual approval for that commit and all remaining commits.
 
 ### 6. Update CHANGELOG.md (unless `--no-changelog`)
 
@@ -162,7 +166,7 @@ Confirm the working tree is clean (excluding `projects/`).
 ## Constraints
 
 - **Harness changes only** — this skill commits to the harness repo itself (docs, rules, skills, CI, Makefile). For code changes in `projects/` submodules, use `/mon:implement` which has its own commit conventions, push safety, and PR workflow
-- **Never commit autonomously** — every commit requires explicit user approval
+- **Never commit autonomously** — commit plan always requires user approval; individual commits require approval unless `--auto` is passed and pre-commit scan is clean
 - **Always use `-s -S`** — DCO sign-off and GPG signature on every commit
 - **Never commit secrets** — scan diffs before staging
 - **Never include `projects/` changes** — auto-unstage them; submodule bumps are handled by CI
