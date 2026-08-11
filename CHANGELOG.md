@@ -2,6 +2,7 @@
 
 Notable changes to this harness, newest first. This repo does not publish releases — this file is a historical record only.
 
+- Added `harness-commit` skill (`/harness:commit`) — atomic commits for harness changes with pre-commit security scan, conventional messages, and automatic changelog update
 - Switched to [mdox](https://github.com/bwplotka/mdox) as the single markdown linter (formatting + link validation); removed markdownlint container dependency
 - Added `make lint`, `make lint-fix`, `make validate`, `make clean`, `make help` targets; mdox auto-installed to `bin/` on first run
 - Added GitHub Actions checks workflow (`checks.yaml`) — runs `make lint` on PRs and pushes to `main`
