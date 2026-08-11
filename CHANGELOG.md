@@ -2,9 +2,9 @@
 
 Notable changes to this harness, newest first. This repo does not publish releases — this file is a historical record only.
 
-- Added `make validate` target — runs `lint` + `check-links` in one command
-- Added `make check-links` using [mdox](https://github.com/bwplotka/mdox) for internal and external link validation with `.mdox.validate.yaml` config
-- Added GitHub Actions lint workflow (`lint.yaml`) — runs `make lint` on PRs and pushes to `main`
+- Switched to [mdox](https://github.com/bwplotka/mdox) as the single markdown linter (formatting + link validation); removed markdownlint container dependency
+- Added `make lint`, `make lint-fix`, `make validate`, `make clean`, `make help` targets; mdox auto-installed to `bin/` on first run
+- Added GitHub Actions checks workflow (`checks.yaml`) — runs `make lint` on PRs and pushes to `main`
 - Slimmed `.cursor/rules/02-development-workflow.mdc` to pointer (same pattern as other Cursor rules)
 - Slimmed `components/` READMEs — removed overview tables (duplicated `ARCHITECTURE.md`), config tables, and deployment topology (drift-prone); kept role descriptions, key metrics, and jsonnet paths
 - Deleted `components/*/development.md` (12 files) — templated CMO integration steps now covered by CMO's own `Documentation/`

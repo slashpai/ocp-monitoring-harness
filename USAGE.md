@@ -18,7 +18,7 @@ Task directories under `tasks/` are **local working documents** and are gitignor
 
 - An [Agent Skills](https://agentskills.io)–compatible coding agent ([Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Codex, Gemini CLI, etc.)
 - `git` with submodule support (enable `core.symlinks=true` on Windows if skill symlinks fail)
-- `podman` or `docker` (for markdown linting only)
+- Go (for `make lint` — auto-installs [mdox](https://github.com/bwplotka/mdox) to `bin/`)
 - A GitHub fork of each **component** repo you will change (e.g. `cluster-monitoring-operator`) — for opening PRs
 
 ## Getting Started
@@ -295,9 +295,11 @@ Keep submodules current before planning. After implementation, run `make reset-p
 ## Validation
 
 ```bash
-make lint                # markdown lint (requires podman or docker)
-make check-links         # validate internal and external links (requires mdox)
-make validate            # run all checks (lint + check-links)
+make lint                # check markdown formatting and links (auto-installs mdox)
+make lint-fix            # fix markdown formatting and validate links
+make validate            # run all checks
+make clean               # remove local tool binaries (bin/)
+make help                # list all available targets
 ```
 
-Install [mdox](https://github.com/bwplotka/mdox) for link checking: `go install github.com/bwplotka/mdox@latest`
+Uses [mdox](https://github.com/bwplotka/mdox) for formatting and link validation. Auto-installed to `bin/` on first run (requires Go).
