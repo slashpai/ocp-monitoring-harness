@@ -1,0 +1,16 @@
+version: 1
+
+validators:
+  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)openshift\/(cluster-monitoring-operator|prometheus|prometheus-alertmanager|prometheus-operator|kube-state-metrics|node_exporter|thanos|kube-rbac-proxy|kubernetes-metrics-server|monitoring-plugin|prom-label-proxy|telemeter|openshift-state-metrics)(\/pull\/|\/issues\/)'
+    type: 'githubPullsIssues'
+  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)slashpai\/(ocp-monitoring-harness|cluster-monitoring-operator)(\/pull\/|\/issues\/)'
+    type: 'githubPullsIssues'
+  # Skip upstream community repos — avoid rate limiting
+  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)(prometheus|prometheus-operator|prometheus-community|thanos-io|kubernetes|kubernetes-sigs|brancz)\/'
+    type: 'ignore'
+  # Skip Red Hat docs — behind CDN/auth that trips roundtrip checks
+  - regex: '(^http[s]?:\/\/)(www\.)?(docs\.redhat\.com|developers\.redhat\.com)\/'
+    type: 'ignore'
+  # Skip agentskills.io
+  - regex: '(^http[s]?:\/\/)(www\.)?agentskills\.io'
+    type: 'ignore'

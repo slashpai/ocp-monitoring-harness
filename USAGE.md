@@ -291,3 +291,13 @@ make reset-projects      # discard local submodule changes; reset to .gitmodules
 ```
 
 Keep submodules current before planning. After implementation, run `make reset-projects` once the branch is pushed to your fork.
+
+## Validation
+
+```bash
+make lint                # markdown lint (requires podman or docker)
+make check-links         # validate internal and external links (requires mdox)
+make validate            # run all checks (lint + check-links)
+```
+
+Install [mdox](https://github.com/bwplotka/mdox) for link checking: `go install github.com/bwplotka/mdox@latest`
