@@ -1,6 +1,5 @@
 BIN_DIR ?= $(CURDIR)/bin
 MDOX ?= $(BIN_DIR)/mdox
-DOCS_MD := $(shell find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*')
 
 .PHONY: help submodule-init submodule-update submodule-status reset-projects lint lint-fix install-mdox validate clean
 
@@ -27,10 +26,10 @@ $(MDOX):
 	$(MAKE) install-mdox
 
 lint: $(MDOX) ## Check markdown formatting and links
-	$(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --check $(DOCS_MD)
+	find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*' -print0 | xargs -0 $(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --check
 
 lint-fix: $(MDOX) ## Fix markdown formatting and validate links
-	$(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml $(DOCS_MD)
+	find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*' -print0 | xargs -0 $(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml
 
 validate: lint ## Run all checks
 
