@@ -40,19 +40,18 @@ Analyze the changed files and group them into logical, atomic commits. Each comm
 - **By scope**: component docs, skills, rules, workflows, Makefile
 - **By dependency**: if commit B depends on commit A, order them correctly
 
+Unless `--no-changelog`, include a `CHANGELOG.md` update **in each commit** — add the changelog entry for that commit's change and stage `CHANGELOG.md` alongside the other files. This avoids a noisy standalone "docs: update changelog" commit.
+
 Present the proposed commit plan as a numbered list:
 
 ```
 Proposed commits:
 
 1. docs: slim .cursor/rules/02-development-workflow.mdc
-   Files: .cursor/rules/02-development-workflow.mdc
+   Files: .cursor/rules/02-development-workflow.mdc, CHANGELOG.md
 
 2. ci: add checks workflow
-   Files: .github/workflows/checks.yaml
-
-3. chore: update Makefile and CHANGELOG.md
-   Files: Makefile, CHANGELOG.md
+   Files: .github/workflows/checks.yaml, CHANGELOG.md
 ```
 
 **Wait for user approval before proceeding.** The user may reorder, merge, split, or rename commits.
@@ -113,15 +112,20 @@ If anything is found, **stop and report** — never commit secrets or unintended
 
 For each approved commit, in order:
 
-1. Stage the relevant files:
+1. Unless `--no-changelog`, update `CHANGELOG.md` for this commit's change:
+   - Read `CHANGELOG.md`
+   - Add a concise entry at the top of the list (below the header)
+   - Follow the existing style — one bullet per logical change, newest first
+
+2. Stage the relevant files (including `CHANGELOG.md` if updated):
 
 ```bash
 git add <files>
 ```
 
-2. Run the pre-commit scan (step 4) on the staged files.
+3. Run the pre-commit scan (step 4) on the staged files.
 
-3. Present the staged diff and proposed message:
+4. Present the staged diff and proposed message:
 
 ```bash
 git diff --cached --stat
@@ -131,10 +135,10 @@ git diff --cached --stat
 Proposed commit message: docs: slim .cursor/rules/02-development-workflow.mdc
 ```
 
-4. **If `--auto` and the pre-commit scan passed cleanly:** proceed directly to commit.
+5. **If `--auto` and the pre-commit scan passed cleanly:** proceed directly to commit.
    **Otherwise:** wait for user approval before committing.
 
-5. Commit with DCO sign-off and GPG signature:
+6. Commit with DCO sign-off and GPG signature:
 
 ```bash
 git commit -s -S -m "<message>"
@@ -142,17 +146,7 @@ git commit -s -S -m "<message>"
 
 If `--auto` and the pre-commit scan found issues for any commit, **stop the entire auto flow** and fall back to manual approval for that commit and all remaining commits.
 
-### 6. Update CHANGELOG.md (unless `--no-changelog`)
-
-Unless the user passed `--no-changelog`:
-
-1. Read `CHANGELOG.md`
-2. Add concise entries for the committed changes at the top of the list (below the header)
-3. Follow the existing style — one bullet per logical change, newest first
-4. Present the diff for approval before committing
-5. Commit as `docs: update changelog`
-
-### 7. Verify
+### 6. Verify
 
 After all commits, show the final state:
 
