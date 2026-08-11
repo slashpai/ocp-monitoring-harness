@@ -7,7 +7,7 @@ This repository is a **structured workspace** for the OpenShift Cluster Monitori
 - `.agents/skills/` — Portable Agent Skills (`/mon:spec`, `/mon:plan`, etc.); `.cursor/skills` and `.claude/skills` are compatibility symlinks
 - `.cursor/rules/` — Cursor rules — auto-loaded context (Cursor-enhanced; optional for other agents)
 - `ARCHITECTURE.md` — CMO component catalog, repo mapping, and syncbot workflow
-- `components/<name>/` — Per-component references with README and development guides
+- `components/<name>/` — Per-component references (role, key metrics, jsonnet paths)
 - `development/` — Cross-component contributing guides (upstream vs downstream)
 - `projects/` — Git submodules for CMO and all component repos (source of truth for code and versions)
 - `scripts/` — `reset-projects.sh` and other harness scripts

@@ -2,6 +2,11 @@
 
 Notable changes to this harness, newest first. This repo does not publish releases — this file is a historical record only.
 
+- Slimmed `components/` READMEs — removed overview tables (duplicated `ARCHITECTURE.md`), config tables, and deployment topology (drift-prone); kept role descriptions, key metrics, and jsonnet paths
+- Deleted `components/*/development.md` (12 files) — templated CMO integration steps now covered by CMO's own `Documentation/`
+- Moved CMO-specific development guides (`adding-alerts.md`, `adding-metrics.md`, `jsonnet-workflow.md`, `testing.md`) from harness `development/` to CMO's `Documentation/` via [PR branch](https://github.com/slashpai/cluster-monitoring-operator/tree/docs/add-alerts-metrics-guides)
+- Slimmed `development/contributing.md` to cross-component guidance only (upstream vs downstream); removed CMO-specific sections
+- Slimmed `CLAUDE.md` and `CONVENTIONS.md` to harness-level content; CMO-specific dev workflow and coding standards now point to CMO docs
 - Consolidated `architecture/` (5 files) into a single root `ARCHITECTURE.md` — keeps stable content (repo mapping, component catalog, syncbot workflow) and drops drift-prone CMO internals now covered by [`projects/cluster-monitoring-operator/AGENTS.md`](projects/cluster-monitoring-operator/AGENTS.md)
 - Made `ARCHITECTURE.md` the single component catalog; README, `CLAUDE.md`, and Cursor overview rule link to it instead of duplicating tables/lists
 - Updated skills, Cursor rules, and docs to reference `ARCHITECTURE.md`

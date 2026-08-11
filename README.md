@@ -30,7 +30,7 @@ CMO and every component it deploys are available as git submodules under `projec
 .cursor/skills          Symlink → .agents/skills (Cursor discovery)
 .claude/skills          Symlink → .agents/skills (Claude Code discovery)
 ARCHITECTURE.md         CMO component catalog, repo mapping, and syncbot workflow
-components/             Per-component references and development guides
+components/             Per-component references (role, key metrics, jsonnet paths)
 development/            Cross-component contributing guides (upstream vs downstream)
 projects/               Git submodules for CMO and all component repos (plan + implement)
 scripts/                reset-projects.sh and other harness scripts
@@ -68,7 +68,7 @@ Skills work for CMO, downstream component forks (`openshift/*`), and upstream co
 | [tasks/README.md](tasks/README.md) | Local task workflow (spec → plan → execution) |
 | [development/](development/) | Cross-component contributing guides (upstream vs downstream) |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Component catalog, repo mapping, syncbot workflow |
-| [components/](components/) | Per-component references and development guides |
+| [components/](components/) | Per-component references (role, key metrics, jsonnet paths) |
 
 > [!NOTE]
 > `tasks/` and `completed/` are gitignored — task documents are currently local working files. For larger features with team-wide adoption, these can be source-controlled and each phase (spec, plan) created as a pull request for discussion and review before proceeding to the next phase.
