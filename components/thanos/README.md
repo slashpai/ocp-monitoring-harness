@@ -1,13 +1,6 @@
 # Thanos
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | [thanos-io/thanos](https://github.com/thanos-io/thanos) |
-| **OpenShift Fork** | [openshift/thanos](https://github.com/openshift/thanos) |
-| **Submodule** | `projects/thanos` |
-| **Namespace** | `openshift-monitoring` (Querier), `openshift-user-workload-monitoring` (Ruler) |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -55,4 +48,3 @@ Runs as a container within each Prometheus pod. Exposes the Thanos StoreAPI so T
 - `jsonnet/components/thanos-querier.libsonnet`
 - `jsonnet/components/thanos-ruler.libsonnet`
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

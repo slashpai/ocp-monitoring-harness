@@ -1,15 +1,6 @@
 # openshift-state-metrics
 
-## Overview
-
-| | |
-|---|---|
-| **Repository** | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) |
-| **Namespace** | `openshift-monitoring` |
-| **Kind** | Deployment |
-| **Replicas** | 1 |
-
-> **Note:** openshift-state-metrics is an OpenShift-only component with no community upstream.
+OpenShift-only component with no community upstream. For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -23,23 +14,6 @@ openshift-state-metrics exposes metrics about OpenShift-specific resources that 
 - `DeploymentConfig`
 
 This provides observability into OpenShift platform state that complements the Kubernetes-level metrics from kube-state-metrics.
-
-## Deployment Topology
-
-Containers in the pod:
-
-- `openshift-state-metrics` — Main process generating metrics from OpenShift API objects
-- `kube-rbac-proxy` — AuthN/AuthZ proxy for the metrics endpoints
-
-## Key Configuration
-
-In `cluster-monitoring-config` ConfigMap under the `openshiftStateMetrics` key:
-
-| Setting | Default | Description |
-|---|---|---|
-| `resources` | (defaults) | CPU/memory requests and limits |
-| `nodeSelector` | (none) | Node scheduling constraints |
-| `tolerations` | (none) | Tolerations for tainted nodes |
 
 ## Key Metrics Exposed
 
@@ -55,4 +29,3 @@ In `cluster-monitoring-config` ConfigMap under the `openshiftStateMetrics` key:
 
 `jsonnet/components/openshift-state-metrics.libsonnet` — Defines the openshift-state-metrics Deployment, RBAC, and related resources.
 
-See [development.md](development.md) for CMO integration details and contribution guide.

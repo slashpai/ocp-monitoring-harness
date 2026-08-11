@@ -1,15 +1,6 @@
 # kube-state-metrics
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | [kubernetes/kube-state-metrics](https://github.com/kubernetes/kube-state-metrics) |
-| **OpenShift Fork** | [openshift/kube-state-metrics](https://github.com/openshift/kube-state-metrics) |
-| **Submodule** | `projects/kube-state-metrics` |
-| **Namespace** | `openshift-monitoring` |
-| **Kind** | Deployment |
-| **Replicas** | 1 |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -47,4 +38,3 @@ CMO also deploys `openshift-state-metrics`, which generates metrics for OpenShif
 
 `jsonnet/components/kube-state-metrics.libsonnet`
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

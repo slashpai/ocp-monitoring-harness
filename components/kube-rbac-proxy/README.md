@@ -1,14 +1,6 @@
 # kube-rbac-proxy
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | [brancz/kube-rbac-proxy](https://github.com/brancz/kube-rbac-proxy) |
-| **OpenShift Fork** | [openshift/kube-rbac-proxy](https://github.com/openshift/kube-rbac-proxy) |
-| **Submodule** | `projects/kube-rbac-proxy` |
-| **Namespace** | `openshift-monitoring` |
-| **Kind** | Sidecar container (not a standalone Deployment) |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -44,4 +36,3 @@ Client → kube-rbac-proxy (AuthN/AuthZ via K8s RBAC) → Backend (/metrics endp
 
 kube-rbac-proxy containers are defined within each component's Jsonnet. There is no standalone `kube-rbac-proxy.libsonnet` — look for `kube-rbac-proxy` container definitions in each component's libsonnet file.
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

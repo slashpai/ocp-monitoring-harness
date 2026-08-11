@@ -1,14 +1,6 @@
 # prom-label-proxy
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy) |
-| **OpenShift Fork** | [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy) |
-| **Submodule** | `projects/prom-label-proxy` |
-| **Namespace** | `openshift-monitoring` |
-| **Kind** | Sidecar / proxy container |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -47,4 +39,3 @@ prom-label-proxy runs as a sidecar/proxy in front of:
 
 prom-label-proxy containers are defined within Thanos Querier's and Alertmanager's Jsonnet. Look in `jsonnet/components/thanos-querier.libsonnet` and `jsonnet/components/alertmanager.libsonnet`.
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

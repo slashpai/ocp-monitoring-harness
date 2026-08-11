@@ -1,15 +1,6 @@
 # node-exporter
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | [prometheus/node_exporter](https://github.com/prometheus/node_exporter) |
-| **OpenShift Fork** | [openshift/node_exporter](https://github.com/openshift/node_exporter) |
-| **Submodule** | `projects/node-exporter` |
-| **Namespace** | `openshift-monitoring` |
-| **Kind** | DaemonSet |
-| **Replicas** | 1 per node |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -49,4 +40,3 @@ Key metric families include:
 
 `jsonnet/components/node-exporter.libsonnet`
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

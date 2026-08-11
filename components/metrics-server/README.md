@@ -1,15 +1,6 @@
 # metrics-server (Kubernetes Metrics Server)
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) |
-| **OpenShift Fork** | [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server) |
-| **Submodule** | `projects/kubernetes-metrics-server` |
-| **Namespace** | `openshift-monitoring` |
-| **Kind** | Deployment |
-| **Replicas** | 2 |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -40,4 +31,3 @@ Kubelet → cAdvisor → Prometheus scrape → Prometheus TSDB → PromQL querie
 
 `jsonnet/components/metrics-server.libsonnet`
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

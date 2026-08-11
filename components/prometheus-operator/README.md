@@ -1,16 +1,6 @@
 # Prometheus Operator
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | [prometheus-operator/prometheus-operator](https://github.com/prometheus-operator/prometheus-operator) |
-| **OpenShift Fork** | [openshift/prometheus-operator](https://github.com/openshift/prometheus-operator) |
-| **Submodule** | `projects/prometheus-operator` |
-| **Namespace** | `openshift-monitoring` (platform), `openshift-user-workload-monitoring` (UWM) |
-| **Kind** | Deployment |
-| **Replicas** | 1 (per namespace) |
-| **Pod Name Pattern** | `prometheus-operator-*` |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -33,31 +23,6 @@ Prometheus Operator is the foundational component that **must be deployed first*
 | `AlertmanagerConfig` | Namespace-scoped Alertmanager routing/receivers |
 | `ScrapeConfig` | Low-level scrape configuration |
 | `PrometheusAgent` | Defines a Prometheus Agent (metrics-only, no alerting) |
-
-## Deployment Topology
-
-### Platform Prometheus Operator
-
-Single replica in `openshift-monitoring`. Watches all namespaces for CRDs related to platform monitoring.
-
-Containers:
-
-- `prometheus-operator` — Main operator process
-- `kube-rbac-proxy` — AuthN/AuthZ sidecar for metrics endpoint
-
-### UWM Prometheus Operator
-
-Separate instance in `openshift-user-workload-monitoring` (when UWM is enabled). Watches user namespaces for ServiceMonitors, PodMonitors, and PrometheusRules.
-
-## Key Configuration
-
-Prometheus Operator itself has minimal configuration in `cluster-monitoring-config` under the `prometheusOperator` key:
-
-| Setting | Default | Description |
-|---|---|---|
-| `resources` | (defaults) | CPU/memory requests and limits |
-| `nodeSelector` | (none) | Node scheduling constraints |
-| `tolerations` | (none) | Tolerations for tainted nodes |
 
 ## Key Metrics Exposed
 
@@ -84,4 +49,3 @@ In CMO's reconciliation order, Prometheus Operator runs in **group 1** (before a
 
 `jsonnet/components/prometheus-operator.libsonnet` — Defines the Prometheus Operator Deployment, RBAC, and CRD resources.
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.

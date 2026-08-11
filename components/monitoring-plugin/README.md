@@ -1,15 +1,6 @@
 # monitoring-plugin
 
-## Overview
-
-| | |
-|---|---|
-| **Community Upstream** | *(OpenShift-only, no upstream)* |
-| **OpenShift Repo** | [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin) |
-| **Submodule** | `projects/monitoring-plugin` |
-| **Namespace** | `openshift-monitoring` |
-| **Kind** | Deployment |
-| **Replicas** | 2 |
+For component details (repos, namespace, submodule path), see [ARCHITECTURE.md](../../ARCHITECTURE.md).
 
 ## Role in the Stack
 
@@ -32,4 +23,3 @@ The monitoring plugin provides the **monitoring UI** in the OpenShift web consol
 
 `jsonnet/components/monitoring-plugin.libsonnet`
 
-See [development.md](development.md) for CMO integration details, version bumps, and upstream contribution guide.
