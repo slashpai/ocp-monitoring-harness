@@ -263,6 +263,7 @@ Invoke with `/mon:*` where the agent supports slash skills; otherwise use the sk
 | Implement  | `/mon:implement <task>`            | `tasks/<task>/plan.md`       | `tasks/<task>/execution.md` + implemented changes; 4 human gates |
 | Review     | `/mon:review <PR>`                 | PR number or URL             | Structured review with severity levels                           |
 | Diagnostic | `/mon:diagnostic "symptom"`        | Inline symptom description   | Root cause diagnosis with per-command consent                    |
+| Commit     | `/harness:commit [--no-changelog]` | Pending harness changes      | Atomic commits with security scan and changelog update           |
 
 Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard). Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
 

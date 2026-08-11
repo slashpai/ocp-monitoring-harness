@@ -67,6 +67,7 @@ Custom skills automate the spec-plan-execution pipeline:
 | `mon-implement`  | `/mon:implement <task>`            | Executes plan with 4 human gates (start, commit, push, PR); resume-aware    |
 | `mon-review`     | `/mon:review <PR>`                 | Multi-domain PR review (Go, jsonnet, config API, tests)                     |
 | `mon-diagnostic` | `/mon:diagnostic "symptom"`        | Bug diagnosis with per-command consent before any cluster query             |
+| `harness-commit` | `/harness:commit [--no-changelog]` | Atomic harness commits with conventional messages, security scan, changelog |
 
 Skill definitions live in `.agents/skills/` ([Agent Skills](https://agentskills.io) standard). Invoke with `/mon:*` where supported, or by skill name / natural language.
 
