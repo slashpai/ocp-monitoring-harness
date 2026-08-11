@@ -2,6 +2,10 @@
 
 Notable changes to this harness, newest first. This repo does not publish releases — this file is a historical record only.
 
+- Added `make validate` target — runs `lint` + `check-links` in one command
+- Added `make check-links` using [mdox](https://github.com/bwplotka/mdox) for internal and external link validation with `.mdox.validate.yaml` config
+- Added GitHub Actions lint workflow (`lint.yaml`) — runs `make lint` on PRs and pushes to `main`
+- Slimmed `.cursor/rules/02-development-workflow.mdc` to pointer (same pattern as other Cursor rules)
 - Slimmed `components/` READMEs — removed overview tables (duplicated `ARCHITECTURE.md`), config tables, and deployment topology (drift-prone); kept role descriptions, key metrics, and jsonnet paths
 - Deleted `components/*/development.md` (12 files) — templated CMO integration steps now covered by CMO's own `Documentation/`
 - Moved CMO-specific development guides (`adding-alerts.md`, `adding-metrics.md`, `jsonnet-workflow.md`, `testing.md`) from harness `development/` to CMO's `Documentation/` via [PR branch](https://github.com/slashpai/cluster-monitoring-operator/tree/docs/add-alerts-metrics-guides)
