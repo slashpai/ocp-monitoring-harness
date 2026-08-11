@@ -1,12 +1,7 @@
 ---
 name: mon-review
-description: >-
-  Multi-domain PR review for CMO and monitoring stack components. For CMO PRs,
-  classifies files by domain (Go, jsonnet, config API, tests, YAML assets) and
-  checks for CMO anti-patterns. For component PRs, adapts to the project's own
-  build system and conventions. Use when the user says /mon:review or asks
-  to review a PR.
 disable-model-invocation: true
+description: Multi-domain PR review for CMO and monitoring stack components. For CMO PRs, classifies files by domain (Go, jsonnet, config API, tests, YAML assets) and checks for CMO anti-patterns. For component PRs, adapts to the project's own build system and conventions. Use when the user says /mon:review or asks to review a PR.
 ---
 
 # Monitoring Reviewer
@@ -50,26 +45,26 @@ gh pr diff <number>
 
 **For CMO PRs** (`cluster-monitoring-operator`), sort files into:
 
-| Domain | File patterns |
-|--------|---------------|
-| Go (operator logic) | `pkg/**/*.go`, `cmd/**/*.go` (excluding `_test.go`) |
-| Go (tests) | `*_test.go`, `test/**/*.go` |
-| Jsonnet | `jsonnet/**/*.libsonnet`, `jsonnet/**/*.jsonnet` |
-| YAML assets | `assets/**/*.yaml`, `manifests/**/*.yaml` |
-| Config API | `pkg/manifests/types.go`, `pkg/manifests/config.go` |
-| Build/CI | `Makefile`, `Dockerfile*`, `.github/**`, `Containerfile*` |
-| Dependencies | `go.mod`, `go.sum`, `vendor/**`, `jsonnet/versions.yaml` |
-| Documentation | `*.md`, `docs/**` |
+| Domain              | File patterns                                             |
+|---------------------|-----------------------------------------------------------|
+| Go (operator logic) | `pkg/**/*.go`, `cmd/**/*.go` (excluding `_test.go`)       |
+| Go (tests)          | `*_test.go`, `test/**/*.go`                               |
+| Jsonnet             | `jsonnet/**/*.libsonnet`, `jsonnet/**/*.jsonnet`          |
+| YAML assets         | `assets/**/*.yaml`, `manifests/**/*.yaml`                 |
+| Config API          | `pkg/manifests/types.go`, `pkg/manifests/config.go`       |
+| Build/CI            | `Makefile`, `Dockerfile*`, `.github/**`, `Containerfile*` |
+| Dependencies        | `go.mod`, `go.sum`, `vendor/**`, `jsonnet/versions.yaml`  |
+| Documentation       | `*.md`, `docs/**`                                         |
 
 **For component PRs** (Prometheus, Thanos, etc.), sort files into:
 
-| Domain | File patterns |
-|--------|---------------|
-| Go (logic) | `**/*.go` (excluding `_test.go` and `vendor/`) |
-| Go (tests) | `*_test.go` |
-| Build/CI | `Makefile`, `Dockerfile*`, `.github/**`, `Containerfile*` |
-| Dependencies | `go.mod`, `go.sum`, `vendor/**` |
-| Documentation | `*.md`, `docs/**` |
+| Domain        | File patterns                                             |
+|---------------|-----------------------------------------------------------|
+| Go (logic)    | `**/*.go` (excluding `_test.go` and `vendor/`)            |
+| Go (tests)    | `*_test.go`                                               |
+| Build/CI      | `Makefile`, `Dockerfile*`, `.github/**`, `Containerfile*` |
+| Dependencies  | `go.mod`, `go.sum`, `vendor/**`                           |
+| Documentation | `*.md`, `docs/**`                                         |
 
 For component PRs, read the project's `CLAUDE.md`, `AGENTS.md`, or `CONTRIBUTING.md` for project-specific conventions before reviewing.
 

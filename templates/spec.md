@@ -2,7 +2,7 @@
 
 **Status:** Draft | Approved
 
-_Draft while being written/revised. Set to Approved by the next phase (`/mon:plan`) once the human has reviewed it._
+*Draft while being written/revised. Set to Approved by the next phase (`/mon:plan`) once the human has reviewed it.*
 
 Define the problem before solving it.
 
@@ -10,7 +10,7 @@ Define the problem before solving it.
 
 ## Problem Statement
 
-_What needs to change and why._
+*What needs to change and why.*
 
 ```text
 <describe the problem or feature request>
@@ -18,7 +18,7 @@ _What needs to change and why._
 
 ## Related Projects
 
-_Which repos in `projects/` are affected._
+*Which repos in `projects/` are affected.*
 
 ```text
 - projects/cluster-monitoring-operator
@@ -26,7 +26,7 @@ _Which repos in `projects/` are affected._
 
 ## Acceptance Criteria
 
-_How you know it's done. Concrete, verifiable items._
+*How you know it's done. Concrete, verifiable items.*
 
 ```text
 - [ ] <criterion 1>
@@ -35,7 +35,7 @@ _How you know it's done. Concrete, verifiable items._
 
 ## References
 
-_Links to Jira, PRs, upstream issues, docs._
+*Links to Jira, PRs, upstream issues, docs.*
 
 ```text
 - <link>

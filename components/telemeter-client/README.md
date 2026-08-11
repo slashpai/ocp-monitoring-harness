@@ -15,10 +15,10 @@ It:
 
 ## Key Metrics Exposed
 
-| Metric | Type | Description |
-|---|---|---|
-| `metricsclient_request_send_total` | Counter | Total telemetry requests sent |
-| `metricsclient_request_send_errors_total` | Counter | Failed telemetry requests |
+| Metric                                    | Type    | Description                   |
+|-------------------------------------------|---------|-------------------------------|
+| `metricsclient_request_send_total`        | Counter | Total telemetry requests sent |
+| `metricsclient_request_send_errors_total` | Counter | Failed telemetry requests     |
 
 ## Jsonnet Source
 

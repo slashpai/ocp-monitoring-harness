@@ -28,7 +28,8 @@ Depends on: Phase 1 | Parallel with: Phase 3 (different repos) | Type: jsonnet |
 - [ ] [Command] — expected: [outcome]
 
 ---
-_Phases 3 and 4 can run in parallel after Phase 2_
+
+*Phases 3 and 4 can run in parallel after Phase 2*
 
 ---
 
@@ -46,7 +47,7 @@ Depends on: Phase 2 | Parallel with: Phase 4 (different repo) | Type: configurat
 
 ## Summary
 
-_N of M phases done. Update the **Status** field at the top of this document to reflect final state._
+*N of M phases done. Update the **Status** field at the top of this document to reflect final state.*
 
 ### Outstanding items
 

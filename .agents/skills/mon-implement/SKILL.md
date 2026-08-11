@@ -1,12 +1,7 @@
 ---
 name: mon-implement
-description: >-
-  Parse a plan.md into execution.md and execute phases in dependency order.
-  Works for CMO, downstream components, and upstream contributions. Dispatches
-  parallel agents for multi-repo work, enforces TDD for Go changes, handles
-  jsonnet regeneration (CMO), and verifies fork push safety before pushing.
-  Use when the user says /mon:implement or asks to execute a plan.
 disable-model-invocation: true
+description: Parse a plan.md into execution.md and execute phases in dependency order. Works for CMO, downstream components, and upstream contributions. Dispatches parallel agents for multi-repo work, enforces TDD for Go changes, handles jsonnet regeneration (CMO), and verifies fork push safety before pushing. Use when the user says /mon:implement or asks to execute a plan.
 ---
 
 # Monitoring Implement
@@ -71,12 +66,12 @@ Do NOT silently resume with a stale execution.md when the plan has changed.
 
 **Phase type determines execution approach:**
 
-| Type | TDD Required | Post-edit steps |
-|------|-------------|-----------------|
-| `implementation` | Yes (Red-Green-Refactor) | `make test-unit`, `go vet ./...` |
-| `configuration` | No | Build/lint verification |
-| `jsonnet` | No | `make jsonnet-fmt generate`, verify asset diff, commit sources + assets together |
-| `investigation` | No | Annotate findings inline |
+| Type             | TDD Required             | Post-edit steps                                                                  |
+|------------------|--------------------------|----------------------------------------------------------------------------------|
+| `implementation` | Yes (Red-Green-Refactor) | `make test-unit`, `go vet ./...`                                                 |
+| `configuration`  | No                       | Build/lint verification                                                          |
+| `jsonnet`        | No                       | `make jsonnet-fmt generate`, verify asset diff, commit sources + assets together |
+| `investigation`  | No                       | Annotate findings inline                                                         |
 
 **Parallel group separators:** When consecutive phases can run in parallel, insert:
 
@@ -215,12 +210,12 @@ Before pushing to any remote:
 
 ### 6. Handle failures
 
-| Failure | Action | Limit |
-|---------|--------|-------|
-| Build/compilation error | Read error, attempt fix, re-verify | 2 attempts then stop |
-| Test failure | Diagnose real bug vs test issue | 2 attempts then stop |
-| Environment issue (tools, permissions) | Stop, present to user | — |
-| Plan is wrong (assumption fails) | Mark BLOCKED, update the top `**Status:**` line to `Blocked`, suggest amendment | — |
+| Failure                                | Action                                                                          | Limit                |
+|----------------------------------------|---------------------------------------------------------------------------------|----------------------|
+| Build/compilation error                | Read error, attempt fix, re-verify                                              | 2 attempts then stop |
+| Test failure                           | Diagnose real bug vs test issue                                                 | 2 attempts then stop |
+| Environment issue (tools, permissions) | Stop, present to user                                                           | —                    |
+| Plan is wrong (assumption fails)       | Mark BLOCKED, update the top `**Status:**` line to `Blocked`, suggest amendment | —                    |
 
 **Emergent phases:** When execution reveals unanticipated work:
 

@@ -39,17 +39,17 @@ Before your upstream change is merged and released, you can test it against CMO:
 
 ## Upstream Contributing Guides
 
-| Component | Contributing Guide |
-|---|---|
-| Prometheus | [prometheus/prometheus CONTRIBUTING.md](https://github.com/prometheus/prometheus/blob/main/CONTRIBUTING.md) |
-| Alertmanager | [prometheus/alertmanager CONTRIBUTING.md](https://github.com/prometheus/alertmanager/blob/main/CONTRIBUTING.md) |
+| Component           | Contributing Guide                                                                                                                              |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Prometheus          | [prometheus/prometheus CONTRIBUTING.md](https://github.com/prometheus/prometheus/blob/main/CONTRIBUTING.md)                                     |
+| Alertmanager        | [prometheus/alertmanager CONTRIBUTING.md](https://github.com/prometheus/alertmanager/blob/main/CONTRIBUTING.md)                                 |
 | Prometheus Operator | [prometheus-operator/prometheus-operator CONTRIBUTING.md](https://github.com/prometheus-operator/prometheus-operator/blob/main/CONTRIBUTING.md) |
-| kube-state-metrics | [kubernetes/kube-state-metrics CONTRIBUTING.md](https://github.com/kubernetes/kube-state-metrics/blob/main/CONTRIBUTING.md) |
-| node-exporter | [prometheus/node_exporter CONTRIBUTING.md](https://github.com/prometheus/node_exporter/blob/main/CONTRIBUTING.md) |
-| Thanos | [thanos-io/thanos CONTRIBUTING.md](https://github.com/thanos-io/thanos/blob/main/CONTRIBUTING.md) |
-| kube-rbac-proxy | [brancz/kube-rbac-proxy](https://github.com/brancz/kube-rbac-proxy) |
-| metrics-server | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) |
-| prom-label-proxy | [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy) |
+| kube-state-metrics  | [kubernetes/kube-state-metrics CONTRIBUTING.md](https://github.com/kubernetes/kube-state-metrics/blob/main/CONTRIBUTING.md)                     |
+| node-exporter       | [prometheus/node_exporter CONTRIBUTING.md](https://github.com/prometheus/node_exporter/blob/main/CONTRIBUTING.md)                               |
+| Thanos              | [thanos-io/thanos CONTRIBUTING.md](https://github.com/thanos-io/thanos/blob/main/CONTRIBUTING.md)                                               |
+| kube-rbac-proxy     | [brancz/kube-rbac-proxy](https://github.com/brancz/kube-rbac-proxy)                                                                             |
+| metrics-server      | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server)                                                             |
+| prom-label-proxy    | [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy)                                               |
 
 ## Upstream Build and Test
 

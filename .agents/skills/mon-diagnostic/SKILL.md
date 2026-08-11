@@ -1,13 +1,7 @@
 ---
 name: mon-diagnostic
-description: >-
-  Diagnose bugs and issues in the OpenShift monitoring stack. Maps symptoms to
-  components, confirms with the user before querying a live cluster (via
-  obs-mcp or direct oc access), and falls back to manual oc/PromQL commands
-  when no cluster is available. Follows the alerts-component-metrics-logs-
-  config troubleshooting methodology. Use when the user says /mon:diagnostic
-  or asks to diagnose a monitoring issue.
 disable-model-invocation: true
+description: Diagnose bugs and issues in the OpenShift monitoring stack. Maps symptoms to components, confirms with the user before querying a live cluster (via obs-mcp or direct oc access), and falls back to manual oc/PromQL commands when no cluster is available. Follows the alerts-component-metrics-logs- config troubleshooting methodology. Use when the user says /mon:diagnostic or asks to diagnose a monitoring issue.
 ---
 
 # Monitoring Diagnostic
@@ -37,18 +31,18 @@ Parse the symptom description. Ask for missing context:
 
 Use the symptom-component table to narrow scope:
 
-| Symptom | Likely Components |
-|---------|-------------------|
-| Missing metrics | Prometheus, kube-state-metrics, node-exporter, scrape targets |
-| Alerts not firing | Prometheus (rules), Alertmanager (routing/silences) |
-| Alerts not delivered | Alertmanager (receivers, routes) |
-| Console monitoring broken | monitoring-plugin, Thanos Querier |
-| High memory / OOM | Prometheus (cardinality, retention), Thanos |
-| Pod CrashLoopBackOff | Component-specific — check logs and resource limits |
-| RBAC / auth errors | kube-rbac-proxy, prom-label-proxy |
-| HPA not scaling | metrics-server |
-| Query errors / slow queries | Thanos Querier, Prometheus |
-| UWM metrics missing | UWM Prometheus, Thanos Ruler, prom-label-proxy |
+| Symptom                     | Likely Components                                             |
+|-----------------------------|---------------------------------------------------------------|
+| Missing metrics             | Prometheus, kube-state-metrics, node-exporter, scrape targets |
+| Alerts not firing           | Prometheus (rules), Alertmanager (routing/silences)           |
+| Alerts not delivered        | Alertmanager (receivers, routes)                              |
+| Console monitoring broken   | monitoring-plugin, Thanos Querier                             |
+| High memory / OOM           | Prometheus (cardinality, retention), Thanos                   |
+| Pod CrashLoopBackOff        | Component-specific — check logs and resource limits           |
+| RBAC / auth errors          | kube-rbac-proxy, prom-label-proxy                             |
+| HPA not scaling             | metrics-server                                                |
+| Query errors / slow queries | Thanos Querier, Prometheus                                    |
+| UWM metrics missing         | UWM Prometheus, Thanos Ruler, prom-label-proxy                |
 
 Read `components/<component>/README.md` for each suspected component to understand its architecture and common failure modes.
 

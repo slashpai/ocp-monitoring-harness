@@ -8,21 +8,21 @@ Components run in `openshift-monitoring` (platform) and, when enabled, `openshif
 
 Each component has a **community upstream** and an **OpenShift fork** (downstream), except rows marked *(OpenShift-only)*. Forks carry downstream patches and live on release branches (e.g. `release-4.x`).
 
-| Component | Role | Community Upstream | OpenShift Fork | Submodule |
-|---|---|---|---|---|
-| Cluster Monitoring Operator | Deploys and reconciles the monitoring stack | *(OpenShift-only)* | [openshift/cluster-monitoring-operator](https://github.com/openshift/cluster-monitoring-operator) | `projects/cluster-monitoring-operator` |
-| Prometheus | Metrics collection and alerting engine | [prometheus/prometheus](https://github.com/prometheus/prometheus) | [openshift/prometheus](https://github.com/openshift/prometheus) | `projects/prometheus` |
-| Alertmanager | Alert routing, grouping, silencing, notification | [prometheus/alertmanager](https://github.com/prometheus/alertmanager) | [openshift/prometheus-alertmanager](https://github.com/openshift/prometheus-alertmanager) | `projects/prometheus-alertmanager` |
-| Prometheus Operator | Manages Prometheus, Alertmanager, and Thanos Ruler via CRDs | [prometheus-operator/prometheus-operator](https://github.com/prometheus-operator/prometheus-operator) | [openshift/prometheus-operator](https://github.com/openshift/prometheus-operator) | `projects/prometheus-operator` |
-| kube-state-metrics | Kubernetes object state as metrics | [kubernetes/kube-state-metrics](https://github.com/kubernetes/kube-state-metrics) | [openshift/kube-state-metrics](https://github.com/openshift/kube-state-metrics) | `projects/kube-state-metrics` |
-| node-exporter | Node hardware/OS metrics | [prometheus/node_exporter](https://github.com/prometheus/node_exporter) | [openshift/node_exporter](https://github.com/openshift/node_exporter) | `projects/node-exporter` |
-| Thanos | Querier (unified queries), Ruler (UWM rules), Sidecar (store/upload) | [thanos-io/thanos](https://github.com/thanos-io/thanos) | [openshift/thanos](https://github.com/openshift/thanos) | `projects/thanos` |
-| kube-rbac-proxy | AuthN/AuthZ sidecar for metrics endpoints | [brancz/kube-rbac-proxy](https://github.com/brancz/kube-rbac-proxy) | [openshift/kube-rbac-proxy](https://github.com/openshift/kube-rbac-proxy) | `projects/kube-rbac-proxy` |
-| metrics-server | Resource metrics API for HPA/VPA (separate from Prometheus) | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) | [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server) | `projects/kubernetes-metrics-server` |
-| monitoring-plugin | OpenShift console monitoring UI | *(OpenShift-only)* | [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin) | `projects/monitoring-plugin` |
-| prom-label-proxy | Namespace label filtering for multi-tenant queries | [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy) | [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy) | `projects/prom-label-proxy` |
-| telemeter-client | Telemetry forwarding to Red Hat (when enabled) | *(OpenShift-only)* | [openshift/telemeter](https://github.com/openshift/telemeter) | `projects/telemeter` |
-| openshift-state-metrics | OpenShift resource state as metrics | *(OpenShift-only)* | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics) | `projects/openshift-state-metrics` |
+| Component                   | Role                                                                 | Community Upstream                                                                                    | OpenShift Fork                                                                                    | Submodule                              |
+|-----------------------------|----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|----------------------------------------|
+| Cluster Monitoring Operator | Deploys and reconciles the monitoring stack                          | *(OpenShift-only)*                                                                                    | [openshift/cluster-monitoring-operator](https://github.com/openshift/cluster-monitoring-operator) | `projects/cluster-monitoring-operator` |
+| Prometheus                  | Metrics collection and alerting engine                               | [prometheus/prometheus](https://github.com/prometheus/prometheus)                                     | [openshift/prometheus](https://github.com/openshift/prometheus)                                   | `projects/prometheus`                  |
+| Alertmanager                | Alert routing, grouping, silencing, notification                     | [prometheus/alertmanager](https://github.com/prometheus/alertmanager)                                 | [openshift/prometheus-alertmanager](https://github.com/openshift/prometheus-alertmanager)         | `projects/prometheus-alertmanager`     |
+| Prometheus Operator         | Manages Prometheus, Alertmanager, and Thanos Ruler via CRDs          | [prometheus-operator/prometheus-operator](https://github.com/prometheus-operator/prometheus-operator) | [openshift/prometheus-operator](https://github.com/openshift/prometheus-operator)                 | `projects/prometheus-operator`         |
+| kube-state-metrics          | Kubernetes object state as metrics                                   | [kubernetes/kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)                     | [openshift/kube-state-metrics](https://github.com/openshift/kube-state-metrics)                   | `projects/kube-state-metrics`          |
+| node-exporter               | Node hardware/OS metrics                                             | [prometheus/node_exporter](https://github.com/prometheus/node_exporter)                               | [openshift/node_exporter](https://github.com/openshift/node_exporter)                             | `projects/node-exporter`               |
+| Thanos                      | Querier (unified queries), Ruler (UWM rules), Sidecar (store/upload) | [thanos-io/thanos](https://github.com/thanos-io/thanos)                                               | [openshift/thanos](https://github.com/openshift/thanos)                                           | `projects/thanos`                      |
+| kube-rbac-proxy             | AuthN/AuthZ sidecar for metrics endpoints                            | [brancz/kube-rbac-proxy](https://github.com/brancz/kube-rbac-proxy)                                   | [openshift/kube-rbac-proxy](https://github.com/openshift/kube-rbac-proxy)                         | `projects/kube-rbac-proxy`             |
+| metrics-server              | Resource metrics API for HPA/VPA (separate from Prometheus)          | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server)                   | [openshift/kubernetes-metrics-server](https://github.com/openshift/kubernetes-metrics-server)     | `projects/kubernetes-metrics-server`   |
+| monitoring-plugin           | OpenShift console monitoring UI                                      | *(OpenShift-only)*                                                                                    | [openshift/monitoring-plugin](https://github.com/openshift/monitoring-plugin)                     | `projects/monitoring-plugin`           |
+| prom-label-proxy            | Namespace label filtering for multi-tenant queries                   | [prometheus-community/prom-label-proxy](https://github.com/prometheus-community/prom-label-proxy)     | [openshift/prom-label-proxy](https://github.com/openshift/prom-label-proxy)                       | `projects/prom-label-proxy`            |
+| telemeter-client            | Telemetry forwarding to Red Hat (when enabled)                       | *(OpenShift-only)*                                                                                    | [openshift/telemeter](https://github.com/openshift/telemeter)                                     | `projects/telemeter`                   |
+| openshift-state-metrics     | OpenShift resource state as metrics                                  | *(OpenShift-only)*                                                                                    | [openshift/openshift-state-metrics](https://github.com/openshift/openshift-state-metrics)         | `projects/openshift-state-metrics`     |
 
 ## How they connect
 
@@ -35,14 +35,14 @@ Each component has a **community upstream** and an **OpenShift fork** (downstrea
 
 ## When to Use Which Repo
 
-| Task | Repo |
-|---|---|
-| Report a bug in core component behavior | Community upstream |
-| Report an OpenShift-specific bug | OpenShift fork |
-| Track an upstream feature for inclusion | Community upstream → OpenShift fork rebase |
-| Version bump in CMO | Update `jsonnet/versions.yaml` after OpenShift fork rebases upstream |
-| OpenShift-specific patches (RBAC, TLS, console integration) | OpenShift fork |
-| Review upstream release notes before a bump | Community upstream releases page |
+| Task                                                        | Repo                                                                 |
+|-------------------------------------------------------------|----------------------------------------------------------------------|
+| Report a bug in core component behavior                     | Community upstream                                                   |
+| Report an OpenShift-specific bug                            | OpenShift fork                                                       |
+| Track an upstream feature for inclusion                     | Community upstream → OpenShift fork rebase                           |
+| Version bump in CMO                                         | Update `jsonnet/versions.yaml` after OpenShift fork rebases upstream |
+| OpenShift-specific patches (RBAC, TLS, console integration) | OpenShift fork                                                       |
+| Review upstream release notes before a bump                 | Community upstream releases page                                     |
 
 ## Version Bump Workflow
 

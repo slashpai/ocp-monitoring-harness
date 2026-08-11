@@ -8,10 +8,10 @@ Thanos provides a unified query view across multiple Prometheus instances and op
 
 ### Thanos Querier
 
-| | |
-|---|---|
-| **Kind** | Deployment |
-| **Replicas** | 2 |
+|               |                        |
+|---------------|------------------------|
+| **Kind**      | Deployment             |
+| **Replicas**  | 2                      |
 | **Namespace** | `openshift-monitoring` |
 
 The central query endpoint for all monitoring data. It:
@@ -23,9 +23,9 @@ The central query endpoint for all monitoring data. It:
 
 ### Thanos Ruler (UWM only)
 
-| | |
-|---|---|
-| **Kind** | StatefulSet |
+|               |                                      |
+|---------------|--------------------------------------|
+| **Kind**      | StatefulSet                          |
 | **Namespace** | `openshift-user-workload-monitoring` |
 
 Evaluates user-defined alerting and recording rules. Only deployed when User Workload Monitoring is enabled.
@@ -36,12 +36,12 @@ Runs as a container within each Prometheus pod. Exposes the Thanos StoreAPI so T
 
 ## Key Metrics
 
-| Metric | Description |
-|---|---|
-| `thanos_query_gate_queries_total` | Total queries through the query gate |
-| `thanos_query_store_apis_dns_lookups_total` | StoreAPI DNS lookups |
-| `thanos_grpc_server_handled_total` | gRPC requests handled |
-| `thanos_query_concurrent_selects` | Concurrent select queries |
+| Metric                                      | Description                          |
+|---------------------------------------------|--------------------------------------|
+| `thanos_query_gate_queries_total`           | Total queries through the query gate |
+| `thanos_query_store_apis_dns_lookups_total` | StoreAPI DNS lookups                 |
+| `thanos_grpc_server_handled_total`          | gRPC requests handled                |
+| `thanos_query_concurrent_selects`           | Concurrent select queries            |
 
 ## Jsonnet Source
 

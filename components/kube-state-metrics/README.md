@@ -20,15 +20,15 @@ Key metric families include:
 
 ## Key Metrics
 
-| Metric | Description |
-|---|---|
-| `kube_pod_status_phase` | Pod phase (Pending/Running/Succeeded/Failed/Unknown) |
-| `kube_pod_container_status_restarts_total` | Container restart count |
-| `kube_pod_container_resource_requests` | Container CPU/memory requests |
-| `kube_pod_container_resource_limits` | Container CPU/memory limits |
-| `kube_deployment_status_replicas_available` | Available replicas |
-| `kube_node_status_condition` | Node conditions (Ready, MemoryPressure, etc.) |
-| `kube_node_status_allocatable` | Allocatable resources per node |
+| Metric                                      | Description                                          |
+|---------------------------------------------|------------------------------------------------------|
+| `kube_pod_status_phase`                     | Pod phase (Pending/Running/Succeeded/Failed/Unknown) |
+| `kube_pod_container_status_restarts_total`  | Container restart count                              |
+| `kube_pod_container_resource_requests`      | Container CPU/memory requests                        |
+| `kube_pod_container_resource_limits`        | Container CPU/memory limits                          |
+| `kube_deployment_status_replicas_available` | Available replicas                                   |
+| `kube_node_status_condition`                | Node conditions (Ready, MemoryPressure, etc.)        |
+| `kube_node_status_allocatable`              | Allocatable resources per node                       |
 
 ## Companion: openshift-state-metrics
 

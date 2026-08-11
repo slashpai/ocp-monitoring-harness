@@ -17,13 +17,13 @@ This provides observability into OpenShift platform state that complements the K
 
 ## Key Metrics Exposed
 
-| Metric | Type | Description |
-|---|---|---|
-| `openshift_clusterversion_info` | Gauge | Cluster version information |
+| Metric                                 | Type  | Description                      |
+|----------------------------------------|-------|----------------------------------|
+| `openshift_clusterversion_info`        | Gauge | Cluster version information      |
 | `openshift_clusteroperator_conditions` | Gauge | ClusterOperator condition status |
-| `openshift_clusterresourcequota_usage` | Gauge | Cluster resource quota usage |
-| `openshift_route_info` | Gauge | Route metadata |
-| `openshift_build_info` | Gauge | Build metadata |
+| `openshift_clusterresourcequota_usage` | Gauge | Cluster resource quota usage     |
+| `openshift_route_info`                 | Gauge | Route metadata                   |
+| `openshift_build_info`                 | Gauge | Build metadata                   |
 
 ## Jsonnet Source
 

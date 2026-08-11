@@ -22,10 +22,10 @@ Kubelet → cAdvisor → Prometheus scrape → Prometheus TSDB → PromQL querie
 
 ## Key APIs
 
-| API | Path | Purpose |
-|---|---|---|
+| API          | Path                                 | Purpose             |
+|--------------|--------------------------------------|---------------------|
 | Node metrics | `/apis/metrics.k8s.io/v1beta1/nodes` | CPU/memory per node |
-| Pod metrics | `/apis/metrics.k8s.io/v1beta1/pods` | CPU/memory per pod |
+| Pod metrics  | `/apis/metrics.k8s.io/v1beta1/pods`  | CPU/memory per pod  |
 
 ## Jsonnet Source
 

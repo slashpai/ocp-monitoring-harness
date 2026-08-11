@@ -12,30 +12,30 @@ Prometheus Operator is the foundational component that **must be deployed first*
 
 ## CRDs Managed
 
-| CRD | Purpose |
-|---|---|
-| `Prometheus` | Defines a Prometheus instance (replicas, retention, storage, etc.) |
-| `Alertmanager` | Defines an Alertmanager cluster |
-| `ServiceMonitor` | Defines which Services Prometheus should scrape |
-| `PodMonitor` | Defines which Pods Prometheus should scrape (without a Service) |
-| `PrometheusRule` | Defines alerting and recording rules |
-| `ThanosRuler` | Defines a Thanos Ruler instance |
-| `AlertmanagerConfig` | Namespace-scoped Alertmanager routing/receivers |
-| `ScrapeConfig` | Low-level scrape configuration |
-| `PrometheusAgent` | Defines a Prometheus Agent (metrics-only, no alerting) |
+| CRD                  | Purpose                                                            |
+|----------------------|--------------------------------------------------------------------|
+| `Prometheus`         | Defines a Prometheus instance (replicas, retention, storage, etc.) |
+| `Alertmanager`       | Defines an Alertmanager cluster                                    |
+| `ServiceMonitor`     | Defines which Services Prometheus should scrape                    |
+| `PodMonitor`         | Defines which Pods Prometheus should scrape (without a Service)    |
+| `PrometheusRule`     | Defines alerting and recording rules                               |
+| `ThanosRuler`        | Defines a Thanos Ruler instance                                    |
+| `AlertmanagerConfig` | Namespace-scoped Alertmanager routing/receivers                    |
+| `ScrapeConfig`       | Low-level scrape configuration                                     |
+| `PrometheusAgent`    | Defines a Prometheus Agent (metrics-only, no alerting)             |
 
 ## Key Metrics Exposed
 
-| Metric | Type | Description |
-|---|---|---|
-| `prometheus_operator_reconcile_operations_total` | Counter | Total reconciliation operations |
-| `prometheus_operator_reconcile_errors_total` | Counter | Failed reconciliation operations |
-| `prometheus_operator_node_address_lookup_errors_total` | Counter | Node address lookup failures |
-| `prometheus_operator_spec_replicas` | Gauge | Configured replicas for managed resources |
-| `prometheus_operator_status_replicas` | Gauge | Actual replicas for managed resources |
-| `prometheus_operator_triggered_total` | Counter | Times the operator was triggered |
-| `prometheus_operator_list_operations_total` | Counter | List API calls |
-| `prometheus_operator_watch_operations_total` | Counter | Watch API calls |
+| Metric                                                 | Type    | Description                               |
+|--------------------------------------------------------|---------|-------------------------------------------|
+| `prometheus_operator_reconcile_operations_total`       | Counter | Total reconciliation operations           |
+| `prometheus_operator_reconcile_errors_total`           | Counter | Failed reconciliation operations          |
+| `prometheus_operator_node_address_lookup_errors_total` | Counter | Node address lookup failures              |
+| `prometheus_operator_spec_replicas`                    | Gauge   | Configured replicas for managed resources |
+| `prometheus_operator_status_replicas`                  | Gauge   | Actual replicas for managed resources     |
+| `prometheus_operator_triggered_total`                  | Counter | Times the operator was triggered          |
+| `prometheus_operator_list_operations_total`            | Counter | List API calls                            |
+| `prometheus_operator_watch_operations_total`           | Counter | Watch API calls                           |
 
 ## Why It Must Run First
 

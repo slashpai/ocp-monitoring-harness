@@ -1,13 +1,7 @@
 ---
 name: mon-spec
-description: >-
-  Create a structured task spec for CMO or any monitoring stack component from
-  a Jira ticket, bug report, or feature description. Explores projects/ to
-  verify related repos, documents current behavior, identifies open questions,
-  and generates spec.md with acceptance criteria. Supports CMO, downstream
-  (openshift/*), and upstream contributions.
-  Use when the user says /mon:spec or asks to create a task spec.
 disable-model-invocation: true
+description: Create a structured task spec for CMO or any monitoring stack component from a Jira ticket, bug report, or feature description. Explores projects/ to verify related repos, documents current behavior, identifies open questions, and generates spec.md with acceptance criteria. Supports CMO, downstream (openshift/*), and upstream contributions. Use when the user says /mon:spec or asks to create a task spec.
 ---
 
 # Monitoring Spec
@@ -72,11 +66,11 @@ Read `ARCHITECTURE.md` to look up the component's upstream and downstream repos.
 
 Classify the change:
 
-| Target | When | PR destination | Build/test |
-|--------|------|----------------|------------|
-| **CMO** | Changes to operator logic, jsonnet, config API | `openshift/cluster-monitoring-operator` | `make jsonnet-fmt generate`, `make test-unit` |
-| **Downstream component** | OpenShift-specific fix in a component fork | `openshift/<component>` (e.g., `openshift/prometheus`) | Read `projects/<component>/Makefile` for build/test commands |
-| **Upstream component** | Bug fix or feature for the community project | Community repo from `ARCHITECTURE.md` (e.g., `prometheus/prometheus`) | Read `projects/<component>/Makefile`; upstream may have different CI |
+| Target                   | When                                           | PR destination                                                        | Build/test                                                           |
+|--------------------------|------------------------------------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------|
+| **CMO**                  | Changes to operator logic, jsonnet, config API | `openshift/cluster-monitoring-operator`                               | `make jsonnet-fmt generate`, `make test-unit`                        |
+| **Downstream component** | OpenShift-specific fix in a component fork     | `openshift/<component>` (e.g., `openshift/prometheus`)                | Read `projects/<component>/Makefile` for build/test commands         |
+| **Upstream component**   | Bug fix or feature for the community project   | Community repo from `ARCHITECTURE.md` (e.g., `prometheus/prometheus`) | Read `projects/<component>/Makefile`; upstream may have different CI |
 
 **Push safety (all targets):** Always push to the user's personal fork. Never push directly to `openshift/*` repos or community upstream repos.
 

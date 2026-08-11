@@ -18,17 +18,17 @@ Key metric families include:
 
 ## Key Metrics
 
-| Metric | Description |
-|---|---|
-| `node_cpu_seconds_total` | CPU time in each mode (user, system, idle, iowait, etc.) |
-| `node_memory_MemTotal_bytes` | Total memory |
-| `node_memory_MemAvailable_bytes` | Available memory |
-| `node_filesystem_avail_bytes` | Available filesystem space |
-| `node_filesystem_size_bytes` | Total filesystem size |
-| `node_disk_io_time_seconds_total` | Time spent doing I/O |
-| `node_network_receive_bytes_total` | Network bytes received |
-| `node_network_transmit_bytes_total` | Network bytes transmitted |
-| `node_load1` / `node_load5` / `node_load15` | System load averages |
+| Metric                                      | Description                                              |
+|---------------------------------------------|----------------------------------------------------------|
+| `node_cpu_seconds_total`                    | CPU time in each mode (user, system, idle, iowait, etc.) |
+| `node_memory_MemTotal_bytes`                | Total memory                                             |
+| `node_memory_MemAvailable_bytes`            | Available memory                                         |
+| `node_filesystem_avail_bytes`               | Available filesystem space                               |
+| `node_filesystem_size_bytes`                | Total filesystem size                                    |
+| `node_disk_io_time_seconds_total`           | Time spent doing I/O                                     |
+| `node_network_receive_bytes_total`          | Network bytes received                                   |
+| `node_network_transmit_bytes_total`         | Network bytes transmitted                                |
+| `node_load1` / `node_load5` / `node_load15` | System load averages                                     |
 
 ## Deployment Notes
 

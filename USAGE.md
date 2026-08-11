@@ -226,11 +226,11 @@ Ask in chat. The agent reads `ARCHITECTURE.md`, `components/`, and `projects/` a
 
 ## Where Code Changes Go
 
-| Change | Where to implement | Where to open PR |
-|---|---|---|
-| CMO manifest, config API, operator logic | `projects/cluster-monitoring-operator` | `openshift/cluster-monitoring-operator` |
-| Upstream component fix | `projects/<component>` | Community repo or OpenShift fork |
-| Harness docs only | This repo (`ARCHITECTURE.md`, `components/`, etc.) | This repo |
+| Change                                   | Where to implement                                 | Where to open PR                        |
+|------------------------------------------|----------------------------------------------------|-----------------------------------------|
+| CMO manifest, config API, operator logic | `projects/cluster-monitoring-operator`             | `openshift/cluster-monitoring-operator` |
+| Upstream component fix                   | `projects/<component>`                             | Community repo or OpenShift fork        |
+| Harness docs only                        | This repo (`ARCHITECTURE.md`, `components/`, etc.) | This repo                               |
 
 ### How Implementation Works
 
@@ -256,13 +256,13 @@ Custom skills automate the spec-plan-execution pipeline. They encode monitoring 
 
 Invoke with `/mon:*` where the agent supports slash skills; otherwise use the skill name or describe the workflow in natural language.
 
-| Skill | Command | Input | Output |
-|-------|---------|-------|--------|
-| Spec | `/mon:spec <task> "<description>"` | Task name + Jira/description | `tasks/<task>/spec.md` with verified current behavior |
-| Plan | `/mon:plan <task>` | `tasks/<task>/spec.md` | `tasks/<task>/plan.md` with impact map, phases, PR strategy |
-| Implement | `/mon:implement <task>` | `tasks/<task>/plan.md` | `tasks/<task>/execution.md` + implemented changes; 4 human gates |
-| Review | `/mon:review <PR>` | PR number or URL | Structured review with severity levels |
-| Diagnostic | `/mon:diagnostic "symptom"` | Inline symptom description | Root cause diagnosis with per-command consent |
+| Skill      | Command                            | Input                        | Output                                                           |
+|------------|------------------------------------|------------------------------|------------------------------------------------------------------|
+| Spec       | `/mon:spec <task> "<description>"` | Task name + Jira/description | `tasks/<task>/spec.md` with verified current behavior            |
+| Plan       | `/mon:plan <task>`                 | `tasks/<task>/spec.md`       | `tasks/<task>/plan.md` with impact map, phases, PR strategy      |
+| Implement  | `/mon:implement <task>`            | `tasks/<task>/plan.md`       | `tasks/<task>/execution.md` + implemented changes; 4 human gates |
+| Review     | `/mon:review <PR>`                 | PR number or URL             | Structured review with severity levels                           |
+| Diagnostic | `/mon:diagnostic "symptom"`        | Inline symptom description   | Root cause diagnosis with per-command consent                    |
 
 Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard). Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
 
@@ -270,16 +270,16 @@ Skills work for CMO, downstream component forks (`openshift/*`), and upstream co
 
 In a typical agentic SDLC, this harness covers the **context and planning substrate**:
 
-| SDLC phase | Harness role |
-|---|---|
-| Intake / triage | `ARCHITECTURE.md`, `components/` — map symptoms to components |
-| Spec | `tasks/<name>/spec.md` from [templates/spec.md](templates/spec.md) |
-| Plan | Impact map from `projects/` submodules — **human review gate** |
-| Implement | `projects/<repo>/` submodule — push to fork, PR to upstream |
-| Test | [CMO testing docs](https://github.com/openshift/cluster-monitoring-operator/tree/main/Documentation) — `make test-unit`, e2e, etc. |
-| Review | `plan.md` and `execution.md` document intent vs outcome |
-| Operate | CMO `assets/*/prometheus-rule.yaml`, `.cursor/rules/04-promql-patterns.mdc`, optional live MCP tools |
-| Cleanup | `make reset-projects` after tasks (push first) |
+| SDLC phase      | Harness role                                                                                                                       |
+|-----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Intake / triage | `ARCHITECTURE.md`, `components/` — map symptoms to components                                                                      |
+| Spec            | `tasks/<name>/spec.md` from [templates/spec.md](templates/spec.md)                                                                 |
+| Plan            | Impact map from `projects/` submodules — **human review gate**                                                                     |
+| Implement       | `projects/<repo>/` submodule — push to fork, PR to upstream                                                                        |
+| Test            | [CMO testing docs](https://github.com/openshift/cluster-monitoring-operator/tree/main/Documentation) — `make test-unit`, e2e, etc. |
+| Review          | `plan.md` and `execution.md` document intent vs outcome                                                                            |
+| Operate         | CMO `assets/*/prometheus-rule.yaml`, `.cursor/rules/04-promql-patterns.mdc`, optional live MCP tools                               |
+| Cleanup         | `make reset-projects` after tasks (push first)                                                                                     |
 
 ## Submodule Maintenance
 

@@ -1,13 +1,7 @@
 ---
 name: mon-plan
-description: >-
-  Create a phased implementation plan from a task spec for CMO or any monitoring
-  stack component. Explores projects/ submodules for real file paths, asks
-  clarifying questions, and generates plan.md with impact map, phase
-  dependencies, verification steps, PR strategy, and risk analysis. Supports
-  CMO, downstream (openshift/*), and upstream contributions.
-  Use when the user says /mon:plan or asks to plan a monitoring stack task.
 disable-model-invocation: true
+description: Create a phased implementation plan from a task spec for CMO or any monitoring stack component. Explores projects/ submodules for real file paths, asks clarifying questions, and generates plan.md with impact map, phase dependencies, verification steps, PR strategy, and risk analysis. Supports CMO, downstream (openshift/*), and upstream contributions. Use when the user says /mon:plan or asks to plan a monitoring stack task.
 ---
 
 # Monitoring Planner
@@ -86,15 +80,15 @@ For each repo in scope, investigate:
 - **Similar implementations** — patterns to follow
 - **File patterns** — for CMO targets, use the CMO-specific patterns:
 
-| Change Type | Files Typically Involved |
-|-------------|--------------------------|
+| Change Type   | Files Typically Involved                                                             |
+|---------------|--------------------------------------------------------------------------------------|
 | K8s resources | `jsonnet/components/<component>.libsonnet` → `make jsonnet-fmt generate` → `assets/` |
-| Config option | `pkg/manifests/types.go` → `config.go` → `<component>.go` |
-| Alerting rule | `jsonnet/components/<component>.libsonnet` (PrometheusRule) |
-| Version bump | `jsonnet/versions.yaml` → `make generate` |
-| E2E test | `test/e2e/<component>_test.go` |
+| Config option | `pkg/manifests/types.go` → `config.go` → `<component>.go`                            |
+| Alerting rule | `jsonnet/components/<component>.libsonnet` (PrometheusRule)                          |
+| Version bump  | `jsonnet/versions.yaml` → `make generate`                                            |
+| E2E test      | `test/e2e/<component>_test.go`                                                       |
 
-  For **component targets** (not CMO), skip the CMO patterns above. Instead:
+For **component targets** (not CMO), skip the CMO patterns above. Instead:
 
 - Read `projects/<component>/Makefile` for build/test/lint commands
 - Read `projects/<component>/CLAUDE.md` or `AGENTS.md` for project conventions
@@ -109,12 +103,12 @@ For each repo in scope, investigate:
 
 Assign a type to each phase:
 
-| Type | When | Post-edit steps |
-|------|------|-----------------|
-| `implementation` | New functions, API changes, refactoring | TDD required. `make test-unit` |
-| `configuration` | Version bumps, import updates, config values | No TDD. Build/lint verification |
-| `jsonnet` | Editing `.libsonnet` files (CMO only) | `make jsonnet-fmt generate`. Commit sources + assets together. Never edit `assets/` directly |
-| `investigation` | Research, compatibility checks | No code. Annotate findings inline |
+| Type             | When                                         | Post-edit steps                                                                              |
+|------------------|----------------------------------------------|----------------------------------------------------------------------------------------------|
+| `implementation` | New functions, API changes, refactoring      | TDD required. `make test-unit`                                                               |
+| `configuration`  | Version bumps, import updates, config values | No TDD. Build/lint verification                                                              |
+| `jsonnet`        | Editing `.libsonnet` files (CMO only)        | `make jsonnet-fmt generate`. Commit sources + assets together. Never edit `assets/` directly |
+| `investigation`  | Research, compatibility checks               | No code. Annotate findings inline                                                            |
 
 For **component targets**, use `implementation` or `configuration` — `jsonnet` type only applies to CMO.
 
