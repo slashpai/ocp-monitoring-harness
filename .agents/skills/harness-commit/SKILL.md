@@ -108,7 +108,17 @@ Also scan `git diff --cached` content for secrets — report as **Severity | `pa
 
 If anything is found, **stop and report** — never commit secrets or unintended files.
 
-### 5. Execute commits
+### 5. Lint check
+
+Before committing, run the markdown linter to catch formatting issues:
+
+```bash
+make lint
+```
+
+If lint fails, auto-fix with `make lint-fix` and include the formatting changes in the relevant commit(s). If `lint-fix` introduces changes to files not in the commit plan, stage them with the most relevant commit.
+
+### 6. Execute commits
 
 For each approved commit, in order:
 
@@ -125,7 +135,9 @@ git add <files>
 
 3. Run the pre-commit scan (step 4) on the staged files.
 
-4. Present the staged diff and proposed message:
+4. Run `make lint` to verify the staged files pass linting. If it fails, run `make lint-fix`, re-stage the fixed files, and re-run `make lint` to confirm.
+
+5. Present the staged diff and proposed message:
 
 ```bash
 git diff --cached --stat
@@ -135,10 +147,9 @@ git diff --cached --stat
 Proposed commit message: docs: slim .cursor/rules/02-development-workflow.mdc
 ```
 
-5. **If `--auto` and the pre-commit scan passed cleanly:** proceed directly to commit.
-   **Otherwise:** wait for user approval before committing.
+6. **If `--auto` and the pre-commit scan passed cleanly:** proceed directly to commit. **Otherwise:** wait for user approval before committing.
 
-6. Commit with DCO sign-off and GPG signature:
+7. Commit with DCO sign-off and GPG signature:
 
 ```bash
 git commit -s -S -m "<message>"
@@ -146,7 +157,7 @@ git commit -s -S -m "<message>"
 
 If `--auto` and the pre-commit scan found issues for any commit, **stop the entire auto flow** and fall back to manual approval for that commit and all remaining commits.
 
-### 6. Verify
+### 7. Verify
 
 After all commits, show the final state:
 
