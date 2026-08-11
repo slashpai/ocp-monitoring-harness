@@ -10,11 +10,6 @@ validators:
     type: 'githubPullsIssues'
   - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)openshift\/prometheus-operator(\/pull\/|\/issues\/)'
     type: 'githubPullsIssues'
-  # User fork repos
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)slashpai\/ocp-monitoring-harness(\/pull\/|\/issues\/)'
-    type: 'githubPullsIssues'
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)slashpai\/cluster-monitoring-operator(\/pull\/|\/issues\/)'
-    type: 'githubPullsIssues'
   # Skip upstream community repos — avoid rate limiting
   - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)(prometheus|prometheus-operator|prometheus-community|thanos-io|kubernetes|kubernetes-sigs|brancz)\/'
     type: 'ignore'

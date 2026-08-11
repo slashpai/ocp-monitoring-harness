@@ -1,5 +1,8 @@
 # ocp-monitoring-harness
 
+[![checks](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/checks.yaml/badge.svg)](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/checks.yaml)
+[![submodule updates](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml/badge.svg)](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml)
+
 > [!NOTE] This project is under active development. Content may be incomplete or change without notice.
 
 A structured workspace for the OpenShift [Cluster Monitoring Operator (CMO)](https://github.com/openshift/cluster-monitoring-operator) and all components it deploys.
