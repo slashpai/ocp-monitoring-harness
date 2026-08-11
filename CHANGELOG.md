@@ -2,6 +2,7 @@
 
 Notable changes to this harness, newest first. This repo does not publish releases — this file is a historical record only.
 
+- Fixed mdox table alignment formatting in `CLAUDE.md`, `README.md`, and `USAGE.md`
 - Added `make lint` / `make lint-fix` integration to `harness-commit` skill — runs before committing to catch formatting issues early
 - Changed `harness-commit` skill to inline changelog updates into each atomic commit instead of a separate "docs: update changelog" commit
 - Added commit message linting to checks workflow using `wagoid/commitlint-github-action` with `@commitlint/config-conventional`; ignores dependabot and github-actions bot commits

@@ -57,7 +57,7 @@ Custom skills automate the spec-plan-execution pipeline. Invoke with `/mon:*` wh
 | `mon-implement`  | `/mon:implement <task>`            | Executes plan with 4 human gates (start, commit, push, PR); resume-aware                             |
 | `mon-review`     | `/mon:review <PR>`                 | Multi-domain PR review: Go, jsonnet, config API, tests, asset consistency                            |
 | `mon-diagnostic` | `/mon:diagnostic <symptom>`        | Bug diagnosis with per-command consent before any cluster query                                      |
-| `harness-commit` | `/harness:commit [--auto]`         | Atomic harness commits with security scan, changelog update; `--auto` skips per-commit approval     |
+| `harness-commit` | `/harness:commit [--auto]`         | Atomic harness commits with security scan, changelog update; `--auto` skips per-commit approval      |
 
 Skills work for CMO, downstream component forks (`openshift/*`), and upstream contributions. They live in [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard) and are committed to the repo. See [USAGE.md](USAGE.md#skills) for details.
 

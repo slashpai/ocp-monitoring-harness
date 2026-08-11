@@ -256,13 +256,13 @@ Custom skills automate the spec-plan-execution pipeline. They encode monitoring 
 
 Invoke with `/mon:*` where the agent supports slash skills; otherwise use the skill name or describe the workflow in natural language.
 
-| Skill      | Command                            | Input                        | Output                                                           |
-|------------|------------------------------------|------------------------------|------------------------------------------------------------------|
-| Spec       | `/mon:spec <task> "<description>"` | Task name + Jira/description | `tasks/<task>/spec.md` with verified current behavior            |
-| Plan       | `/mon:plan <task>`                 | `tasks/<task>/spec.md`       | `tasks/<task>/plan.md` with impact map, phases, PR strategy      |
-| Implement  | `/mon:implement <task>`            | `tasks/<task>/plan.md`       | `tasks/<task>/execution.md` + implemented changes; 4 human gates |
-| Review     | `/mon:review <PR>`                 | PR number or URL             | Structured review with severity levels                           |
-| Diagnostic | `/mon:diagnostic "symptom"`        | Inline symptom description   | Root cause diagnosis with per-command consent                    |
+| Skill      | Command                            | Input                        | Output                                                                              |
+|------------|------------------------------------|------------------------------|-------------------------------------------------------------------------------------|
+| Spec       | `/mon:spec <task> "<description>"` | Task name + Jira/description | `tasks/<task>/spec.md` with verified current behavior                               |
+| Plan       | `/mon:plan <task>`                 | `tasks/<task>/spec.md`       | `tasks/<task>/plan.md` with impact map, phases, PR strategy                         |
+| Implement  | `/mon:implement <task>`            | `tasks/<task>/plan.md`       | `tasks/<task>/execution.md` + implemented changes; 4 human gates                    |
+| Review     | `/mon:review <PR>`                 | PR number or URL             | Structured review with severity levels                                              |
+| Diagnostic | `/mon:diagnostic "symptom"`        | Inline symptom description   | Root cause diagnosis with per-command consent                                       |
 | Commit     | `/harness:commit [--auto]`         | Pending harness changes      | Atomic commits with security scan and changelog; `--auto` skips per-commit approval |
 
 Skills work for CMO, downstream component forks (`openshift/*`), and upstream community contributions. They live in [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard). Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
