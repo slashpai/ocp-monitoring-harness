@@ -27,6 +27,9 @@ Thumbs.db
 
 /tmp/
 
+# Local tool binaries (installed via make install-mdox, etc.)
+/bin/
+
 # Editor files
 *.swp
 *.swo

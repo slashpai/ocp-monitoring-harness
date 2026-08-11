@@ -1,30 +1,38 @@
-CONTAINER_ENGINE ?= podman
-MDOX ?= $(shell command -v mdox 2>/dev/null)
+BIN_DIR ?= $(CURDIR)/bin
+MDOX ?= $(BIN_DIR)/mdox
+DOCS_MD := $(shell find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*')
 
-.PHONY: submodule-init submodule-update submodule-status reset-projects lint lint-fix check-links validate
+.PHONY: help submodule-init submodule-update submodule-status reset-projects lint lint-fix install-mdox validate clean
 
-submodule-init:
+help: ## Show this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+
+submodule-init: ## Initialize git submodules
 	git submodule update --init
 
-submodule-update:
+submodule-update: ## Pull latest upstream commits into submodules
 	git submodule update --remote --merge
 
-submodule-status:
+submodule-status: ## Show pinned submodule commits
 	git submodule status
 
-reset-projects:
+reset-projects: ## Reset all submodules to .gitmodules branches (push first)
 	@./scripts/reset-projects.sh
 
-lint:
-	$(CONTAINER_ENGINE) run --rm -v $(CURDIR):/workdir:Z davidanson/markdownlint-cli2:v0.23.2 "**/*.md"
+install-mdox: ## Install mdox
+	mkdir -p $(BIN_DIR)
+	GOBIN=$(BIN_DIR) go install github.com/bwplotka/mdox@latest
 
-lint-fix:
-	$(CONTAINER_ENGINE) run --rm -v $(CURDIR):/workdir:Z davidanson/markdownlint-cli2:v0.23.2 --fix "**/*.md"
+$(MDOX):
+	$(MAKE) install-mdox
 
-check-links:
-ifndef MDOX
-	$(error mdox not found — install with: go install github.com/bwplotka/mdox@latest)
-endif
-	$(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --check *.md components/**/*.md development/**/*.md
+lint: $(MDOX) ## Check markdown formatting and links
+	$(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --check $(DOCS_MD)
 
-validate: lint check-links
+lint-fix: $(MDOX) ## Fix markdown formatting and validate links
+	$(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml $(DOCS_MD)
+
+validate: lint ## Run all checks
+
+clean: ## Remove local tool binaries
+	rm -rf $(BIN_DIR)
