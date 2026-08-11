@@ -2,6 +2,7 @@
 
 Notable changes to this harness, newest first. This repo does not publish releases — this file is a historical record only.
 
+- Added commit message linting to checks workflow using `wagoid/commitlint-github-action` with `@commitlint/config-conventional`; ignores dependabot and github-actions bot commits
 - Added `--auto` flag to `harness-commit` skill — skips per-commit approval when pre-commit scan passes cleanly; commit plan still requires approval
 - Added `harness-commit` skill (`/harness:commit`) — atomic commits for harness changes with pre-commit security scan, conventional messages, and automatic changelog update
 - Switched to [mdox](https://github.com/bwplotka/mdox) as the single markdown linter (formatting + link validation); removed markdownlint container dependency
