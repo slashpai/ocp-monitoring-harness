@@ -26,10 +26,12 @@ $(MDOX):
 	$(MAKE) install-mdox
 
 lint: $(MDOX) ## Check markdown formatting and links
-	find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*' -print0 | xargs -0 $(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --check
+	find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*' -not -name 'README.md' -print0 | xargs -0 $(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --check
+	$(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --check --soft-wraps README.md
 
 lint-fix: $(MDOX) ## Fix markdown formatting and validate links
-	find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*' -print0 | xargs -0 $(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml
+	find . -name '*.md' -not -path './projects/*' -not -path './tasks/*' -not -path './completed/*' -not -path './tmp/*' -not -path './bin/*' -not -name 'README.md' -print0 | xargs -0 $(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml
+	$(MDOX) fmt --links.validate --links.validate.config-file=.mdox.validate.yaml --soft-wraps README.md
 
 validate: lint ## Run all checks
 

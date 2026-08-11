@@ -1,24 +1,12 @@
 version: 1
 
 validators:
-  # OpenShift fork repos
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)openshift\/cluster-monitoring-operator(\/pull\/|\/issues\/)'
-    type: 'githubPullsIssues'
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)openshift\/prometheus(\/pull\/|\/issues\/)'
-    type: 'githubPullsIssues'
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)openshift\/prometheus-alertmanager(\/pull\/|\/issues\/)'
-    type: 'githubPullsIssues'
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)openshift\/prometheus-operator(\/pull\/|\/issues\/)'
-    type: 'githubPullsIssues'
-  # Skip upstream community repos — avoid rate limiting
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)(prometheus|prometheus-operator|prometheus-community|thanos-io|kubernetes|kubernetes-sigs|brancz)\/'
-    type: 'ignore'
-  # Skip remaining openshift repos not listed above
-  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)openshift\/'
+  # Skip GitHub repos — avoid rate limiting on roundtrip and API checks
+  - regex: '(^http[s]?:\/\/)(www\.)?(github\.com\/)'
     type: 'ignore'
   # Skip Red Hat docs — behind CDN/auth that trips roundtrip checks
   - regex: '(^http[s]?:\/\/)(www\.)?(docs\.redhat\.com|developers\.redhat\.com)\/'
     type: 'ignore'
   # Skip other external sites
-  - regex: '(^http[s]?:\/\/)(www\.)?(agentskills\.io|anthropic\.com|cursor\.com|docs\.anthropic\.com|rhobs)\/'
+  - regex: '(^http[s]?:\/\/)(www\.)?(agentskills\.io|anthropic\.com|cursor\.com|docs\.anthropic\.com)\/'
     type: 'ignore'

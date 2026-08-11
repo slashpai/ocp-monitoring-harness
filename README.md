@@ -3,7 +3,8 @@
 [![checks](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/checks.yaml/badge.svg)](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/checks.yaml)
 [![submodule updates](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml/badge.svg)](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml)
 
-> [!NOTE] This project is under active development. Content may be incomplete or change without notice.
+> [!NOTE]
+> This project is under active development. Content may be incomplete or change without notice.
 
 A structured workspace for the OpenShift [Cluster Monitoring Operator (CMO)](https://github.com/openshift/cluster-monitoring-operator) and all components it deploys.
 
@@ -15,7 +16,8 @@ This repository gives an AI coding agent deep domain knowledge about the OpenShi
 2. Open in [Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), or any [Agent Skills](https://agentskills.io)–compatible agent
 3. Follow the workflow in [USAGE.md](USAGE.md) — spec → plan → execution with human review gates
 
-> [!IMPORTANT] **Skills** live under [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard) and work across compatible agents. Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
+> [!IMPORTANT]
+> **Skills** live under [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard) and work across compatible agents. Compatibility symlinks: `.cursor/skills` and `.claude/skills`.
 >
 > **Cursor rules** (`.cursor/rules/`) remain Cursor-specific enrichment (on-demand context, security, commit conventions). Other agents use [`CLAUDE.md`](CLAUDE.md) and the harness docs (`ARCHITECTURE.md`, `development/`, `USAGE.md`) for the same domain knowledge.
 
@@ -58,7 +60,8 @@ Custom skills automate the spec-plan-execution pipeline. Invoke with `/mon:*` wh
 
 Skills work for CMO, downstream component forks (`openshift/*`), and upstream contributions. They live in [`.agents/skills/`](.agents/skills/) ([Agent Skills](https://agentskills.io) standard) and are committed to the repo. See [USAGE.md](USAGE.md#skills) for details.
 
-> [!NOTE] On Windows, enable Git symlinks (`git config core.symlinks true`) or Developer Mode so `.cursor/skills` and `.claude/skills` resolve after clone.
+> [!NOTE]
+> On Windows, enable Git symlinks (`git config core.symlinks true`) or Developer Mode so `.cursor/skills` and `.claude/skills` resolve after clone.
 
 ## Documentation
 
@@ -70,7 +73,8 @@ Skills work for CMO, downstream component forks (`openshift/*`), and upstream co
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Component catalog, repo mapping, syncbot workflow            |
 | [components/](components/)         | Per-component references (role, key metrics, jsonnet paths)  |
 
-> [!NOTE] `tasks/` and `completed/` are gitignored — task documents are currently local working files. For larger features with team-wide adoption, these can be source-controlled and each phase (spec, plan) created as a pull request for discussion and review before proceeding to the next phase.
+> [!NOTE]
+> `tasks/` and `completed/` are gitignored — task documents are currently local working files. For larger features with team-wide adoption, these can be source-controlled and each phase (spec, plan) created as a pull request for discussion and review before proceeding to the next phase.
 
 ## Acknowledgments
 
