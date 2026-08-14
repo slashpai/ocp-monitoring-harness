@@ -1,7 +1,7 @@
 # ocp-monitoring-harness
 
-[![checks](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/checks.yaml/badge.svg)](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/checks.yaml)
-[![submodule updates](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml/badge.svg)](https://github.com/slashpai/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml)
+[![checks](https://github.com/rhobs/ocp-monitoring-harness/actions/workflows/checks.yaml/badge.svg)](https://github.com/rhobs/ocp-monitoring-harness/actions/workflows/checks.yaml)
+[![submodule updates](https://github.com/rhobs/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml/badge.svg)](https://github.com/rhobs/ocp-monitoring-harness/actions/workflows/bump-submodules.yaml)
 
 > [!NOTE]
 > This project is under active development. Content may be incomplete or change without notice.
